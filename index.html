@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恋与荣耀联盟 </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<!-- 在HTML头部引入 -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <style>
+
+    </style>
+    <script src="data.js"></script>
+    <script>
+
+
+        // 等待 DOM 加载完成再执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 使用事件委托监听整个文档的点击
+            document.addEventListener('click', function (e) {
+                // 检查是否点击了置顶按钮（包括内部图标）
+                const pinBtn = e.target.closest('.map-pin-btn');
+                if (!pinBtn) return;
+
+                // 阻止冒泡和默认行为
+                e.stopPropagation();
+                e.preventDefault();
+
+                // 找到当前 map-item 和列表容器
+                const item = pinBtn.closest('.map-item');
+                const listContainer = document.getElementById('mapList'); // 👈 你的列表 ID
+
+                if (item && listContainer) {
+                    // 移到顶部
+                    listContainer.prepend(item);
+
+                    // 可选：视觉反馈 —— 图标变红表示已置顶
+                    pinBtn.innerHTML = '<i class="fa fa-thumb-tack text-red-500"></i>';
+                    pinBtn.title = '已置顶';
+                }
+            });
+        });
+
+    </script>
+</head>
+
+<body class="bg-light min-h-screen font-sans text-gray-800">
+    <!-- 游戏封面页 -->
+    <div id="coverPage"
+        class="container mx-auto px-3 py-5 max-w-md min-h-screen flex flex-col justify-center items-center">
+
+        <div class="text-center">
+            <h1>恋与荣耀联盟</h1>
+            <p class="subtitle">全职高手恋爱模拟游戏</p>
+        </div>
+
+        <div class="w-full space-y-4 flex flex-col items-center">
+            <button id="startNewGame" class="w-3/4 btn-primary py-4 text-lg font-bold">
+                <i class="fa fa-play-circle mr-2"></i>进入游戏
+            </button>
+            <button id="loadGame" class="w-3/4 btn-secondary py-4 text-lg font-bold">
+                <i class="fa fa-folder-open-o mr-2"></i>加载游戏
+            </button>
+            <button id="restartGame" class="w-3/4 btn-secondary py-4 text-lg font-bold" onclick="restartGame();">
+                <i class="fa fa-refresh mr-2"></i>重启游戏
+            </button>
+        </div>
+
+        <div class="text-center text-xs text-gray-500 mt-12">
+            <p>多多战队 | 多多选手 | 多多益善</p>
+            <p class="mt-1">© 恋与荣耀联盟</p>
+        </div>
+    </div>
+
+    <!-- 地图列表页 -->
+    <div id="mapPage" class="container mx-auto px-3 py-5 max-w-md hidden">
+
+
+        <div class="status-bar bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl p-2 mb-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center justify-between w-full">
+                    <!-- 天数统计 -->
+                    <div class="stat-item text-center flex-1">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white shadow-soft flex items-center justify-center mx-auto">
+                            <i class="fa fa-calendar text-primary text-lg"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-1">当前天数</p>
+                        <p id="dayCount" class="font-bold text-primary text-xl">1</p>
+                    </div>
+
+                    <!-- 解锁场景统计 -->
+                    <div class="stat-item text-center flex-1">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white shadow-soft flex items-center justify-center mx-auto">
+                            <i class="fa fa-map-marker text-green-500 text-lg"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-1">解锁场景</p>
+                        <p id="unlockedScenes" class="font-bold text-gray-800 text-xl">2/16</p>
+                    </div>
+
+                    <!-- 恋人数量统计 -->
+                    <div class="stat-item text-center flex-1">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white shadow-soft flex items-center justify-center mx-auto">
+                            <i class="fa fa-heart text-red-400 text-lg"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-1">恋人数量</p>
+                        <p id="loveCount" class="font-bold text-red-500 text-xl">0</p>
+                    </div>
+
+                    <!-- 设置按钮 -->
+                    <div class="stat-item text-center flex-1">
+                        <div class="w-12 h-12 rounded-full bg-white shadow-soft flex items-center justify-center mx-auto cursor-pointer hover:bg-gray-50 transition-all duration-300"
+                            onclick="showSettingsMenu()">
+                            <i class="fa fa-cog text-purple-500 text-lg" title="设置"></i>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-1">设置</p>
+                        <p class="font-bold text-purple-500 text-xl">⚙</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-6">
+            <h2 class="text-lg font-bold mb-4 text-gray-700 flex items-center">
+                <i class="fa fa-map-marker text-primary mr-2"></i>可探索地点
+            </h2>
+            <div class="space-y-2" id="mapList">
+                <!-- 家 -->
+                <!-- 家 -->
+                <div class="map-item" data-scene="home" data-unlocked="true">
+                    <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                        <i class="fa fa-home text-pink-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold">我的家</h3>
+                        <p class="text-xs text-gray-500">查看好感度与事件记录</p>
+                    </div>
+                    <i class="fa fa-arrow-right text-primary"></i>
+                </div>
+
+                <!-- 兴欣网吧（兴欣战队） -->
+                <div class="map-item" data-scene="happy" data-unlocked="true">
+                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                        <i class="fa fa-coffee text-red-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold">兴欣网吧</h3>
+                        <p class="text-xs text-gray-500">H市 | 兴欣战队基地</p>
+                    </div>
+                    <i class="fa fa-arrow-right text-primary"></i>
+                </div>
+
+                <!-- 蓝雨基地（蓝雨战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="lanyu" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-blue-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">蓝雨基地</h3>
+                        <p class="text-xs text-gray-400">G市 | 蓝雨战队基地</p>
+                    </div>
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 微草基地（微草战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="weicao" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-green-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">微草基地</h3>
+                        <p class="text-xs text-gray-400">B市 | 微草战队基地</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 轮回基地（轮回战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="lunhui" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-yellow-800 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">轮回基地</h3>
+                        <p class="text-xs text-gray-400">S市 | 轮回战队基地</p>
+                    </div>
+                   <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 嘉世基地（嘉世战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="jiashi" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-red-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">嘉世基地</h3>
+                        <p class="text-xs text-gray-400">H市 | 嘉世战队基地</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 虚空基地（虚空战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="xukong" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">虚空基地</h3>
+                        <p class="text-xs text-gray-400">X市 | 虚空战队基地</p>
+                    </div>
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 霸图基地（霸图战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="batu" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">霸图基地</h3>
+                        <p class="text-xs text-gray-400">Q市 | 霸图战队基地</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 呼啸基地（呼啸战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="huxiao" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-green-900 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">呼啸基地</h3>
+                        <p class="text-xs text-gray-400">N市 | 呼啸战队基地</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 烟雨基地（烟雨战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="yuyan" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">烟雨基地</h3>
+                        <p class="text-xs text-gray-400">S市 | 烟雨战队基地</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 雷霆基地（雷霆战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="leiting" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">雷霆基地</h3>
+                        <p class="text-xs text-gray-400">W市 | 雷霆战队基地</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 百花基地（百花战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="baihua" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">百花基地</h3>
+                        <p class="text-xs text-gray-400">K市 | 百花战队基地</p>
+                    </div>
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 皇风基地（皇风战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="huangfeng" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">皇风基地</h3>
+                        <p class="text-xs text-gray-400">B市 | 皇风战队基地</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 义斩基地（义斩战队） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="yizhan" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-black"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">义斩基地</h3>
+                        <p class="text-xs text-gray-400">B市 | 义斩战队基地</p>
+                    </div>
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 三零一基地（三零一战隊） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="sanyiling" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-lime-500 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">三零一基地</h3>
+                        <p class="text-xs text-gray-400">T市 | 三零一战隊基地</p>
+                    </div>
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+
+                <!-- 联盟总部（解锁条件：恋人≥5） -->
+                <div class="map-item opacity-70 cursor-not-allowed" data-scene="league" data-unlocked="false">
+                    <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-yellow-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-500">荣耀联盟总部</h3>
+                        <p class="text-xs text-gray-400">专属场景 | 恋人≥？解锁</p>
+                    </div>
+                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
+                        <i class="fa fa-thumb-tack"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-xs text-gray-500 mt-4">
+            <p>战队成员互荐 | 恋人修罗场 | 事件永久保留 | 联盟总部专属体验</p>
+        </div>
+    </div>
+
+
+
+    <!-- 保存游戏界面 -->
+    <div id="savePage"
+        class="container mx-auto px-3 py-5 max-w-md hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl w-full max-w-md overflow-hidden">
+            <div class="p-4 border-b border-gray-200">
+                <h2 class="text-lg font-bold text-primary flex items-center">
+                    <i class="fa fa-save mr-2"></i>游戏保存
+                </h2>
+            </div>
+            <div class="p-4 max-h-[70vh] overflow-y-auto">
+                <div class="grid grid-cols-3 gap-3 mb-4">
+                    <!-- 9个保存档位 -->
+                    <div class="save-slot" data-slot="1">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 1</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-1">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="2">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 2</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-2">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="3">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 3</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-3">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="4">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 4</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-4">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="5">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 5</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-5">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="6">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 6</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-6">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="7">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 7</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-7">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="8">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 8</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-8">空存档</div>
+                        </div>
+                    </div>
+                    <div class="save-slot" data-slot="9">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 9</div>
+                            <div class="save-info flex-1 text-center text-sm" id="save-info-9">空存档</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex space-x-2 mt-4">
+                    <button id="cancelSaveBtn" class="btn-secondary flex-1">
+                        <i class="fa fa-times mr-1"></i> 取消
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载游戏界面 -->
+    <!-- 加载游戏界面 -->
+    <div id="loadPage"
+        class="container mx-auto px-3 py-5 max-w-md hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl w-full max-w-md overflow-hidden">
+            <div class="p-4 border-b border-gray-200">
+                <h2 class="text-lg font-bold text-primary flex items-center">
+                    <i class="fa fa-folder-open-o mr-2"></i>游戏加载
+                </h2>
+            </div>
+            <div class="p-4 max-h-[70vh] overflow-y-auto">
+                <div class="grid grid-cols-3 gap-3 mb-4">
+                    <!-- 9个存档档位 -->
+                    <div class="load-slot" data-slot="1">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 1</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-1">空存档</div>
+                        </div>
+                    </div>
+                    <!-- 其他8个存档位保持不变 -->
+                    <div class="load-slot" data-slot="2">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 2</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-2">空存档</div>
+                        </div>
+                    </div>
+                    <div class="load-slot" data-slot="3">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 3</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-3">空存档</div>
+                        </div>
+                    </div>
+                    <div class="load-slot" data-slot="4">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 4</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-4">空存档</div>
+                        </div>
+                    </div>
+                    <div class="load-slot" data-slot="5">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 5</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-5">空存档</div>
+                        </div>
+                    </div>
+                    <div class="load-slot" data-slot="6">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 6</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-6">空存档</div>
+                        </div>
+                    </div>
+                    <div class="load-slot" data-slot="7">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 7</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-7">空存档</div>
+                        </div>
+                    </div>
+                    <div class="load-slot" data-slot="8">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 8</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-8">空存档</div>
+                        </div>
+                    </div>
+                    <div class="load-slot" data-slot="9">
+                        <div class="card h-full flex flex-col">
+                            <div class="text-xs text-center text-gray-500 mb-1">存档位 9</div>
+                            <div class="load-info flex-1 text-center text-sm" id="load-info-9">空存档</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex space-x-2 mt-4">
+                    <button id="cancelLoadBtn" class="btn-secondary flex-1">
+                        <i class="fa fa-times mr-1"></i> 取消
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- 场景交互页 -->
+    <div id="scenePage" class="container mx-auto px-3 py-5 max-w-md hidden">
+        <div class="flex items-center mb-6">
+            <button id="backToMap" class="flex items-center text-primary">
+                <i class="fa fa-arrow-left mr-1"></i> 返回地图
+            </button>
+            <h2 id="sceneTitle" class="text-xl font-bold text-gray-700 ml-4">兴欣网吧</h2>
+        </div>
+
+        <div class="card mb-6">
+            <div id="sceneDesc" class="dialog-box">
+                <p>【兴欣网吧】阳光透过玻璃窗洒在键盘上，陈果正忙着整理货架，叶修在角落的专属座位上专注地操作着荣耀账号，唐柔坐在一旁认真记着笔记，空气中飘着淡淡的奶茶香。</p>
+            </div>
+        </div>
+
+        <!-- 无交互事件面板 -->
+        <div class="card mb-6 hidden" id="noInteractionPanel">
+            <h3 class="text-lg font-bold mb-3 text-gray-700">发生的事</h3>
+            <div class="dialog-box">
+                <p id="noInteractionText">叶修正忙着打副本，没注意到你，你安静地在一旁坐了会儿就离开了。</p>
+            </div>
+            <button id="skipNoInteraction" class="w-full btn-primary py-2 mt-3">继续探索</button>
+        </div>
+
+        <!-- 朋友介绍面板（战队互荐专用） -->
+        <div class="card mb-6 hidden" id="introPanel">
+            <h3 class="text-lg font-bold mb-3 text-gray-700">战队互荐</h3>
+            <div class="dialog-box">
+                <p id="introText">叶修打完副本后走到你身边：「给你介绍下，这是我们战队的方锐，以后一起组队啊！」方锐笑着朝你挥手：「久仰大名，一起玩啊～」</p>
+            </div>
+            <button id="finishIntro" class="w-full btn-primary py-2 mt-3">结束探索</button>
+        </div>
+
+        <!-- 修罗场事件面板 -->
+        <!-- 修罗场事件面板 -->
+        <div class="card mb-6 hidden" id="jealousyPanel">
+            <h3 class="text-lg font-bold mb-3 text-red-500">修罗场时刻</h3>
+            <div class="dialog-box">
+                <p id="jealousyText"></p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-3">
+                <button class="btn-primary py-2 text-sm" id="jealousyChoose1"></button>
+                <button class="btn-secondary py-2 text-sm" id="jealousyChoose2"></button>
+                <button class="btn-gray py-2 text-sm" id="jealousyChoose3"></button>
+            </div>
+        </div>
+
+        <!-- 互动面板 -->
+        <div class="card mb-6" id="interactionPanel">
+            <h3 class="text-lg font-bold mb-3 text-gray-700">
+                <span id="npcName">遇到的人</span>
+                <span id="npcLoveBadge" class="love-badge hidden">恋人</span>
+                <span id="npcTeamTag" class="team-tag bg-gray-500 hidden"></span>
+            </h3>
+            <div id="npcInteraction" class="dialog-box">
+                <p id="npcDialog">叶修抬头看到你，嘴角勾起一抹浅笑：「来了？要不要一起打一把副本？正好缺个靠谱的队友。」</p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-3">
+                <button class="btn-primary py-2 text-sm" id="choice1">好啊，求带飞！</button>
+                <button class="btn-primary py-2 text-sm" id="choice2">不了，下次吧～</button>
+                <button class="btn-secondary py-2 text-sm" id="choiceIgnore">不理他</button>
+            </div>
+        </div>
+
+        <!-- 告白面板 -->
+        <div class="card mb-6 hidden" id="confessPanel"
+            style="background-color: #fff0f5 !important; border: 2px solid #ff9ec2; border-radius: 12px; position: relative; overflow: hidden;">
+            <h3 class="text-lg font-bold mb-3 text-center" style="color: #ff4081;">告白时刻 💖</h3>
+
+            <h3 class="text-lg font-bold mb-3 text-center" style="color: #d63384;">
+                <span id="npcName1">遇到的人</span>
+                <span id="npcTeamTag1" class="team-tag bg-pink-300 text-white px-2 py-0.5 rounded ml-2 hidden"></span>
+            </h3>
+
+            <div class="dialog-box p-4 mb-4 rounded-lg" style="background-color: #fff7fb; border: 1px dashed #ffb6c1;">
+                <p id="confessText" class="text-center">
+                    叶修认真地看着你：「和你相处这么久，我发现自己越来越喜欢你了，你愿意做我的恋人吗？」
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-2">
+                <button class="btn-primary py-2 text-sm rounded-lg font-bold" id="acceptConfess"
+                    style="background-color: #ff69b4; color: white; border: none;" onclick="triggerHearts()">
+                    我愿意 ❤️
+                </button>
+                <button class="btn-secondary py-2 text-sm rounded-lg font-bold" id="refuseConfess"
+                    style="background-color: #f8f9fa; color: #ff69b4; border: 1px solid #ff69b4;">
+                    对不起
+                </button>
+            </div>
+        </div>
+
+        <!-- 爱心特效容器（初始隐藏） -->
+        <div id="heartsContainer"
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; display: none;">
+        </div>
+
+        <!-- 亲密事件面板 -->
+        <div class="card mb-6 hidden" id="intimatePanel">
+            <h3 class="text-lg font-bold mb-3 text-gray-700 text-primary">亲密时刻</h3>
+            <div class="dialog-box">
+                <p id="intimateText">叶修带你去了他以前训练的秘密基地，在这里，他教了你很多独门技巧，还悄悄牵了你的手，你脸颊微红却没有躲开。</p>
+            </div>
+            <button id="finishIntimate" class="w-full btn-primary py-2 mt-3">结束探索</button>
+        </div>
+
+        <!-- 结果反馈面板 -->
+        <div class="card mb-6 hidden" id="resultPanel">
+            <h3 class="text-lg font-bold mb-3 text-gray-700">互动结果</h3>
+            <div class="dialog-box">
+                <p id="resultText">叶修对你的反应很满意，好感度+6！你们一起组队打通了高阶副本，默契值大幅提升～</p>
+            </div>
+            <button id="finishInteraction" class="w-full btn-primary py-2 mt-3">结束探索</button>
+        </div>
+    </div>
+
+    <!-- 家页面 -->
+    <div id="homePage" class="container mx-auto px-3 py-5 max-w-md hidden">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <button id="backFromHome" class="flex items-center text-primary">
+                    <i class="fa fa-arrow-left mr-1"></i> 返回地图
+                </button>
+                <h2 class="text-xl font-bold text-gray-700 ml-4">我的家</h2>
+            </div>
+
+        </div>
+
+        <div class="card mb-6">
+            <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
+                <i class="fa fa-heart text-pink-500 mr-2"></i> 好感度列表
+            </h3>
+
+            <!-- 竖排页签布局 -->
+            <div class="tabs-wrapper">
+                <!-- 竖排页签导航 -->
+                <div class="team-tabs-container" id="teamTabs">
+                    <!-- 动态生成战队页签 -->
+                </div>
+
+                <!-- 好感度内容区域 -->
+                <div class="tabs-content" id="teamContents">
+                    <!-- 动态生成战队成员列表 -->
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-6">
+            <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
+                <i class="fa fa-history text-primary mr-2"></i> 历史事件记录
+            </h3>
+            <div class="max-h-[300px] overflow-y-auto" id="eventLog">
+                <!-- 动态生成 -->
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="main.js"></script>
+    <script src="business.js"></script>
+    <script>
+        // 简化的初始化代码
+        function initPage() {
+            console.log('初始化页面...');
+            // alert("init");   
+            // 绑定封面页按钮事件
+            document.getElementById('startNewGame').addEventListener('click', function () {
+                console.log('点击进入游戏');
+                if (typeof enterGame === 'function') {
+                    enterGame();
+                } else {
+                    alert('游戏功能加载中，请稍后重试');
+                }
+            });
+            document.getElementById('loadGame').addEventListener('click', function () {
+                console.log('点击加载游戏');
+                if (typeof showLoadPage === 'function') {
+                    showLoadPage();
+                } else {
+                    alert('加载功能暂不可用');
+                }
+            });
+            console.log('页面初始化完成');
+        }
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOM加载完成，开始初始化');
+            initPage();
+        });
+
+     // 游戏核心数据
+        const gameData = {
+            day: 1,
+            favor: {},
+            love: {},
+            ignoreCount: {},
+            unlockedScenes: ["home", "happy"],
+            unlockedCharacters: ["yexiu", "chenguo"],
+            events: [
+                { day: 1, content: "在兴欣网吧认识了叶修、陈果和唐柔，开启了荣耀之旅～" }
+            ],
+            currentScene: "",
+            currentNpc: null,
+            lastConfessDay: {},
+            lastIntimateDay: {},
+            introHistory: {},
+            dayEvents: {}
+        };
+
+
+        // 初始化游戏数据
+        function initGameData() {
+            
+          //  alert("初始化数据");
+            ensureAllCharactersDefined();
+            gameData.introHistory = {};
+            for (const id in npcData) {
+                gameData.introHistory[id] = {};
+            }
+            gameData.events = [
+               // { day: 1, content: "在兴欣网吧认识了叶修和陈果，开启了荣耀之旅～" }
+            ];
+            if (!gameData.dayEvents) {
+                gameData.dayEvents = {};
+            }
+            gameData.dayAdvanced = false;
+            gameData.day = 1;
+            gameData.currentScene = "";
+            // 初始好感度设置
+            npcData.yexiu.gameState.favor = 10;
+            npcData.chenguo.gameState.favor = 10;
+            gameData.unlockedScenes = ['home', 'happy'];
+            gameData.unlockedCharacters = ["yexiu", "chenguo"];
+            
+               }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
