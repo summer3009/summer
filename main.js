@@ -14,7 +14,6 @@ function autoSaveGame() {
                 saveData.npcStates[id] = JSON.parse(JSON.stringify(npcData[id].gameState));
             }
         }
-
         localStorage.setItem('honor_game_save', JSON.stringify(saveData));
         console.log('游戏已自动保存');
     } catch (e) {
@@ -24,8 +23,7 @@ function autoSaveGame() {
 
 // 加载自动存档（无过期限制）
 function loadAutoSave() {
-    
-   // alert("加载自动存档");
+    // alert("加载自动存档");
     try {
         const savedData = localStorage.getItem('honor_game_save');
         if (savedData) {
@@ -61,7 +59,6 @@ function loadAutoSave() {
             if (!gameData.unlockedScenes) {
                 gameData.unlockedScenes = ['home', 'happy'];
             }
-
             console.log('自动存档恢复成功');
             return true;
         }
@@ -106,7 +103,6 @@ function setupAutoSaveHooks() {
         setTimeout(autoSaveGame, 100);
         return result;
     };
-
     const originalAddEventRecord = addEventRecord;
     addEventRecord = function () {
         const result = originalAddEventRecord.apply(this, arguments);
@@ -124,11 +120,11 @@ function setupAutoSaveHooks() {
 // 修改进入游戏函数 - 自动恢复上次进度
 function enterGame() {
     console.log('进入游戏...');
-     //alert("entergame");
+    //alert("entergame");
     // 自动尝试加载存档
     const autoSaveLoaded = loadAutoSave();
     if (autoSaveLoaded) {
-        //alert("有存档");
+        // alert("有存档");
         console.log('自动恢复上次游戏进度');
         // 隐藏封面页
         document.getElementById('coverPage').classList.add('hidden');
@@ -136,22 +132,21 @@ function enterGame() {
         const savedData = JSON.parse(localStorage.getItem('honor_game_save'));
         const savedPage = savedData.currentPage || 'mapPage';
         const savedScene = savedData.currentScene || '';
-
         // 先隐藏所有页面
         document.getElementById('mapPage').classList.add('hidden');
         document.getElementById('homePage').classList.add('hidden');
         document.getElementById('scenePage').classList.add('hidden');
-
         // 强制显示地图页面，忽略保存的页面状态
         document.getElementById('mapPage').classList.remove('hidden');
         console.log('强制跳转到地图页面');
         // 但仍然加载其他游戏数据（天数、好感度等）
         bindButtonEvents();
         bindMapEvents();
-       bindSaveLoadEvents();
+        bindSaveLoadEvents();
         updateStatus();
         updateHomePage();
         updateUnlockedScenesUI();
+        checkLeagueUnlock();
 
     } else {
 
@@ -162,9 +157,7 @@ function enterGame() {
         // 初始化游戏数据      
         initGameData();
         //alert("没存档");
-        
-       // alert("666"+gameData.day+"---"+gameData.dayEvents[gameData.day]);
-        
+        // alert("666"+gameData.day+"---"+gameData.dayEvents[gameData.day]);
         bindButtonEvents();
         bindMapEvents();
         //bindSaveLoadEvents();
@@ -179,8 +172,8 @@ function enterGame() {
 // 绑定游戏内按钮事件
 function bindButtonEvents() {
     console.log('绑定游戏内按钮事件');
-//alert("绑定按钮！！！");
-//alert("777"+gameData.dayEvents[gameData.day]);
+    //alert("绑定按钮！！！");
+    //alert("777"+gameData.dayEvents[gameData.day]);
     // 返回地图
     const backToMapBtn = document.getElementById('backToMap');
     if (backToMapBtn) {
@@ -206,15 +199,11 @@ function bindButtonEvents() {
             updateStatus();
             updateHomePage();
             checkLeagueUnlock();
- //alert("888"+gameData.dayEvents[gameData.day]);
-
+            //alert("888"+gameData.dayEvents[gameData.day]);
             autoSaveGame();
-
- //alert("999"+gameData.dayEvents[gameData.day]);
-
+            //alert("999"+gameData.dayEvents[gameData.day]);
         });
     }
-
     // 保存游戏按钮
     const mapSaveBtn = document.getElementById('mapSaveGameBtn');
     const homeSaveBtn = document.getElementById('saveGameBtn');
@@ -245,7 +234,6 @@ function bindButtonEvents() {
     const refuseConfess = document.getElementById('refuseConfess');
     const jealousyChoose1 = document.getElementById('jealousyChoose1');
     const jealousyChoose2 = document.getElementById('jealousyChoose2');
-
     if (skipNoInteraction) skipNoInteraction.addEventListener('click', () => {
         //initSceneInteraction(gameData.currentScene);
         autoSaveGame();
@@ -254,62 +242,56 @@ function bindButtonEvents() {
         document.getElementById('backToMap').click();
         autoSaveGame();
     });
-
     if (finishInteraction) finishInteraction.addEventListener('click', () => {
         document.getElementById('backToMap').click();
         autoSaveGame();
     });
-
     if (finishIntimate) finishIntimate.addEventListener('click', () => {
         document.getElementById('backToMap').click();
         autoSaveGame();
     });
-
     // 告白按钮
-if (acceptConfess) acceptConfess.addEventListener('click', () => {
-    const npcId = document.getElementById('confessPanel').dataset.npcId;
-    if (npcData[npcId]) {
-        npcData[npcId].gameState.love = true;
-        npcData[npcId].gameState.favor = 100;
-        addEventRecord(`${npcData[npcId].name}向你告白，你答应了！你们成为了恋人～`);
-        
-        // 使用SweetAlert2替代alert - 调整大小
-        Swal.fire({
-            title: '<span style="font-size: 16px;">恭喜！🎉</span>',
-            html: `<div style="font-size: 14px;">
+    if (acceptConfess) acceptConfess.addEventListener('click', () => {
+        const npcId = document.getElementById('confessPanel').dataset.npcId;
+        if (npcData[npcId]) {
+            npcData[npcId].gameState.love = true;
+            npcData[npcId].gameState.favor = 100;
+            addEventRecord(`${npcData[npcId].name}向你告白，你答应了！你们成为了恋人～`);
+            // 使用SweetAlert2替代alert - 调整大小
+            Swal.fire({
+                title: '<span style="font-size: 16px;">恭喜！🎉</span>',
+                html: `<div style="font-size: 14px;">
                        你和<strong style="font-size: 14px;">${npcData[npcId].name}</strong>成为了恋人～
                    </div>`,
-            icon: false,
-            confirmButtonText: '<span style="font-size: 12px; padding: 2px 8px;">确定</span>',
-            confirmButtonColor: '#3085d6',
-            background: '#f0f9ff',
-            
-            // 调整弹窗大小
-            width: '200px', // 再小一点
-            padding: '0.8rem', // 减小内边距
-            
-            // 响应式设置
-            customClass: {
-                popup: 'custom-swal-popup',
-                title: 'custom-swal-title',
-                htmlContainer: 'custom-swal-content',
-                confirmButton: 'custom-swal-button'
-            },
-            
-            showClass: {
-                popup: 'animate__animated animate__fadeInDown'
-            },
-            hideClass: {
-                popup: 'animate__animated animate__fadeOutUp'
-            }
-        }).then(() => {
-            document.getElementById('backToMap').click();
-            updateStatus();
-            updateHomePage();
-            autoSaveGame();
-        });
-    }
-});
+                icon: false,
+                confirmButtonText: '<span style="font-size: 12px; padding: 2px 8px;">确定</span>',
+                confirmButtonColor: '#3085d6',
+                background: '#f0f9ff',
+                // 调整弹窗大小
+                width: '200px', // 再小一点
+                padding: '0.8rem', // 减小内边距
+                // 响应式设置
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    htmlContainer: 'custom-swal-content',
+                    confirmButton: 'custom-swal-button'
+                },
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            }).then(() => {
+                checkLeagueUnlock();
+                document.getElementById('backToMap').click();
+                updateStatus();
+                updateHomePage();
+                autoSaveGame();
+            });
+        }
+    });
 
     if (refuseConfess) refuseConfess.addEventListener('click', () => {
         const npcId = document.getElementById('confessPanel').dataset.npcId;
@@ -345,10 +327,8 @@ if (acceptConfess) acceptConfess.addEventListener('click', () => {
             if (npcData[npc2] && npcData[npc2].gameState.favor < 0) {
                 npcData[npc2].gameState.favor = 0;
             }
-
             const npc1ChangeText = event.choice1.change > 0 ? `+${event.choice1.change}` : `${event.choice1.change}`;
             const npc2ChangeText = event.choice1Effect.change > 0 ? `+${event.choice1Effect.change}` : `${event.choice1Effect.change}`;
-
             addEventRecord(`你在修罗场中选择了${npcData[npc1].name}，${npcData[npc1].name}好感${npc1ChangeText}，${npcData[npc2].name}好感${npc2ChangeText}。`);
             document.getElementById('backToMap').click();
             updateStatus();
@@ -370,7 +350,6 @@ if (acceptConfess) acceptConfess.addEventListener('click', () => {
             if (npcData[npc2]) {
                 npcData[npc2].gameState.favor += event.choice3Effect.change;
             }
-
             // 确保好感度不低于0
             if (npcData[npc1] && npcData[npc1].gameState.favor < 0) {
                 npcData[npc1].gameState.favor = 0;
@@ -380,7 +359,6 @@ if (acceptConfess) acceptConfess.addEventListener('click', () => {
             }
             const npc1ChangeText = event.choice3.change > 0 ? `+${event.choice3.change}` : `${event.choice3.change}`;
             const npc2ChangeText = event.choice3Effect.change > 0 ? `+${event.choice3Effect.change}` : `${event.choice3Effect.change}`;
-
             addEventRecord(`你在修罗场中沉默不语，${npcData[npc1].name}好感${npc1ChangeText}，${npcData[npc2].name}好感${npc2ChangeText}。`);
             document.getElementById('backToMap').click();
             updateStatus();
@@ -415,7 +393,6 @@ if (acceptConfess) acceptConfess.addEventListener('click', () => {
             // 动态生成事件记录
             const npc1ChangeText = event.choice2.change > 0 ? `+${event.choice2.change}` : `${event.choice2.change}`;
             const npc2ChangeText = event.choice2Effect.change > 0 ? `+${event.choice2Effect.change}` : `${event.choice2Effect.change}`;
-
             addEventRecord(`你在修罗场中跟${npcData[npc1].name}分手，${npcData[npc1].name}好感${npc1ChangeText}，${npcData[npc2].name}好感${npc2ChangeText}。`);
             document.getElementById('backToMap').click();
             updateStatus();
@@ -477,7 +454,6 @@ function showLoadPage() {
     hideAllPages();
     document.getElementById('loadPage').classList.remove('hidden');
     updateLoadSlots();
-
     // 确保事件绑定正确
     setTimeout(() => {
         bindSaveLoadEvents();
@@ -552,11 +528,9 @@ function saveToSlot(slotNumber) {
         const filteredSaves = saves.filter(save => save.slot !== slotNumber);
         filteredSaves.push(saveData);
         localStorage.setItem('honor_game_saves', JSON.stringify(filteredSaves));
-
         updateSaveSlots();
         // 保存后正确返回到原来的页面
         document.getElementById('savePage').classList.add('hidden');
-
         // 根据保存前所在的页面显示对应页面
         switch (currentPage) {
             case 'scenePage':
@@ -590,7 +564,6 @@ function loadFromSlot(slotNumber) {
         for (const key in gameData) {
             delete gameData[key];
         }
-
         const loadedData = saveSlot.data;
         // 恢复游戏数据
         Object.assign(gameData, JSON.parse(JSON.stringify(loadedData.gameData)));
@@ -607,32 +580,25 @@ function loadFromSlot(slotNumber) {
         if (!gameData.unlockedScenes) {
             gameData.unlockedScenes = ['home', 'happy'];
         }
-
         // 恢复NPC状态
         for (const id in loadedData.npcStates) {
             if (npcData[id]) {
                 npcData[id].gameState = JSON.parse(JSON.stringify(loadedData.npcStates[id]));
             }
         }
-
         // 确保所有角色都有初始状态
         ensureAllCharactersDefined();
-
         // 隐藏加载页面
         document.getElementById('loadPage').classList.add('hidden');
         document.getElementById('coverPage').classList.add('hidden');
-
         // 使用保存的页面信息来决定跳转到哪个页面
         const savedPage = loadedData.currentPage || 'mapPage';
         const savedScene = loadedData.currentScene || gameData.currentScene || '';
-
         console.log(`存档信息 - 页面: ${savedPage}, 场景: ${savedScene}`);
-
         // 先隐藏所有页面
         document.getElementById('mapPage').classList.add('hidden');
         document.getElementById('homePage').classList.add('hidden');
         document.getElementById('scenePage').classList.add('hidden');
-
         // 根据保存的页面信息跳转
         switch (savedPage) {
             case 'homePage':
@@ -640,7 +606,6 @@ function loadFromSlot(slotNumber) {
                 updateHomePage();
                 console.log('跳转到家页面');
                 break;
-
             case 'scenePage':
                 if (savedScene && savedScene !== "") {
                     document.getElementById('scenePage').classList.remove('hidden');
@@ -649,7 +614,6 @@ function loadFromSlot(slotNumber) {
                     if (sceneElement) {
                         const titleElement = sceneElement.querySelector('h3');
                         const descElement = sceneElement.querySelector('p');
-
                         if (titleElement) {
                             document.getElementById('sceneTitle').textContent = titleElement.textContent;
                         }
@@ -677,7 +641,6 @@ function loadFromSlot(slotNumber) {
         bindButtonEvents();
         bindMapEvents();
         bindSaveLoadEvents();
-
         // 更新UI状态
         updateStatus();
         updateHomePage();
@@ -893,9 +856,14 @@ function updateUnlockedScenesUI() {
 
 // 检查联盟总部解锁
 function checkLeagueUnlock() {
-    const loveCount = gameData.love && typeof gameData.love === 'object'
-        ? Object.values(gameData.love).filter(Boolean).length
-        : 0;
+    let loveCount = 0;
+    for (const id in npcData) {
+        if (npcData[id].gameState && npcData[id].gameState.love === true) {
+            loveCount++;
+        }
+    }
+    //alert(loveCount); 
+
     if (loveCount >= 5 && gameData.unlockedScenes && !gameData.unlockedScenes.includes('league')) {
         gameData.unlockedScenes.push('league');
         addEventRecord(`你的恋人数量达到5人，解锁了荣耀联盟总部！所有战队成员均可在此相遇～`, 'unlock');
@@ -1074,7 +1042,7 @@ let isMapEventsBound = false;
 
 function bindMapEvents() {
     console.log("绑定地图事件");
-    
+
     // 如果已经绑定过，先移除
     if (isMapEventsBound) {
         const mapList = document.getElementById('mapList');
@@ -1082,7 +1050,7 @@ function bindMapEvents() {
         const newMapList = mapList.cloneNode(true);
         mapList.parentNode.replaceChild(newMapList, mapList);
     }
-    
+
     document.getElementById('mapList').addEventListener('click', function (e) {
         const mapItem = e.target.closest('.map-item');
         if (!mapItem) return;
@@ -1116,11 +1084,11 @@ function bindMapEvents() {
                     `【${titleElement ? titleElement.textContent : ''}】${descElement.textContent}`;
             }
 
-            console.log("初始化场景前"+gameData.day+"==="+gameData.dayEvents);
+            console.log("初始化场景前" + gameData.day + "===" + gameData.dayEvents);
             initSceneInteraction(scene);
         }
     });
-    
+
     isMapEventsBound = true;
 }
 
@@ -1128,12 +1096,10 @@ function bindMapEvents() {
 function restartGame() {
     if (confirm('确定要重新开始游戏吗？当前未保存的进度将会丢失。')) {
         console.log('重启游戏...');
-
         // 清空游戏数据
         for (const key in gameData) {
             delete gameData[key];
         }
-
         // 重置NPC数据
         for (const id in npcData) {
             if (npcData[id].gameState) {
@@ -1149,19 +1115,14 @@ function restartGame() {
 
         // 重新初始化
         initGameData();
-
         // 清空自动存档
         localStorage.removeItem('honor_game_save');
-        
-        
         //alert("重启后"+gameData.dayEvents[gameData.day]);
-
         // 回到封面页
         document.getElementById('homePage').classList.add('hidden');
         document.getElementById('scenePage').classList.add('hidden');
         document.getElementById('mapPage').classList.add('hidden');
         document.getElementById('coverPage').classList.remove('hidden');
-
         alert('游戏已重新开始！');
     }
 }
@@ -1173,7 +1134,6 @@ function showSettingsMenu() {
     const menu = document.createElement('div');
     menu.id = 'settingsMenu';
     menu.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
-
     menu.innerHTML = `
         <div class="bg-white rounded-xl w-80 max-w-md overflow-hidden">
             <div class="p-4 border-b border-gray-200">
@@ -1188,16 +1148,14 @@ function showSettingsMenu() {
                         <div class="font-medium">保存游戏</div>
                         <div class="text-xs text-gray-500">保存当前游戏进度</div>
                     </div>
-                </button>
-                
+                </button>                
                 <button onclick="closeSettingsMenu(); setTimeout(() => { document.getElementById('mapPage').classList.add('hidden'); document.getElementById('coverPage').classList.remove('hidden'); }, 100);" class="w-full btn-secondary py-3 text-left flex items-center">
                     <i class="fa fa-home mr-3"></i>
                     <div>
                         <div class="font-medium">返回封面</div>
                         <div class="text-xs text-gray-500">回到游戏开始界面</div>
                     </div>
-                </button>
-                
+                </button>                
                 <button onclick="closeSettingsMenu()" class="w-full btn-secondary py-3 text-left flex items-center">
                     <i class="fa fa-times mr-3"></i>
                     <div>
@@ -1208,7 +1166,6 @@ function showSettingsMenu() {
             </div>
         </div>
     `;
-
     document.body.appendChild(menu);
     menu.addEventListener('click', function (e) {
         if (e.target === menu) closeSettingsMenu();
@@ -1219,61 +1176,80 @@ function closeSettingsMenu() {
     const menu = document.getElementById('settingsMenu');
     if (menu) menu.remove();
 }
-
-
-
 /**********************
  * 触发爱心效果
  */
-        function triggerHearts() {
-            // 先清掉上次残留的爱心（可选）
-            document.querySelectorAll('.floating-heart').forEach(el => el.remove());
-            const heartCount = 50; // 爱心数量
-            const duration = 4000; // 总持续时间
+function triggerHearts() {
+    // 先清掉上次残留的爱心（可选）
+    document.querySelectorAll('.floating-heart').forEach(el => el.remove());
+    const heartCount = 50; // 爱心数量
+    const duration = 4000; // 总持续时间
 
-            for (let i = 0; i < heartCount; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'floating-heart'; // 用于后续清理
-                    heart.textContent = '❤️';
+    for (let i = 0; i < heartCount; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart'; // 用于后续清理
+            heart.textContent = '❤️';
 
-                    // 随机水平位置（整个视口宽度）
-                    const startX = Math.random() * window.innerWidth;
-                    const size = 12 + Math.random() * 10; // 12px ~ 22px
-                    const fallDuration = 3000 + Math.random() * 2000; // 3~5秒
-                    const sway = (Math.random() - 0.5) * 60; // 左右摆动 ±30px
+            // 随机水平位置（整个视口宽度）
+            const startX = Math.random() * window.innerWidth;
+            const size = 12 + Math.random() * 10; // 12px ~ 22px
+            const fallDuration = 3000 + Math.random() * 2000; // 3~5秒
+            const sway = (Math.random() - 0.5) * 60; // 左右摆动 ±30px
 
-                    Object.assign(heart.style, {
-                        position: 'fixed',
-                        left: `${startX}px`,
-                        top: '-30px', // 从屏幕上方外开始
-                        fontSize: `${size}px`,
-                        opacity: '0.7',
-                        color: '#ff69b4',
-                        pointerEvents: 'none',
-                        zIndex: '2147483647',
-                        transform: 'translateY(0) translateX(0) rotate(0deg)',
-                        transition: `transform ${fallDuration}ms linear, opacity ${fallDuration * 0.7}ms ease-out`
-                    });
+            Object.assign(heart.style, {
+                position: 'fixed',
+                left: `${startX}px`,
+                top: '-30px', // 从屏幕上方外开始
+                fontSize: `${size}px`,
+                opacity: '0.7',
+                color: '#ff69b4',
+                pointerEvents: 'none',
+                zIndex: '2147483647',
+                transform: 'translateY(0) translateX(0) rotate(0deg)',
+                transition: `transform ${fallDuration}ms linear, opacity ${fallDuration * 0.7}ms ease-out`
+            });
 
-                    document.body.appendChild(heart);
+            document.body.appendChild(heart);
+            // 触发动画
+            requestAnimationFrame(() => {
+                heart.style.transform = `translateY(${window.innerHeight + 100}px) translateX(${sway}px) rotate(${Math.random() > 0.5 ? 360 : -360}deg)`;
+                heart.style.opacity = '0';
+            });
+            // 自动清理
+            setTimeout(() => {
+                if (heart.parentNode === document.body) {
+                    document.body.removeChild(heart);
+                }
+            }, fallDuration);
+        }, i * 100);
+    }
+}
 
-                    // 触发动画
-                    requestAnimationFrame(() => {
-                        heart.style.transform = `translateY(${window.innerHeight + 100}px) translateX(${sway}px) rotate(${Math.random() > 0.5 ? 360 : -360}deg)`;
-                        heart.style.opacity = '0';
-                    });
 
-                    // 自动清理
-                    setTimeout(() => {
-                        if (heart.parentNode === document.body) {
-                            document.body.removeChild(heart);
-                        }
-                    }, fallDuration);
-                }, i * 100);
-            }
-        }
 
+  // 等待 DOM 加载完成再执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 使用事件委托监听整个文档的点击
+            document.addEventListener('click', function (e) {
+                // 检查是否点击了置顶按钮（包括内部图标）
+                const pinBtn = e.target.closest('.map-pin-btn');
+                if (!pinBtn) return;
+                // 阻止冒泡和默认行为
+                e.stopPropagation();
+                e.preventDefault();
+                // 找到当前 map-item 和列表容器
+                const item = pinBtn.closest('.map-item');
+                const listContainer = document.getElementById('mapList'); // 👈 你的列表 ID
+                if (item && listContainer) {
+                    // 移到顶部
+                    listContainer.prepend(item);
+                    // 可选：视觉反馈 —— 图标变红表示已置顶
+                    pinBtn.innerHTML = '<i class="fa fa-thumb-tack text-red-500"></i>';
+                    pinBtn.title = '已置顶';
+                }
+            });
+        });
 
 
 console.log('设置功能就绪');

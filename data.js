@@ -1,106 +1,106 @@
 
-        // 全职高手官方战队设定
-        const teamConfig = {
-            happy: {
-                name: "兴欣",
-                color: "bg-red-500",
-                scene: "happy",
-                members: ["yexiu", "chenguo", "tangrou", "baorongxing", "qiaoyifan", "anwenyi", "luoji", "weichen", "fangrui", "mofan", "sumucheng"]
-            },
-            lanyu: {
-                name: "蓝雨",
-                color: "bg-blue-500",
-                scene: "lanyu",
-                members: ["huangshaotian", "yuwenzhou", "luhanwen", "zhengxuan", "xujingxi", "songxiao", "liyuan"]
-            },
-            weicao: {
-                name: "微草",
-                color: "bg-green-500",
-                scene: "weicao",
-                members: ["wangjiexi", "gaoyingjie", "xubin", "liuxiaobie", "yuanbaiqing", "liangfang", "liufei", "zhouyebai"]
-               
-            },
-            lunhui: {
-                name: "轮回",
-                color: "bg-yellow-800", // 黄黑色系
-                scene: "lunhui",
-                members: ["zhouzekai", "jiangbotao", "sunxiang", "lvboyuan", "duming", "fangminghua", "wuqi"]
-                
-            },
-            jiashi: {
-                name: "嘉世",
-                color: "bg-red-500",
-                scene: "jiashi",
-                members: ["qiufei", "wenli"]
-                
-            },
-            xukong: {
-                name: "虚空",
-                color: "bg-purple-600", // 紫色系
-                scene: "xukong",
-                members: ["lixuan", "wuyuce", "lixun", "gaicaijie", "tanglisheng", "gezhaolan"]
-            },
-            batu: {
-                name: "霸图",
-                color: "bg-black", // 黑红亮色
-                scene: "batu",
-                members: ["hanwenqing", "zhangxinjie", "zhangjiale", "linjingyan", "baiyanfei", "qinyunmu"]
-                
-            },
-            yuyan: {
-                name: "烟雨",
-                color: "bg-teal-500", // 蓝绿色系
-                scene: "yuyan",
-                members: ["chuyunxiu", "lihua", "shukexin", "shukeyi"]
-                
-            },
-            leiting: {
-                name: "雷霆",
-                color: "bg-blue-600", // 蓝黄色系
-                scene: "leiting",
-                    members: ["xiaoshiqin", "daiyanqi", "fangxuecai", "chengtai"]
-            },
-            huxiao: {
-                name: "呼啸",
-                color: "bg-green-900", // 黑绿色系
-                scene: "huxiao",
-                members: ["tanghao", "liuhao", "zhaoyuzhe", "ruanyongbin", "guoyang"]
-            },
-            baihua: {
-                name: "百花",
-                color: "bg-pink-500",
-                scene: "baihua",
-                members: ["yufeng", "zouyuan", "zhuxiaoping", "zhouguangyi", "zhangwei", "mozhuchen"]
-            },
-            sanyiling: {
-                name: "三零一",
-                color: "bg-lime-500",
-                scene: "sanyiling",
-                members: ["yangcong", "baishu", "gaojie", "sunmingjin", "liyihui"]
-            },
-            huangfeng: {
-                name: "皇风",
-                color: "bg-amber-500",
-                scene: "huangfeng",
-                members: ["tiansen", "heweitang", "shenwanhe"]
-            },
-            yizhan: {
-                name: "义斩",
-                color: "bg-yellow-500", // 金色系
-                scene: "yizhan",
-                members: ["louguanning", "sunzeping", "wenkebei", "guxiye", "zhongyeli"]
-            },
+// 全职高手官方战队设定
+const teamConfig = {
+    happy: {
+        name: "兴欣",
+        color: "bg-red-500",
+        scene: "happy",
+        members: ["yexiu", "chenguo", "tangrou", "baorongxing", "qiaoyifan", "anwenyi", "luoji", "weichen", "fangrui", "mofan", "sumucheng"]
+    },
+    lanyu: {
+        name: "蓝雨",
+        color: "bg-blue-500",
+        scene: "lanyu",
+        members: ["huangshaotian", "yuwenzhou", "luhanwen", "zhengxuan", "xujingxi", "songxiao", "liyuan"]
+    },
+    weicao: {
+        name: "微草",
+        color: "bg-green-500",
+        scene: "weicao",
+        members: ["wangjiexi", "gaoyingjie", "xubin", "liuxiaobie", "yuanbaiqing", "liangfang", "liufei", "zhouyebai"]
 
-            league: {
-                name: "荣耀联盟",
-                color: "bg-yellow-500",
-                scene: "league",
-                members: []
-            }
-        };
+    },
+    lunhui: {
+        name: "轮回",
+        color: "bg-yellow-800", // 黄黑色系
+        scene: "lunhui",
+        members: ["zhouzekai", "jiangbotao", "sunxiang", "lvboyuan", "duming", "fangminghua", "wuqi"]
 
-        // 所有NPC完整数据 - 重新设计介绍系统
-      const npcData = {
+    },
+    jiashi: {
+        name: "嘉世",
+        color: "bg-red-500",
+        scene: "jiashi",
+        members: ["qiufei", "wenli"]
+
+    },
+    xukong: {
+        name: "虚空",
+        color: "bg-purple-600", // 紫色系
+        scene: "xukong",
+        members: ["lixuan", "wuyuce", "lixun", "gaicaijie", "tanglisheng", "gezhaolan"]
+    },
+    batu: {
+        name: "霸图",
+        color: "bg-black", // 黑红亮色
+        scene: "batu",
+        members: ["hanwenqing", "zhangxinjie", "zhangjiale", "linjingyan", "baiyanfei", "qinyunmu"]
+
+    },
+    yuyan: {
+        name: "烟雨",
+        color: "bg-teal-500", // 蓝绿色系
+        scene: "yuyan",
+        members: ["chuyunxiu", "lihua", "shukexin", "shukeyi"]
+
+    },
+    leiting: {
+        name: "雷霆",
+        color: "bg-blue-600", // 蓝黄色系
+        scene: "leiting",
+        members: ["xiaoshiqin", "daiyanqi", "fangxuecai", "chengtai"]
+    },
+    huxiao: {
+        name: "呼啸",
+        color: "bg-green-900", // 黑绿色系
+        scene: "huxiao",
+        members: ["tanghao", "liuhao", "zhaoyuzhe", "ruanyongbin", "guoyang"]
+    },
+    baihua: {
+        name: "百花",
+        color: "bg-pink-500",
+        scene: "baihua",
+        members: ["yufeng", "zouyuan", "zhuxiaoping", "zhouguangyi", "zhangwei", "mozhuchen"]
+    },
+    sanyiling: {
+        name: "三零一",
+        color: "bg-lime-500",
+        scene: "sanyiling",
+        members: ["yangcong", "baishu", "gaojie", "sunmingjin", "liyihui"]
+    },
+    huangfeng: {
+        name: "皇风",
+        color: "bg-amber-500",
+        scene: "huangfeng",
+        members: ["tiansen", "heweitang", "shenwanhe"]
+    },
+    yizhan: {
+        name: "义斩",
+        color: "bg-yellow-500", // 金色系
+        scene: "yizhan",
+        members: ["louguanning", "sunzeping", "wenkebei", "guxiye", "zhongyeli"]
+    },
+
+    league: {
+        name: "荣耀联盟",
+        color: "bg-yellow-500",
+        scene: "league",
+        members: []
+    }
+};
+
+// 所有NPC完整数据 - 重新设计介绍系统
+const npcData = {
     // 兴欣战队 - 红色系
     yexiu: {
         name: "叶修",
@@ -117,28 +117,110 @@
             { target: "qiaoyifan", team: "happy", favorRequire: 31 },
             { target: "weichen", team: "happy", favorRequire: 31 },
             { target: "fangrui", team: "happy", favorRequire: 31 },
-             { target: "yuwenzhou", team: "lanyu", favorRequire: 31 },
+            { target: "yuwenzhou", team: "lanyu", favorRequire: 31 },
             { target: "wangjiexi", team: "weicao", favorRequire: 31 },
-                    { target: "hanwenqing", team: "batu", favorRequire: 31 },
-                    { target: "huangshaotian", team: "lanyu", favorRequire: 31 },
-                    { target: "zhouzekai", team: "lunhui", favorRequire: 31 },
-                    { target: "sunxiang", team: "lunhui", favorRequire: 31 },
-                    { target: "xiaoshiqin", team: "leiting", favorRequire: 31 },
-                    { target: "liuhao", team: "huxiao", favorRequire: 31 },
-                    { target: "tiansen", team: "huangfeng", favorRequire: 31 },
-                    { target: "louguanning", team: "yizhan", favorRequire: 31 },
-                    { target: "qiufei", team: "jiashi", favorRequire: 31 }
-            
+            { target: "hanwenqing", team: "batu", favorRequire: 31 },
+            { target: "huangshaotian", team: "lanyu", favorRequire: 31 },
+            { target: "zhouzekai", team: "lunhui", favorRequire: 31 },
+            { target: "sunxiang", team: "lunhui", favorRequire: 31 },
+            { target: "xiaoshiqin", team: "leiting", favorRequire: 31 },
+            { target: "liuhao", team: "huxiao", favorRequire: 31 },
+            { target: "tiansen", team: "huangfeng", favorRequire: 31 },
+            { target: "louguanning", team: "yizhan", favorRequire: 31 },
+            { target: "qiufei", team: "jiashi", favorRequire: 31 }
 
-
-
-  ],
+        ],
         dialogs: {
             low: ["来了？要不要一起打一把副本？正好缺个靠谱的队友", "看你一直在看比赛录像，对哪个职业感兴趣？", "兴欣的氛围还不错吧？以后常来"],
             mid: ["来啦？我刚开了个副本，就等你了", "你最近技术进步很快，有潜力成为职业选手", "这是我整理的战术笔记，给你参考下"],
             high: ["看到你来了，这局比赛就稳了", "其实我挺享受和你一起打游戏的时光，很默契", "有件事想告诉你...我好像对你有点不一样的感觉"],
-            love: ["亲爱的，来啦？快过来坐我旁边", "今天不打游戏，带你去一个好地方", "和你在一起的每一刻都很珍贵，我会好好对你的"]
+            love: ["来啦？快过来坐我旁边", "今天不打游戏，带你去一个好地方", "和你在一起的每一刻都很珍贵，我会好好对你的每一个瞬间"]
         },
+
+        // 新格式：每个问题对应专属回答
+    choicesByIndex: {
+        low: [
+            // 对应第一个问题："来了？要不要一起打一把副本？正好缺个靠谱的队友"
+            [
+                { text: "好啊，求叶神带飞！", favorChange: 6 },
+                { text: "正好我也缺队友，一起打吧", favorChange: 5 },
+                { text: "下次吧，我今天有点累", favorChange: -2 }
+            ],
+            // 对应第二个问题："看你一直在看比赛录像，对哪个职业感兴趣？"
+            [
+                { text: "想学习叶神你的散人玩法！", favorChange: 6 },
+                { text: "我在研究战斗法师的打法", favorChange: 4 },
+                { text: "只是随便看看", favorChange: -2 }
+            ],
+            // 对应第三个问题："兴欣的氛围还不错吧？以后常来"
+            [
+                { text: "特别喜欢这里的氛围！感觉很温暖", favorChange: 6 },
+                { text: "嗯，以后会经常来找你们玩", favorChange: 4 },
+                { text: "还行吧，我先走了", favorChange: -2 }
+            ]
+        ],
+        mid: [
+            // 对应第一个问题："来啦？我刚开了个副本，就等你了"
+            [
+                { text: "来啦！马上就位，一起赢", favorChange: 7 },
+                { text: "今天打什么副本？我配合你", favorChange: 6 },
+                { text: "我有点事，先不打了吧", favorChange: -3 }
+            ],
+            // 对应第二个问题："你最近技术进步很快，有潜力成为职业选手"
+            [
+                { text: "真的吗？谢谢叶神夸奖！我会继续努力的", favorChange: 7 },
+                { text: "都是跟着你学的，你教得好", favorChange: 6 },
+                { text: "过奖了，我还差得远", favorChange: -3 }
+            ],
+            // 对应第三个问题："这是我整理的战术笔记，给你参考下"
+            [
+                { text: "太宝贵了！我会认真研究的", favorChange: 7 },
+                { text: "谢谢叶神，这对我帮助太大了", favorChange: 5 },
+                { text: "不用了，我看不懂这些", favorChange: -3 }
+            ]
+        ],
+        high: [
+            // 对应第一个问题："看到你来了，这局比赛就稳了"
+            [
+                { text: "有你在才稳呢，我们一起努力", favorChange: 8 },
+                { text: "你这么说我压力好大啊", favorChange: 6 },
+                { text: "别太依赖我", favorChange: -6 }
+            ],
+            // 对应第二个问题："其实我挺享受和你一起打游戏的时光，很默契"
+            [
+                { text: "我也觉得和你特别默契，和你一起很开心", favorChange: 8 },
+                { text: "是的，和你一起打游戏总是很愉快", favorChange: 7 },
+                { text: "还好吧，只是正常配合", favorChange: -6 }
+            ],
+            // 对应第三个问题："有件事想告诉你...我好像对你有点不一样的感觉"
+            [
+                { text: "其实我也一样，我对你也有特别的感觉", favorChange: 9 },
+                { text: "......（脸红说不出话）", favorChange: 7 },
+                { text: "我们还是保持队友关系比较好", favorChange: -8 }
+            ]
+        ],
+        love: [
+            // 对应第一个问题："来啦？快过来坐我旁边"
+            [
+                { text: "好呀，来了～今天想我了吗？", favorChange: 4 },
+                { text: "看你今天心情不错，有什么好事吗？", favorChange: 3 },
+                { text: "我坐这里就好", favorChange: -12 }
+            ],
+            // 对应第二个问题："今天不打游戏，带你去一个好地方"
+            [
+                { text: "好呀，去哪都跟着你", favorChange: 4 },
+                { text: "这么神秘？我很好奇是什么地方", favorChange: 3 },
+                { text: "我想打游戏，不想出去", favorChange: -12 }
+            ],
+            // 对应第三个问题："和你在一起的每一刻都很珍贵，我会好好对你的每一个瞬间"
+            [
+                { text: "我也是，要一直在一起", favorChange: 5 },
+                { text: "听到你这么说我好开心，我会永远珍惜的", favorChange: 4 },
+                { text: "别说这些肉麻的话了", favorChange: -15 }
+            ]
+        ]
+    },
+    
         choices: {
             low: [
                 { text: "好啊，求叶神带飞！", favorChange: 6 },
@@ -186,7 +268,7 @@
             { target: "weichen", team: "happy", favorRequire: 31 },
             { target: "fangrui", team: "happy", favorRequire: 31 },
             { target: "mofan", team: "happy", favorRequire: 31 }
-            ],
+        ],
         dialogs: {
             low: ["欢迎光临！今天想喝点什么？", "网吧新到了一批设备，要不要试试？", "看你经常来，是荣耀玩家吗？"],
             mid: ["来啦！给你留了你常坐的位置", "最近生意不错，多亏了你们这些老顾客", "叶修那家伙没欺负你吧？"],
@@ -333,7 +415,8 @@
             { target: "liufei", team: "weicao", favorRequire: 25 },
             { target: "shukexin", team: "yuyan", favorRequire: 25 },
             { target: "shukeyi", team: "yuyan", favorRequire: 25 },
-            { target: "zhongyeli", team: "yizhan", favorRequire: 25 }
+            { target: "zhongyeli", team: "yizhan", favorRequire: 25 },
+            { target: "qiufei", team: "jiashi", favorRequire: 31 }
         ],
         dialogs: {
             low: ["嗨~要一起打竞技场吗？", "你的枪炮师操作很帅气呢", "兴欣的大家都很喜欢你哦"],
@@ -767,7 +850,8 @@
             { target: "yuwenzhou", team: "lanyu", favorRequire: 25 },
             { target: "zhengxuan", team: "lanyu", favorRequire: 25 },
             { target: "gaoyingjie", team: "weicao", favorRequire: 25 },
-            { target: "songqiying", team: "batu", favorRequire: 25 }
+            { target: "songqiying", team: "batu", favorRequire: 25 },
+            { target: "qiufei", team: "jiashi", favorRequire: 31 }
         ],
         dialogs: {
             low: ["前辈前辈！要一起练习吗？", "你的重剑操作好帅气啊！", "蓝雨的训练超有意思的对吧？"],
@@ -1838,7 +1922,7 @@
         ]
     },
 
-      // 霸图战队 - 黑色系 (续)
+    // 霸图战队 - 黑色系 (续)
     zhangjiale: {
         name: "张佳乐",
         team: "batu",
@@ -1998,54 +2082,54 @@
         ]
     },
     songqiying: {
-    name: "宋奇英",
-    team: "batu",
-    gender: "male",
-    bgColor: "bg-gray-500",
-    borderColor: "bg-gray-500",
-    textColor: "text-red-500",
-    introTargets: [
-        { target: "hanwenqing", team: "batu", favorRequire: 30 },
-        { target: "zhangxinjie", team: "batu", favorRequire: 25 },
-        { target: "linjingyan", team: "batu", favorRequire: 20 },
-        { target: "qinyunmu", team: "batu", favorRequire: 15 },
-        { target: "baiyanfei", team: "batu", favorRequire: 15 }
-    ],
-    dialogs: {
-        low: ["霸图的训练要从基础做起。", "韩队说过，拳法家最重要的是基本功。", "我会认真完成每一项训练。"],
-        mid: ["和你一起训练效率很高。", "有时候会觉得压力很大，但这就是责任。", "你的进步速度让我很敬佩。"],
-        high: ["在你面前，我可以稍微放松一些严谨。", "你让我明白，领袖也需要有人分担压力。", "和你在一起时，我不只是‘霸图的宋奇英’。"],
-        love: ["我练习了无数次出拳，却不知道怎么靠近你的心。", "责任让我必须坚强，但你可以让我暂时依靠吗？", "你是我的训练计划里，唯一的不确定却美好的变量。"]
-    },
-    choices: {
-        low: [
-            { text: "一起练习基本功吧", favorChange: 6 },
-            { text: "韩队对你很严格吧", favorChange: 5 },
-            { ignore: -3 }
+        name: "宋奇英",
+        team: "batu",
+        gender: "male",
+        bgColor: "bg-gray-500",
+        borderColor: "bg-gray-500",
+        textColor: "text-red-500",
+        introTargets: [
+            { target: "hanwenqing", team: "batu", favorRequire: 30 },
+            { target: "zhangxinjie", team: "batu", favorRequire: 25 },
+            { target: "linjingyan", team: "batu", favorRequire: 20 },
+            { target: "qinyunmu", team: "batu", favorRequire: 15 },
+            { target: "baiyanfei", team: "batu", favorRequire: 15 }
         ],
-        mid: [
-            { text: "你已经做得很好了", favorChange: 7 },
-            { text: "压力大的时候可以找我", favorChange: 6 },
-            { ignore: -5 }
-        ],
-        high: [
-            { text: "在我面前做你自己就好", favorChange: 8 },
-            { text: "你不仅是接班人，也是宋奇英", favorChange: 7 },
-            { ignore: -8 }
-        ],
-        love: [
-            { text: "我早就想拥抱你了", favorChange: 5 },
-            { text: "你的不确定是我最确定的选择", favorChange: 4 },
-            { ignore: -15 }
+        dialogs: {
+            low: ["霸图的训练要从基础做起。", "韩队说过，拳法家最重要的是基本功。", "我会认真完成每一项训练。"],
+            mid: ["和你一起训练效率很高。", "有时候会觉得压力很大，但这就是责任。", "你的进步速度让我很敬佩。"],
+            high: ["在你面前，我可以稍微放松一些严谨。", "你让我明白，领袖也需要有人分担压力。", "和你在一起时，我不只是‘霸图的宋奇英’。"],
+            love: ["我练习了无数次出拳，却不知道怎么靠近你的心。", "责任让我必须坚强，但你可以让我暂时依靠吗？", "你是我的训练计划里，唯一的不确定却美好的变量。"]
+        },
+        choices: {
+            low: [
+                { text: "一起练习基本功吧", favorChange: 6 },
+                { text: "韩队对你很严格吧", favorChange: 5 },
+                { ignore: -3 }
+            ],
+            mid: [
+                { text: "你已经做得很好了", favorChange: 7 },
+                { text: "压力大的时候可以找我", favorChange: 6 },
+                { ignore: -5 }
+            ],
+            high: [
+                { text: "在我面前做你自己就好", favorChange: 8 },
+                { text: "你不仅是接班人，也是宋奇英", favorChange: 7 },
+                { ignore: -8 }
+            ],
+            love: [
+                { text: "我早就想拥抱你了", favorChange: 5 },
+                { text: "你的不确定是我最确定的选择", favorChange: 4 },
+                { ignore: -15 }
+            ]
+        },
+        confess: "我规划了无数条成为合格接班人的道路，每一条都严谨而清晰。但遇见你之后，我的所有计划里都多了一个不可控的变数——我的心。你愿意成为我未来里唯一的意外吗？",
+        intimateEvents: [
+            "宋奇英在训练后为你细心按摩因训练酸痛的手臂",
+            "他破例在非训练时间陪你散步放松，分享童年梦想",
+            "在你面前第一次卸下‘接班人’的包袱，像普通少年一样微笑"
         ]
     },
-    confess: "我规划了无数条成为合格接班人的道路，每一条都严谨而清晰。但遇见你之后，我的所有计划里都多了一个不可控的变数——我的心。你愿意成为我未来里唯一的意外吗？",
-    intimateEvents: [
-        "宋奇英在训练后为你细心按摩因训练酸痛的手臂",
-        "他破例在非训练时间陪你散步放松，分享童年梦想",
-        "在你面前第一次卸下‘接班人’的包袱，像普通少年一样微笑"
-    ]
-},
 
     qinyunmu: {
         name: "秦牧云",
@@ -2372,7 +2456,7 @@
         ]
     },
 
-        // 雷霆战队 - 深蓝色系 (续)
+    // 雷霆战队 - 深蓝色系 (续)
     daiyanqi: {
         name: "戴妍琦",
         team: "leiting",
@@ -3698,7 +3782,7 @@
         ]
     },
 
-      // 皇风战队 - 琥珀色系 (续)
+    // 皇风战队 - 琥珀色系 (续)
     heweitang: {
         name: "何伟堂",
         team: "huangfeng",

@@ -1,117 +1,181 @@
-.hidden { display: none !important; }
+.hidden {
+    display: none !important;
+}
 
-.text-primary { color: #4299e1 !important; }
-.bg-primary { background-color: #4299e1 !important; }
-.bg-light { background-color: #f5fafe !important; }
-.border-primary { border-color: #4299e1 !important; }
-.shadow-soft { box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important; }
-.btn-primary { 
-    background-color: #4299e1 !important; 
-    color: white !important; 
-    padding: 0.5rem 1rem !important; 
-    border-radius: 0.5rem !important; 
-    transition: all 0.3s !important; 
-    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important; 
+.text-primary {
+    color: #4299e1 !important;
+}
+
+.bg-primary {
+    background-color: #4299e1 !important;
+}
+
+.bg-light {
+    background-color: #f5fafe !important;
+}
+
+.border-primary {
+    border-color: #4299e1 !important;
+}
+
+.shadow-soft {
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important;
+}
+
+.btn-primary {
+    background-color: #4299e1 !important;
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s !important;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important;
     border: none !important;
 }
-.btn-primary:hover { background-color: #3182ce !important; }
-.btn-secondary { 
-    background-color: #f0f0f0 !important; 
-    color: #666 !important; 
-    padding: 0.5rem 1rem !important; 
-    border-radius: 0.5rem !important; 
-    transition: all 0.3s !important; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important; 
+
+.btn-primary:hover {
+    background-color: #3182ce !important;
+}
+
+.btn-secondary {
+    background-color: #f0f0f0 !important;
+    color: #666 !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
     border: none !important;
 }
-.btn-secondary:hover { background-color: #e0e0e0 !important; }
-.card { 
-    background-color: white !important; 
-    border-radius: 1rem !important; 
-    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important; 
-    padding: 1rem !important; 
+
+.btn-secondary:hover {
+    background-color: #e0e0e0 !important;
+}
+
+.card {
+    background-color: white !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important;
+    padding: 1rem !important;
     border: 1px solid #f0f0f0 !important;
 }
-.map-item { 
-    display: flex !important; 
-    align-items: center !important; 
-    padding: 0.75rem !important; 
-    border-radius: 0.75rem !important; 
-    background-color: white !important; 
-    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important; 
-    margin-bottom: 0.75rem !important; 
-    cursor: pointer !important; 
-    transition: all 0.3s !important; 
+
+.card2 {
+    background-color: #f0f9ff !important; /* 很淡的蓝色 */
+    border-radius: 1rem !important;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important;
+    padding: 1rem !important;
+    border: 1px solid #e0f2fe !important; /* 配套的边框颜色 */
+}
+
+.dialog-box2 {
+    background-color: #f0f9ff !important; /* 很淡的蓝色 */
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important;    
+    display: flex !important;
+    align-items: center !important;
+    border: 1px solid #e0f2fe !important; /* 配套的边框颜色 */
+}
+
+.map-item {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0.75rem !important;
+    border-radius: 0.75rem !important;
+    background-color: white !important;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important;
+    margin-bottom: 0.75rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s !important;
     border: 1px solid transparent !important;
 }
-.map-item:hover { 
-    border-color: #4299e1 !important; 
+
+.map-item:hover {
+    border-color: #4299e1 !important;
     box-shadow: 0 4px 15px rgba(66, 153, 225, 0.15) !important;
 }
-.dialog-box { 
-    background-color: white !important; 
-    padding: 1rem !important; 
-    border-radius: 0.75rem !important; 
-    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important; 
-    min-height: 120px !important; 
-    display: flex !important; 
-    align-items: center !important; 
+
+.dialog-box {
+    background-color: white !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 2px 10px rgba(66, 153, 225, 0.1) !important;
+    min-height: 120px !important;
+    display: flex !important;
+    align-items: center !important;
     border: 1px solid #f0f0f0 !important;
 }
-.save-slot, .load-slot { 
-    cursor: pointer; 
-    transition: transform 0.2s; 
+
+.save-slot,
+.load-slot {
+    cursor: pointer;
+    transition: transform 0.2s;
 }
-.save-slot:hover, .load-slot:hover { 
-    transform: translateY(-2px); 
+
+.save-slot:hover,
+.load-slot:hover {
+    transform: translateY(-2px);
 }
-.save-slot:hover .card, .load-slot:hover .card { 
-    border-color: #4299e1 !important; 
+
+.save-slot:hover .card,
+.load-slot:hover .card {
+    border-color: #4299e1 !important;
     box-shadow: 0 4px 15px rgba(66, 153, 225, 0.15) !important;
 }
-.save-slot.selected .card, .load-slot.selected .card { 
-    border-color: #4299e1 !important; 
+
+.save-slot.selected .card,
+.load-slot.selected .card {
+    border-color: #4299e1 !important;
     background-color: #ebf8ff !important;
 }
-.load-slot:empty .card { 
-    opacity: 0.5; 
-    cursor: not-allowed; 
+
+.load-slot:empty .card {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
-.event-item { 
-    padding: 0.75rem !important; 
-    border-bottom: 1px solid #f0f0f0 !important; 
+
+.event-item {
+    padding: 0.75rem !important;
+    border-bottom: 1px solid #f0f0f0 !important;
     font-size: 0.875rem !important;
 }
-.event-item:last-child { border-bottom: none !important; }
-.love-badge { 
-    background-color: #fef2f2 !important; 
-    color: #e53e3e !important; 
-    font-size: 0.75rem !important; 
-    padding: 0.125rem 0.5rem !important; 
-    border-radius: 999px !important; 
+
+.event-item:last-child {
+    border-bottom: none !important;
+}
+
+.love-badge {
+    background-color: #fef2f2 !important;
+    color: #e53e3e !important;
+    font-size: 0.75rem !important;
+    padding: 0.125rem 0.5rem !important;
+    border-radius: 999px !important;
     margin-left: 0.5rem !important;
 }
-.favor-bar { 
-    height: 8px !important; 
-    background-color: #f0f0f0 !important; 
-    border-radius: 4px !important; 
-    overflow: hidden !important; 
+
+.favor-bar {
+    height: 8px !important;
+    background-color: #f0f0f0 !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
     margin-top: 4px !important;
 }
-.favor-fill { 
-    height: 100% !important; 
-    background-color: #4299e1 !important; 
-    border-radius: 4px !important; 
+
+.favor-fill {
+    height: 100% !important;
+    background-color: #4299e1 !important;
+    border-radius: 4px !important;
     transition: width 0.3s !important;
 }
-.favor-fill-love { 
+
+.favor-fill-love {
     background-color: #e53e3e !important;
 }
-.team-tag { 
-    font-size: 0.65rem !important; 
-    padding: 0.1rem 0.3rem !important; 
-    border-radius: 3px !important; 
-    margin-left: 0.5rem !important; 
+
+.team-tag {
+    font-size: 0.65rem !important;
+    padding: 0.1rem 0.3rem !important;
+    border-radius: 3px !important;
+    margin-left: 0.5rem !important;
     color: white !important;
 }
 
@@ -311,7 +375,8 @@
 
 
 .favor-item .text-right span {
-    font-size: 1rem !important; /* 恢复正常大小 */
+    font-size: 1rem !important;
+    /* 恢复正常大小 */
     font-weight: 500 !important;
 }
 
@@ -327,22 +392,26 @@
 
 /* 只让「荣耀之恋」四个字使用手写体 */
 .title-text {
-  font-family: 'Ma Shan Zheng', cursive;
-  font-size: clamp(2.5rem, 8vw, 4rem);
-  color: #fff; /* 纯白色文字 */
-  letter-spacing: 3px;
-  text-shadow: 
-    0 0 10px rgba(255, 105, 180, 0.6),    /* 粉色辉光 */
-    0 0 20px rgba(255, 105, 180, 0.4),    /* 扩散光晕 */
-    0 0 30px rgba(255, 105, 180, 0.2);    /* 外层柔光 */
-  animation: shine 3s ease-in-out infinite alternate;
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: #fff;
+    /* 纯白色文字 */
+    letter-spacing: 3px;
+    text-shadow:
+        0 0 10px rgba(255, 105, 180, 0.6),
+        /* 粉色辉光 */
+        0 0 20px rgba(255, 105, 180, 0.4),
+        /* 扩散光晕 */
+        0 0 30px rgba(255, 105, 180, 0.2);
+    /* 外层柔光 */
+    animation: shine 3s ease-in-out infinite alternate;
 }
 
 
 /* 主体其他文字用现代无衬线字体，更清晰 */
 body {
-  font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
-  /* 不再全局应用 Zhi Mang Xing */
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+    /* 不再全局应用 Zhi Mang Xing */
 }
 
 
@@ -352,18 +421,20 @@ body {
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     min-height: 100vh;
     position: relative;
-    overflow: auto;  /* 改回auto，允许滚动 */
+    overflow: auto;
+    /* 改回auto，允许滚动 */
 }
 
 /* 清新背景图案 */
 body::before {
     content: '';
-    position: fixed;  /* 改为fixed，不随页面滚动 */
+    position: fixed;
+    /* 改为fixed，不随页面滚动 */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: 
+    background-image:
         radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 2px, transparent 2px),
         radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.3) 2px, transparent 2px);
     background-size: 60px 60px;
@@ -373,18 +444,23 @@ body::before {
 }
 
 @keyframes drift {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(60px, 60px); }
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(60px, 60px);
+    }
 }
 
-      
-      
-        .text-center {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
 
-      #coverPage h1 {
+
+.text-center {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+#coverPage h1 {
     font-family: 'ZCOOL KuaiLe', cursive !important;
     font-size: clamp(1.0rem, 10vw, 6rem) !important;
     font-weight: 300 !important;
@@ -395,42 +471,54 @@ body::before {
     animation: float-title 3s ease-in-out infinite !important;
 }
 
+@keyframes float-title {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
 
-        @keyframes float-title {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
+    50% {
+        transform: translateY(-5px);
+    }
+}
 
-        .subtitle {
-            font-size: 0.875rem;
-            color: #636e72;
-            margin-bottom: 2rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            opacity: 0.8;
-        }
-      
-    .heart-effect {
-            position: absolute;
-            font-size: 24px;
-            opacity: 0;
-            animation: heartFloat 1.5s ease-out forwards;
-            pointer-events: none;
-            /* 防止阻挡点击 */
-            z-index: 1001;
-            /* 必须高于 #heartsContainer 的 z-index (1000) */
-            top: 0;
-            left: 0;
-        }
+.subtitle {
+    font-size: 0.875rem;
+    color: #636e72;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
 
-        @keyframes heartFloat {
-            0% {
-                transform: translate(0, 0) scale(0.5);
-                opacity: 1;
-            }
+.heart-effect {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0;
+    animation: heartFloat 1.5s ease-out forwards;
+    pointer-events: none;
+    /* 防止阻挡点击 */
+    z-index: 1001;
+    /* 必须高于 #heartsContainer 的 z-index (1000) */
+    top: 0;
+    left: 0;
+}
 
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(1.2);
-                opacity: 0;
-            }
-        }
+@keyframes heartFloat {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* 如果使用 CSS-in-JS 或单独 CSS 文件 */
+.flex-1 {
+  flex: 110%;
+  height: 60px; /* 添加你想要的高度 */
+}
+

@@ -2,15 +2,16 @@
 function initSceneInteraction(scene) {
     resetScenePanels();
     // 检查是否已经发生过当日事件
-
-  //alert("检查场景1"+gameData.dayEvents);
-
- // alert("检查场景2=="+gameData.day+"==="+gameData.dayEvents[gameData.day]);
-
+    //alert("检查场景1"+gameData.dayEvents);
+    // alert("检查场景2=="+gameData.day+"==="+gameData.dayEvents[gameData.day]);
     if (gameData.dayEvents && gameData.dayEvents[gameData.day]) {
         // 当日已有事件，直接显示常规互动
-        alert("已有事件"+gameData.dayEvents[gameData.day]);
-        //showNormalInteraction(scene);
+       // alert("已有事件" + gameData.dayEvents[gameData.day]);
+        showNormalInteraction(scene);
+
+        if (!gameData.dayEvents) {
+            gameData.dayEvents = {};
+        }
         return;
     }
     // 获取当前场景对应的战队
@@ -76,13 +77,13 @@ function initSceneInteraction(scene) {
     // ========== 1. 告白事件（最高优先级） ==========  
     if (!isLove && favor >= 80) {
         //const daysSinceLastConfess = gameData.day - (gameData.lastConfessDay[randomNpcId] || 0);
-      //  if (daysSinceLastConfess >= 3) {
-            possibleEvents.push({
-                type: 'confess',
-                priority: 200, // 最高优先级
-                data: { npc, randomNpcId, favor }
-            });
-       // }
+        //  if (daysSinceLastConfess >= 3) {
+        possibleEvents.push({
+            type: 'confess',
+            priority: 200, // 最高优先级
+            data: { npc, randomNpcId, favor }
+        });
+        // }
     }
     // ========== 2. 嫉妒事件（第二优先级） ========== 
     // 正确统计恋人数量
@@ -161,38 +162,38 @@ function initSceneInteraction(scene) {
     // 按优先级排序
     possibleEvents.sort((a, b) => b.priority - a.priority);
 
-// 简化的概率选择：最高优先级有80%概率，其他均分20%
-let selectedEvent;
-if (Math.random() < 0.6) {
-    // 80%概率选择最高优先级事件
-    selectedEvent = possibleEvents[0];
-} else {
-    // 20%概率在其他事件中随机选择
-    const otherEvents = possibleEvents.slice(1);
-    if (otherEvents.length > 0) {
-        selectedEvent = otherEvents[Math.floor(Math.random() * otherEvents.length)];
-    } else {
+    // 简化的概率选择：最高优先级有80%概率，其${npc.gender === 'female' ? '她' : '他'}均分20%
+    let selectedEvent;
+    if (Math.random() < 0.6) {
+        // 80%概率选择最高优先级事件
         selectedEvent = possibleEvents[0];
-    }
-}
-
-//alert(selectedEvent.type);
-
-// 特殊规则：介绍事件额外加成（可选）
-if (possibleEvents.some(e => e.type === 'intro') && selectedEvent.type !== 'intro') {
-    // 如果当前选中的不是介绍事件，但有介绍事件可用，有25%概率替换为介绍事件
-    if (Math.random() < 0.25) {
-        const introEvent = possibleEvents.find(e => e.type === 'intro');
-        if (introEvent) {
-            selectedEvent = introEvent;
+    } else {
+        // 20%概率在其${npc.gender === 'female' ? '她' : '他'}事件中随机选择
+        const otherEvents = possibleEvents.slice(1);
+        if (otherEvents.length > 0) {
+            selectedEvent = otherEvents[Math.floor(Math.random() * otherEvents.length)];
+        } else {
+            selectedEvent = possibleEvents[0];
         }
     }
-}
+
+    //alert(selectedEvent.type);
+
+    // 特殊规则：介绍事件额外加成（可选）
+    if (possibleEvents.some(e => e.type === 'intro') && selectedEvent.type !== 'intro') {
+        // 如果当前选中的不是介绍事件，但有介绍事件可用，有25%概率替换为介绍事件
+        if (Math.random() < 0.25) {
+            const introEvent = possibleEvents.find(e => e.type === 'intro');
+            if (introEvent) {
+                selectedEvent = introEvent;
+            }
+        }
+    }
 
     // 重要：一旦选择了高优先级事件，立即标记当天事件类型并返回
     // 防止后续任何事件触发
     if (selectedEvent && selectedEvent.type !== 'normal' && selectedEvent.type !== 'busy') {
-        // 高优先级事件（告白、嫉妒、亲密、介绍）立即标记，不再进入其他事件
+        // 高优先级事件（告白、嫉妒、亲密、介绍）立即标记，不再进入其${npc.gender === 'female' ? '她' : '他'}事件
         if (!gameData.dayEvents) {
             gameData.dayEvents = {};
         }
@@ -207,7 +208,7 @@ if (possibleEvents.some(e => e.type === 'intro') && selectedEvent.type !== 'intr
 // 处理选中的事件
 function handleSelectedEvent(event) {
     const { type, data } = event;
-    // 标记当日已发生事件（一旦标记，当天不再触发其他事件）
+    // 标记当日已发生事件（一旦标记，当天不再触发其${npc.gender === 'female' ? '她' : '他'}事件）
     if (!gameData.dayEvents) {
         gameData.dayEvents = {};
     }
@@ -274,13 +275,13 @@ function handleIntroEvent(data) {
     let introProbability = Math.min(0.4, 0.4 + (favor - 31) * 0.1); // 31点时50%概率，每增加10点好感度增加20%概率
     console.log('介绍成功率:', introProbability);
 
-//alert(introProbability);
+    //alert(introProbability);
 
     // 随机选择介绍目标（所有人都不区分本队和跨队）
     let selectedIntro = availableIntroTargets[Math.floor(Math.random() * availableIntroTargets.length)];
     // 仅基于概率判断是否触发介绍
     if (Math.random() < introProbability) {
-       // alert("触发");
+        // alert("触发");
         // 添加空值检查，确保selectedIntro存在且有target属性
         if (!selectedIntro || !selectedIntro.target) {
             console.error('介绍目标数据不完整:', selectedIntro);
@@ -309,15 +310,15 @@ function handleIntroEvent(data) {
         } else {
             // 跨队介绍
             const crossIntroTexts = [
-                `${npc.name}神秘地对你眨眨眼：「想认识其他战队的选手吗？给你介绍${teamConfig[targetTeam].name}战队的${targetMember.name}，他可是很厉害的选手呢！」`,
+                `${npc.name}神秘地对你眨眨眼：「想认识其${npc.gender === 'female' ? '她' : '他'}战队的选手吗？给你介绍${teamConfig[targetTeam].name}战队的${targetMember.name}，${npc.gender === 'female' ? '她' : '他'}可是很厉害的选手呢！」`,
                 `${npc.name}翻着手机通讯录：「对了，${teamConfig[targetTeam].name}的${targetMember.name}最近也在找你呢，要不要认识一下？」`,
-                `训练结束后，${npc.name}拉住你：「下周我们要和${teamConfig[targetTeam].name}打训练赛，先带你认识一下他们的${targetMember.name}吧！」`,
-                `${npc.name}兴奋地对你说：「我刚联系了${teamConfig[targetTeam].name}的${targetMember.name}，他也很想认识你呢！」`
+                `训练结束后，${npc.name}拉住你：「下周我们要和${teamConfig[targetTeam].name}打训练赛，先带你认识一下${npc.gender === 'female' ? '她' : '他'}们的${targetMember.name}吧！」`,
+                `${npc.name}兴奋地对你说：「我刚联系了${teamConfig[targetTeam].name}的${targetMember.name}，${npc.gender === 'female' ? '她' : '他'}也很想认识你呢！」`
             ];
             // 统一使用随机生成的介绍文本
             introText = crossIntroTexts[Math.floor(Math.random() * crossIntroTexts.length)];
         }
-        // 先重置所有场景面板，确保没有其他面板干扰
+        // 先重置所有场景面板，确保没有其${npc.gender === 'female' ? '她' : '他'}面板干扰
         resetScenePanels();
 
         // 设置介绍文本并显示面板
@@ -382,8 +383,96 @@ function handleIntroEvent(data) {
 }
 
 // 处理告白事件
+// 处理告白事件（优化版，包含具体恋人名字）
 function handleConfessEvent(data) {
     const { npc, randomNpcId, favor } = data;
+
+    // 检查是否已有恋人（使用与嫉妒事件相同的逻辑）
+    let loveCount = 0;
+    let loverNames = [];
+    for (const id in npcData) {
+        if (npcData[id].gameState && npcData[id].gameState.love === true) {
+            loveCount++;
+            loverNames.push(npcData[id].name);
+        }
+    }
+
+    // 如果已有恋人，有一定概率抑制告白
+    if (loveCount > 0 && Math.random() < 0.9) { // 40%概率抑制告白
+        console.log(`${npc.name}因为玩家已有${loveCount}个恋人，抑制了告白冲动，好感度: ${favor}`);
+
+        // 根据恋人数量和名字生成不同的文本
+        let suppressText = "";
+
+        if (loveCount === 1) {
+            // 只有1个恋人
+            const singleLoverTexts = [
+                `${npc.name}深情地看着你，准备说出那句藏在心底的话。但想到你和${loverNames[0]}之间的感情，${npc.gender === 'female' ? '她' : '他'}最终还是选择了沉默。`,
+                `${npc.name}眼中的爱意几乎要溢出来，可当想起${loverNames[0]}看你的眼神时，${npc.gender === 'female' ? '她' : '他'}只是苦笑着摇了摇头：「祝你们幸福。」`,
+                `${npc.name}想要握住你的手，却在半空中停住。${npc.gender === 'female' ? '她' : '他'}知道${loverNames[0]}才是你重要的人，最终只是轻声道：「能遇到你，我已经很幸运了。」`,
+                `${npc.name}的告白卡在喉咙里，${loverNames[0]}的名字在脑海中闪过。${npc.gender === 'female' ? '她' : '他'}深吸一口气，露出释然的微笑：「有你这样的朋友，真好。」`
+            ];
+            suppressText = singleLoverTexts[Math.floor(Math.random() * singleLoverTexts.length)];
+
+        } else if (loveCount === 2) {
+            // 有2个恋人
+            const doubleLoverTexts = [
+                `${npc.name}看着你，想要倾诉心意。可想到你周旋在${loverNames[0]}和${loverNames[1]}之间，${npc.gender === 'female' ? '她' : '他'}叹了口气：「我...还是不说比较好。」`,
+                `${npc.name}想要表白，但看到${loverNames[0]}和${loverNames[1]}都对你深情款款，${npc.gender === 'female' ? '她' : '他'}轻声道：「也许，我不该再给你增加困扰了。」`,
+                `${npc.name}的告白话语到了嘴边，${loverNames[0]}和${loverNames[1]}的身影却在脑海中浮现。${npc.gender === 'female' ? '她' : '他'}最终只是轻轻拍了拍你的肩：「要好好对待她们啊。」`,
+                `${npc.name}默默将爱意藏回心底，毕竟${loverNames[0]}和${loverNames[1]}已经占据了你的心。${npc.gender === 'female' ? '她' : '他'}微笑着说：「看到你被这么多人爱着，我也为你高兴。」`
+            ];
+            suppressText = doubleLoverTexts[Math.floor(Math.random() * doubleLoverTexts.length)];
+
+        } else {
+            // 有3个或更多恋人
+            let loverList = "";
+            if (loveCount <= 3) {
+                loverList = loverNames.join("、");
+            } else {
+                loverList = `${loverNames.slice(0, 2).join("、")}等${loveCount}人`;
+            }
+
+            const multiLoverTexts = [
+                `${npc.name}对你充满爱意，但看到你身边的${loverList}，${npc.gender === 'female' ? '她' : '他'}的告白话语最终化为一声轻叹：「你...真的很受欢迎呢。」`,
+                `${npc.name}想要表白，可想到${loverList}都是你的恋人，${npc.gender === 'female' ? '她' : '他'}摇了摇头：「我就不凑这个热闹了。」`,
+                `${npc.name}眼中的光芒渐渐黯淡，${loverList}的身影让${npc.gender === 'female' ? '她' : '他'}明白自己的爱或许只是众多爱意中的一份。${npc.gender === 'female' ? '她' : '他'}轻声道：「能远远看着你就够了。」`,
+                `${npc.name}最终没有说出那句"我爱你"。看到${loverList}围绕在你身边，${npc.gender === 'female' ? '她' : '他'}只是默默祝福：「希望你能永远这样被爱包围着。」`
+            ];
+            suppressText = multiLoverTexts[Math.floor(Math.random() * multiLoverTexts.length)];
+        }
+
+
+        // 显示结果面板前，修改标题
+        const resultTitle = document.querySelector('#resultPanel h3');
+        if (resultTitle) {
+            resultTitle.textContent = "告白未果";
+        }
+
+        document.getElementById('resultText').textContent = suppressText;
+        resetScenePanels();
+        document.getElementById('resultPanel').classList.remove('hidden');
+
+        // 记录事件（包含具体名字）
+        let recordText = `${npc.name}想要告白，但看到你已有`;
+        if (loveCount === 1) {
+            recordText += `${loverNames[0]}这位恋人，最终还是放弃了。`;
+        } else if (loveCount === 2) {
+            recordText += `${loverNames[0]}和${loverNames[1]}两位恋人，最终还是放弃了。`;
+        } else {
+            recordText += `${loveCount}位恋人，最终还是放弃了。`;
+        }
+        addEventRecord(recordText);
+
+        // 好感度变化（因为抑制了告白，可能有些失落）
+        const suppressFavorChange = -Math.floor(Math.random() * 3); // -0到-2的随机数
+        npcData[randomNpcId].gameState.favor += suppressFavorChange;
+        if (npcData[randomNpcId].gameState.favor < 0) npcData[randomNpcId].gameState.favor = 0;
+
+        return; // 直接返回，不执行告白逻辑
+    }
+
+    // 原有告白逻辑...
     const confessChance = Math.min(0.6, 0.3 + (favor - 80) * 0.02);
 
     // 告白成功率基于好感度
@@ -496,7 +585,7 @@ function handleJealousyEvent(data) {
             document.getElementById('jealousyPanel').dataset.event = JSON.stringify(dynamicJealousyEvent);
             document.getElementById('jealousyPanel').classList.remove('hidden');
         } else {
-            // 如果没有其他恋人，回退到普通互动
+            // 如果没有其${npc.gender === 'female' ? '她' : '他'}恋人，回退到普通互动
             console.log('没有其他恋人，回退到普通互动');
             handleNormalEvent(data);
         }
@@ -530,7 +619,7 @@ function handleBusyEvent(data) {
     if (Math.random() < busyProbability) {
         const noInteractionTexts = [
             `${npc.name}正忙着打副本，没注意到你，你安静地在一旁坐了会儿就离开了。`,
-            `${npc.name}在和队友讨论战术，看起来很投入，你不想打扰他，默默离开了。`
+            `${npc.name}在和队友讨论战术，看起来很投入，你不想打扰${npc.gender === 'female' ? '她' : '他'}，默默离开了。`
         ];
         const randomNoInteractionText = noInteractionTexts[Math.floor(Math.random() * noInteractionTexts.length)];
         document.getElementById('noInteractionText').textContent = randomNoInteractionText;
@@ -555,15 +644,19 @@ function handleBusyEvent(data) {
 
 // 处理普通互动
 function handleNormalEvent(data, noRecord = false) {
+    //alert("处理普通互动");
     const { npc, randomNpcId, favor, isLove } = data;
-
     let dialogType = "low";
     if (favor >= 40 && favor < 80) dialogType = "mid";
     else if (favor >= 80 && !isLove) dialogType = "high";
     else if (isLove) dialogType = "love";
-
     const dialogs = npc.dialogs[dialogType];
-    const randomDialog = dialogs[Math.floor(Math.random() * dialogs.length)];
+
+    // 新增：记录问题索引
+    const questionIndex = Math.floor(Math.random() * dialogs.length); // 新增这一行
+    const randomDialog = dialogs[questionIndex]; // 修改这一行
+
+    // const randomDialog = dialogs[Math.floor(Math.random() * dialogs.length)];
     document.getElementById('npcDialog').textContent = randomDialog;
     document.getElementById('npcLoveBadge').classList.toggle('hidden', !isLove);
     document.getElementById('npcTeamTag').classList.toggle('hidden', !npc.team);
@@ -572,82 +665,63 @@ function handleNormalEvent(data, noRecord = false) {
         document.getElementById('npcTeamTag').className = `team-tag ${teamConfig[npc.team].color}`;
     }
 
-    const choices = npc.choices[dialogType];
+    //const choices = npc.choices[dialogType];
+
+    // === 关键修改：智能获取choices ===
+    let choices;
+    if (npc.choicesByIndex && npc.choicesByIndex[dialogType]) {
+        // 使用新格式：按索引获取对应问题的选择项
+        choices = npc.choicesByIndex[dialogType][questionIndex];
+        // alert("使用新格式choicesByIndex");
+    } else {
+        // 回退到旧格式：同一类型所有问题共用同一套选择项
+        choices = npc.choices[dialogType];
+        //alert("使用旧格式choices");
+    }
+
     document.getElementById('choice1').textContent = choices[0].text;
     document.getElementById('choice2').textContent = choices[1].text;
-    document.getElementById('choice1').onclick = () => handleChoice(randomNpcId, 0, dialogType, noRecord);
-    document.getElementById('choice2').onclick = () => handleChoice(randomNpcId, 1, dialogType, noRecord);
-    document.getElementById('choiceIgnore').onclick = () => handleIgnore(randomNpcId, dialogType, noRecord);
+
+    // 修改这里：传递questionIndex参数
+    //alert("传递questionIndex参数");
+    document.getElementById('choice1').onclick = () => handleChoice(randomNpcId, 0, dialogType, questionIndex, noRecord); // 添加questionIndex
+    document.getElementById('choice2').onclick = () => handleChoice(randomNpcId, 1, dialogType, questionIndex, noRecord); // 添加questionIndex
+    document.getElementById('choiceIgnore').onclick = () => handleIgnore(randomNpcId, dialogType, questionIndex, noRecord); // 添加questionIndex
+
     document.getElementById('interactionPanel').classList.remove('hidden');
 }
 
 // 显示普通互动（当日已有事件时调用）
 function showNormalInteraction(scene) {
-    // 额外安全检查：确保当天没有高优先级事件被记录
-    if (gameData.dayEvents && gameData.dayEvents[gameData.day]) {
-        const todayEventType = gameData.dayEvents[gameData.day];
-        // 如果当天已经有高优先级事件（非普通/忙碌事件），直接返回
-        if (todayEventType && todayEventType !== 'normal' && todayEventType !== 'busy') {
-            console.log(`当天已有高优先级事件[${todayEventType}]，跳过普通互动显示`);
-            return;
-        }
-    }
+    // 直接显示错误提示，不进行任何判断
     resetScenePanels();
-    // 获取当前场景对应的战队
-    let currentTeam = null;
-    for (const team in teamConfig) {
-        if (teamConfig[team].scene === scene) {
-            currentTeam = teamConfig[team];
-            break;
-        }
-    }
 
-    // 获取可出现的NPC列表（使用新的解锁机制）
-    let availableNpcs = [];
-    if (scene === "league") {
-        availableNpcs = Object.keys(npcData).filter(npcId => {
-            return gameData.unlockedCharacters.includes(npcId);
+    // 显示提示文字
+    document.getElementById('noInteractionText').textContent = "今天似乎有些奇怪，什么事情也没有发生。";
+    document.getElementById('noInteractionPanel').classList.remove('hidden');
+
+    // 记录事件
+    addEventRecord("今天似乎有些奇怪，什么事情也没有发生。");
+
+    // 重新绑定"继续探索"按钮的点击事件
+    const skipNoInteractionBtn = document.getElementById('skipNoInteraction');
+    if (skipNoInteractionBtn) {
+        // 先移除旧的事件监听器
+        skipNoInteractionBtn.replaceWith(skipNoInteractionBtn.cloneNode(true));
+        // 重新获取按钮并绑定新事件
+        const newSkipBtn = document.getElementById('skipNoInteraction');
+        newSkipBtn.addEventListener('click', function () {
+            document.getElementById('backToMap').click();
+            autoSaveGame();
         });
-    } else {
-        availableNpcs = currentTeam.members.filter(npcId => {
-            return gameData.unlockedCharacters.includes(npcId);
-        });
     }
 
-    // // 过滤掉被完全忽略的NPC
-    // availableNpcs = availableNpcs.filter(npcId => {
-    //     if (!npcData[npcId] || !npcData[npcId].gameState) return false;
-    //     return npcData[npcId].gameState.ignoreCount < 5;
-    // });
-
-    if (availableNpcs.length === 0) {
-        const noInteractionTexts = [
-            `这个地方似乎没有你认识的人，或许需要通过社交介绍来认识新的朋友。`,
-            `你在这里没有认识的人，可以先去兴欣战队找人介绍。`
-        ];
-        const randomNoInteractionText = noInteractionTexts[Math.floor(Math.random() * noInteractionTexts.length)];
-        document.getElementById('noInteractionText').textContent = randomNoInteractionText;
-        document.getElementById('noInteractionPanel').classList.remove('hidden');
-        return;
-    }
-
-    // 计算权重并选择NPC
-    const weights = calculateNpcWeights(availableNpcs);
-    const randomNpcId = weightedRandom(availableNpcs, weights);
-
-    const npc = npcData[randomNpcId];
-    const favor = npcData[randomNpcId].gameState.favor;
-    const isLove = npcData[randomNpcId].gameState.love;
-
-    gameData.currentNpc = randomNpcId;
-    document.getElementById('npcName').textContent = npc.name;
-
-    // 显示普通互动（允许记录新事件，覆盖默认事件）
-    handleNormalEvent({ npc, randomNpcId, favor, isLove }, false); // 允许记录事件
+    // 直接返回，不执行任何其${npc.gender === 'female' ? '她' : '他'}逻辑
+    return;
 }
 
 // 处理互动选择
-function handleChoice(npcId, choiceIndex, dialogType, noRecord = false) {
+function handleChoice000(npcId, choiceIndex, dialogType, noRecord = false) {
     const npc = npcData[npcId];
     const choices = npc.choices[dialogType];
     const choice = choices[choiceIndex];
@@ -675,8 +749,69 @@ function handleChoice(npcId, choiceIndex, dialogType, noRecord = false) {
     document.getElementById('resultPanel').classList.remove('hidden');
 }
 
-// 处理不理他选项
-function handleIgnore(npcId, dialogType, noRecord = false) {
+function handleChoice(npcId, choiceIndex, dialogType, questionIndex = null, noRecord = false) { // 添加questionIndex参数
+    //alert("handleChoice");  
+    const npc = npcData[npcId];
+    const choices = npc.choices[dialogType];
+    const choice = choices[choiceIndex];
+    //alert("handleChoice");
+    // 如果有choicesByIndex且questionIndex不为null，使用新格式
+    if (npc.choicesByIndex && npc.choicesByIndex[dialogType] && questionIndex !== null) {
+        //alert("00");
+        // 新格式：按索引获取对应问题的选择项
+        const newChoices = npc.choicesByIndex[dialogType][questionIndex];
+        const newChoice = newChoices[choiceIndex];
+        // 优先使用新格式的好感度变化
+        const favorChange = newChoice.favorChange || choice.favorChange || 5;
+        npcData[npcId].gameState.favor += favorChange;
+        if (npcData[npcId].gameState.favor > 120) npcData[npcId].gameState.favor = 120;
+
+        let resultContent = "";
+        if (favorChange >= 7) {
+            resultContent = `${npc.name}对你的反应非常满意，好感度+${favorChange}！你们的关系又近了一步～`;
+        } else if (favorChange >= 4) {
+            resultContent = `${npc.name}觉得和你相处很愉快，好感度+${favorChange}！`;
+        } else {
+            resultContent = `${npc.name}对你的回答很满意，好感度+${favorChange}～`;
+        }
+
+        if (!noRecord) {
+            // 可以记录具体是哪个问题的回答
+            const dialogs = npc.dialogs[dialogType];
+            const question = dialogs[questionIndex] || "（未知问题）";
+            addEventRecord(`面对${npc.name}的问题"${question}"，你选择了"${newChoice.text}"，${npc.name}好感度+${favorChange}。`);
+        }
+
+        document.getElementById('resultText').textContent = resultContent;
+        resetScenePanels();
+        document.getElementById('resultPanel').classList.remove('hidden');
+        return; // 提前返回
+    }
+
+    // 以下是原有代码（旧格式处理）
+    const favorChange = choice.favorChange || 5;
+    npcData[npcId].gameState.favor += favorChange;
+    if (npcData[npcId].gameState.favor > 120) npcData[npcId].gameState.favor = 120;
+
+    let resultContent = "";
+    if (favorChange >= 7) {
+        resultContent = `${npc.name}对你的反应非常满意，好感度+${favorChange}！你们的关系又近了一步～`;
+    } else if (favorChange >= 4) {
+        resultContent = `${npc.name}觉得和你相处很愉快，好感度+${favorChange}！`;
+    } else {
+        resultContent = `${npc.name}对你的回答很满意，好感度+${favorChange}～`;
+    }
+    if (!noRecord) {
+        addEventRecord(`选择和${npc.name}${choice.text}，${npc.name}好感度+${favorChange}。`);
+    }
+    document.getElementById('resultText').textContent = resultContent;
+    resetScenePanels();
+    document.getElementById('resultPanel').classList.remove('hidden');
+}
+
+
+// 处理不理${npc.gender === 'female' ? '她' : '他'}选项
+function handleIgnore000(npcId, dialogType, noRecord = false) {
     const npc = npcData[npcId];
     const choices = npc.choices[dialogType];
     const favorChange = choices[2].ignore || -2;
@@ -684,12 +819,10 @@ function handleIgnore(npcId, dialogType, noRecord = false) {
 
     // 增加不理次数
     npcData[npcId].gameState.ignoreCount = (npcData[npcId].gameState.ignoreCount || 0) + 1;
-
     if (npcData[npcId].gameState.favor < 0) npcData[npcId].gameState.favor = 0;
-
     let resultContent = "";
     if (Math.abs(favorChange) >= 5) {
-        resultContent = `${npc.name}看到你不理他，很伤心，好感度${favorChange}！你们的关系变得有些疏远。`;
+        resultContent = `${npc.name}看到你不理${npc.gender === 'female' ? '她' : '他'}，很伤心，好感度${favorChange}！你们的关系变得有些疏远。`;
     } else {
         resultContent = `${npc.name}对你的冷淡有些失落，好感度${favorChange}～`;
     }
@@ -710,7 +843,61 @@ function handleIgnore(npcId, dialogType, noRecord = false) {
     document.getElementById('resultPanel').classList.remove('hidden');
 }
 
+function handleIgnore(npcId, dialogType, questionIndex = null, noRecord = false) { // 添加questionIndex参数
+    const npc = npcData[npcId];
+    let choices;
+    let ignoreChoice;
+    let favorChange;
 
+    // 如果有choicesByIndex且questionIndex不为null，使用新格式
+    if (npc.choicesByIndex && npc.choicesByIndex[dialogType] && questionIndex !== null) {
+        // 新格式：按索引获取对应问题的忽略选项
+        const newChoices = npc.choicesByIndex[dialogType][questionIndex];
+        ignoreChoice = newChoices[2] || { text: "忽略", favorChange: -2 };
+        favorChange = ignoreChoice.favorChange || ignoreChoice.ignore || -2;
+    } else {
+        // 旧格式
+        choices = npc.choices[dialogType];
+        ignoreChoice = choices[2] || { ignore: -2 };
+        favorChange = ignoreChoice.ignore || -2;
+    }
+
+    // 以下是原有代码不变
+    npcData[npcId].gameState.favor += favorChange;
+    // 增加不理次数
+    npcData[npcId].gameState.ignoreCount = (npcData[npcId].gameState.ignoreCount || 0) + 1;
+
+    if (npcData[npcId].gameState.favor < 0) npcData[npcId].gameState.favor = 0;
+
+    let resultContent = "";
+    if (Math.abs(favorChange) >= 5) {
+        resultContent = `${npc.name}看到你不理${npc.gender === 'female' ? '她' : '他'}，很伤心，好感度${favorChange}！你们的关系变得有些疏远。`;
+    } else {
+        resultContent = `${npc.name}对你的冷淡有些失落，好感度${favorChange}～`;
+    }
+
+    if (npcData[npcId].gameState.ignoreCount >= 3) {
+        resultContent += ` ${npc.name}似乎对你有些失望，出现的次数会减少了。`;
+    }
+    if (npcData[npcId].gameState.ignoreCount >= 5) {
+        resultContent += ` ${npc.name}对你彻底失望，不会再出现了。`;
+    }
+
+    // 记录事件（可以记录具体是哪个问题）
+    if (!noRecord) {
+        if (questionIndex !== null && npc.choicesByIndex) {
+            const dialogs = npc.dialogs[dialogType];
+            const question = dialogs[questionIndex] || "（未知问题）";
+            addEventRecord(`面对${npc.name}的问题"${question}"，你选择了不理睬，${npc.name}感到失落，好感度${favorChange}。`);
+        } else {
+            addEventRecord(`你选择不理${npc.name}，${npc.name}感到失落，好感度${favorChange}。`);
+        }
+    }
+
+    document.getElementById('resultText').textContent = resultContent;
+    resetScenePanels();
+    document.getElementById('resultPanel').classList.remove('hidden');
+}
 
 // 修罗场事件配置
 const jealousyEvents = [

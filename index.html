@@ -11,43 +11,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-<!-- 在HTML头部引入 -->
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <!-- 在HTML头部引入 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <style>
 
     </style>
     <script src="data.js"></script>
     <script>
-
-
-        // 等待 DOM 加载完成再执行
-        document.addEventListener('DOMContentLoaded', function () {
-            // 使用事件委托监听整个文档的点击
-            document.addEventListener('click', function (e) {
-                // 检查是否点击了置顶按钮（包括内部图标）
-                const pinBtn = e.target.closest('.map-pin-btn');
-                if (!pinBtn) return;
-
-                // 阻止冒泡和默认行为
-                e.stopPropagation();
-                e.preventDefault();
-
-                // 找到当前 map-item 和列表容器
-                const item = pinBtn.closest('.map-item');
-                const listContainer = document.getElementById('mapList'); // 👈 你的列表 ID
-
-                if (item && listContainer) {
-                    // 移到顶部
-                    listContainer.prepend(item);
-
-                    // 可选：视觉反馈 —— 图标变红表示已置顶
-                    pinBtn.innerHTML = '<i class="fa fa-thumb-tack text-red-500"></i>';
-                    pinBtn.title = '已置顶';
-                }
-            });
-        });
-
     </script>
 </head>
 
@@ -81,8 +52,6 @@
 
     <!-- 地图列表页 -->
     <div id="mapPage" class="container mx-auto px-3 py-5 max-w-md hidden">
-
-
         <div class="status-bar bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl p-2 mb-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center justify-between w-full">
@@ -120,7 +89,7 @@
                     <div class="stat-item text-center flex-1">
                         <div class="w-12 h-12 rounded-full bg-white shadow-soft flex items-center justify-center mx-auto cursor-pointer hover:bg-gray-50 transition-all duration-300"
                             onclick="showSettingsMenu()">
-                            <i class="fa fa-cog text-purple-500 text-lg" title="设置"></i>
+                            <i class="fa fa-cog text-black-500 text-lg" title="设置"></i>
                         </div>
                         <p class="text-xs text-gray-600 mt-1">设置</p>
                         <p class="font-bold text-purple-500 text-xl">⚙</p>
@@ -150,7 +119,7 @@
                 <!-- 兴欣网吧（兴欣战队） -->
                 <div class="map-item" data-scene="happy" data-unlocked="true">
                     <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                        <i class="fa fa-coffee text-red-500"></i>
+                        <i class="fa fa-coffee text-red-600"></i>
                     </div>
                     <div class="flex-1">
                         <h3 class="font-bold">兴欣网吧</h3>
@@ -183,7 +152,7 @@
                         <h3 class="font-bold text-gray-500">微草基地</h3>
                         <p class="text-xs text-gray-400">B市 | 微草战队基地</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -198,7 +167,7 @@
                         <h3 class="font-bold text-gray-500">轮回基地</h3>
                         <p class="text-xs text-gray-400">S市 | 轮回战队基地</p>
                     </div>
-                   <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -206,14 +175,15 @@
 
                 <!-- 嘉世基地（嘉世战队） -->
                 <div class="map-item opacity-70 cursor-not-allowed" data-scene="jiashi" data-unlocked="false">
-                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                        <i class="fa fa-lock text-red-500"></i>
+                    <div class="w-10 h-10 rounded-full bg-red-400 flex items-center justify-center mr-3">
+                        <i class="fa fa-lock text-white"></i>
                     </div>
+
                     <div class="flex-1">
                         <h3 class="font-bold text-gray-500">嘉世基地</h3>
                         <p class="text-xs text-gray-400">H市 | 嘉世战队基地</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -221,7 +191,7 @@
 
                 <!-- 虚空基地（虚空战队） -->
                 <div class="map-item opacity-70 cursor-not-allowed" data-scene="xukong" data-unlocked="false">
-                    <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center mr-3">
+                    <div class="w-10 h-10 rounded-full bg-purple-400 flex items-center justify-center mr-3">
                         <i class="fa fa-lock text-white"></i>
                     </div>
                     <div class="flex-1">
@@ -243,7 +213,7 @@
                         <h3 class="font-bold text-gray-500">霸图基地</h3>
                         <p class="text-xs text-gray-400">Q市 | 霸图战队基地</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -258,7 +228,7 @@
                         <h3 class="font-bold text-gray-500">呼啸基地</h3>
                         <p class="text-xs text-gray-400">N市 | 呼啸战队基地</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -273,7 +243,7 @@
                         <h3 class="font-bold text-gray-500">烟雨基地</h3>
                         <p class="text-xs text-gray-400">S市 | 烟雨战队基地</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -288,7 +258,7 @@
                         <h3 class="font-bold text-gray-500">雷霆基地</h3>
                         <p class="text-xs text-gray-400">W市 | 雷霆战队基地</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -318,7 +288,7 @@
                         <h3 class="font-bold text-gray-500">皇风基地</h3>
                         <p class="text-xs text-gray-400">B市 | 皇风战队基地</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -361,9 +331,9 @@
                     </div>
                     <div class="flex-1">
                         <h3 class="font-bold text-gray-500">荣耀联盟总部</h3>
-                        <p class="text-xs text-gray-400">专属场景 | 恋人≥？解锁</p>
+                        <p class="text-xs text-gray-400">专属场景 | 恋人≥5解锁</p>
                     </div>
-                     <!-- 新增：置顶按钮（仅对已解锁项显示） -->
+                    <!-- 新增：置顶按钮（仅对已解锁项显示） -->
                     <button class="ml-2 text-xs text-blue-500 hover:text-blue-700 map-pin-btn" title="置顶">
                         <i class="fa fa-thumb-tack"></i>
                     </button>
@@ -546,8 +516,8 @@
             <h2 id="sceneTitle" class="text-xl font-bold text-gray-700 ml-4">兴欣网吧</h2>
         </div>
 
-        <div class="card mb-6">
-            <div id="sceneDesc" class="dialog-box">
+        <div class="card2 mb-6">
+            <div id="sceneDesc" class="dialog-box2">
                 <p>【兴欣网吧】阳光透过玻璃窗洒在键盘上，陈果正忙着整理货架，叶修在角落的专属座位上专注地操作着荣耀账号，唐柔坐在一旁认真记着笔记，空气中飘着淡淡的奶茶香。</p>
             </div>
         </div>
@@ -693,9 +663,6 @@
             </div>
         </div>
     </div>
-
-
-
     <script src="main.js"></script>
     <script src="business.js"></script>
     <script>
@@ -728,7 +695,7 @@
             initPage();
         });
 
-     // 游戏核心数据
+        // 游戏核心数据
         const gameData = {
             day: 1,
             favor: {},
@@ -750,15 +717,14 @@
 
         // 初始化游戏数据
         function initGameData() {
-            
-          //  alert("初始化数据");
+            //  alert("初始化数据");
             ensureAllCharactersDefined();
             gameData.introHistory = {};
             for (const id in npcData) {
                 gameData.introHistory[id] = {};
             }
             gameData.events = [
-               // { day: 1, content: "在兴欣网吧认识了叶修和陈果，开启了荣耀之旅～" }
+                // { day: 1, content: "在兴欣网吧认识了叶修和陈果，开启了荣耀之旅～" }
             ];
             if (!gameData.dayEvents) {
                 gameData.dayEvents = {};
@@ -771,14 +737,8 @@
             npcData.chenguo.gameState.favor = 10;
             gameData.unlockedScenes = ['home', 'happy'];
             gameData.unlockedCharacters = ["yexiu", "chenguo"];
-            
-               }
 
-
-
-
-
-
+        }
     </script>
 </body>
 
