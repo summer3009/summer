@@ -398,7 +398,7 @@ function handleConfessEvent(data) {
     }
 
     // 如果已有恋人，有一定概率抑制告白
-    if (loveCount > 0 && Math.random() < 0.9) { // 40%概率抑制告白
+    if (loveCount > 0 && Math.random() < 0.4) { // 40%概率抑制告白
         console.log(`${npc.name}因为玩家已有${loveCount}个恋人，抑制了告白冲动，好感度: ${favor}`);
 
         // 根据恋人数量和名字生成不同的文本
