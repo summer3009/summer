@@ -4143,6 +4143,7 @@ const npcData = {
             { target: "sunxiang", team: "lunhui", favorRequire: 31 },
             { target: "liuhao", team: "huxiao", favorRequire: 31 },
             { target: "luhanwen", team: "lanyu", favorRequire: 31 },
+            { target: "wenli", team: "jiashi", favorRequire: 31 },
             { target: "gaoyingjie", team: "weicao", favorRequire: 31 }
         ],
         dialogs: {
