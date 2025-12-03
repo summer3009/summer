@@ -186,7 +186,7 @@ function initSceneInteraction(scene) {
         }
     }
 
-    alert(selectedEvent.type);
+    //alert(selectedEvent.type);
 
     // 特殊规则：介绍事件额外加成（可选）
     if (possibleEvents.some(e => e.type === 'intro') && selectedEvent.type !== 'intro') {
@@ -819,7 +819,7 @@ function handleNormalEvent(data, noRecord = false) {
     } else if (favor >= 40) {
         dialogType = "mid";
     }
-    alert(dialogType + "favor=" + favor);
+    //alert(dialogType + "favor=" + favor);
     // ========== 2. 获取对话内容 ==========
     let dialogs;
     if (isEx) {
