@@ -559,6 +559,7 @@
             <h3 class="text-lg font-bold mb-3 text-gray-700">
                 <span id="npcName">遇到的人</span>
                 <span id="npcLoveBadge" class="love-badge hidden">恋人</span>
+                <span id="npcExBadge" class="ex-badge hidden">前任</span>
                 <span id="npcTeamTag" class="team-tag bg-gray-500 hidden"></span>
             </h3>
             <div id="npcInteraction" class="dialog-box">
@@ -700,6 +701,7 @@
             day: 1,
             favor: {},
             love: {},
+            ex: {}, // 新增：前任标记
             ignoreCount: {},
             unlockedScenes: ["home", "happy"],
             unlockedCharacters: ["yexiu", "chenguo"],

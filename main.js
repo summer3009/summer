@@ -255,6 +255,7 @@ function bindButtonEvents() {
         const npcId = document.getElementById('confessPanel').dataset.npcId;
         if (npcData[npcId]) {
             npcData[npcId].gameState.love = true;
+            npcData[npcId].gameState.ex = false;
             npcData[npcId].gameState.favor = 100;
             addEventRecord(`${npcData[npcId].name}向你告白，你答应了！你们成为了恋人～`);
             // 使用SweetAlert2替代alert - 调整大小
@@ -293,6 +294,7 @@ function bindButtonEvents() {
         }
     });
 
+    //告白拒绝按钮
     if (refuseConfess) refuseConfess.addEventListener('click', () => {
         const npcId = document.getElementById('confessPanel').dataset.npcId;
         if (npcData[npcId]) {
@@ -306,7 +308,7 @@ function bindButtonEvents() {
         }
     });
 
-    // 修罗场按钮
+    // ----------------修罗场按钮
     // 选择他按钮
     if (jealousyChoose1) jealousyChoose1.addEventListener('click', () => {
         const eventData = document.getElementById('jealousyPanel').dataset.event;
@@ -367,39 +369,97 @@ function bindButtonEvents() {
         }
     });
 
-    // 在 bindButtonEvents() 中修改分手按钮事件
-    if (jealousyChoose2) jealousyChoose2.addEventListener('click', () => {
-        const eventData = document.getElementById('jealousyPanel').dataset.event;
-        if (eventData) {
-            const event = JSON.parse(eventData);
-            const npc1 = event.npc1;
-            const npc2 = event.npc2;
-            // 跟当前NPC分手：当前NPC随机变化好感并取消恋人状态，另一个恋人随机变化好感
-            if (npcData[npc1]) {
-                npcData[npc1].gameState.favor += event.choice2.change;
-                // 无论如何都取消恋人状态
-                npcData[npc1].gameState.love = false;
-            }
-            if (npcData[npc2]) {
-                npcData[npc2].gameState.favor += event.choice2Effect.change;
-            }
-            // 确保好感度不低于0
-            if (npcData[npc1] && npcData[npc1].gameState.favor < 0) {
-                npcData[npc1].gameState.favor = 0;
-            }
-            if (npcData[npc2] && npcData[npc2].gameState.favor < 0) {
-                npcData[npc2].gameState.favor = 0;
-            }
-            // 动态生成事件记录
-            const npc1ChangeText = event.choice2.change > 0 ? `+${event.choice2.change}` : `${event.choice2.change}`;
-            const npc2ChangeText = event.choice2Effect.change > 0 ? `+${event.choice2Effect.change}` : `${event.choice2Effect.change}`;
-            addEventRecord(`你在修罗场中跟${npcData[npc1].name}分手，${npcData[npc1].name}好感${npc1ChangeText}，${npcData[npc2].name}好感${npc2ChangeText}。`);
-            document.getElementById('backToMap').click();
-            updateStatus();
-            updateHomePage();
-            autoSaveGame();
+    // 分手按钮事件
+  // 分手按钮事件
+if (jealousyChoose2) jealousyChoose2.addEventListener('click', () => {
+    const eventData = document.getElementById('jealousyPanel').dataset.event;
+    if (eventData) {
+        const event = JSON.parse(eventData);
+        const npc1 = event.npc1;
+        const npc2 = event.npc2;
+        const npc1Data = npcData[npc1];
+        const npc2Data = npcData[npc2];
+        
+        // 跟当前NPC分手：当前NPC随机变化好感并取消恋人状态，另一个恋人随机变化好感
+        if (npc1Data) {
+            npc1Data.gameState.favor += event.choice2.change;
+            // 无论如何都取消恋人状态
+            npc1Data.gameState.love = false;
+            npc1Data.gameState.ex = true; // 新增：标记为前任
         }
-    });
+        if (npc2Data) {
+            npc2Data.gameState.favor += event.choice2Effect.change;
+        }
+        // 确保好感度不低于0
+        if (npc1Data && npc1Data.gameState.favor < 0) {
+            npc1Data.gameState.favor = 0;
+        }
+        if (npc2Data && npc2Data.gameState.favor < 0) {
+            npc2Data.gameState.favor = 0;
+        }
+        
+        // ========== 新增：显示分手结果面板 ==========
+        // 生成分手心情文字（可以从npcData中获取或随机选择）
+        let breakupTexts = [];
+        
+        // 尝试从NPC数据中获取分手文本
+        if (npc1Data.breakupTexts && npc1Data.breakupTexts.length > 0) {
+            breakupTexts = npc1Data.breakupTexts;
+        } else {
+            // 默认分手文本
+            breakupTexts = [
+                `${npc1Data.name}眼神黯淡地看着你：「这就是你的选择吗...我明白了。」`,
+                `${npc1Data.name}苦笑着摇头：「原来我们的感情这么脆弱。」`,
+                `${npc1Data.name}沉默片刻，轻声说：「祝你幸福...」`,
+                `${npc1Data.name}强忍泪水：「我不会再打扰你们了。」`,
+                `${npc1Data.name}深吸一口气：「没想到最后会是这样...保重。」`
+            ];
+        }
+        
+        const randomBreakupText = breakupTexts[Math.floor(Math.random() * breakupTexts.length)];
+        const npc1ChangeText = event.choice2.change > 0 ? `+${event.choice2.change}` : `${event.choice2.change}`;
+        
+        // 构建结果文本
+        const resultText = `
+            ${randomBreakupText}<br><br>
+            <span style="color: #ef4444; font-weight: bold;">
+                你和${npc1Data.name}分手了，${npc1Data.name}好感度${npc1ChangeText}
+            </span>
+        `;
+        
+        // 显示结果面板
+        document.getElementById('resultText').innerHTML = resultText;
+        
+        // 修改结果面板标题
+        const resultTitle = document.querySelector('#resultPanel h3');
+        if (resultTitle) {
+            resultTitle.textContent = "分手结果";
+        }
+        
+        // 隐藏修罗场面板，显示结果面板
+        document.getElementById('jealousyPanel').classList.add('hidden');
+        document.getElementById('resultPanel').classList.remove('hidden');
+        
+        // 修改结果面板按钮的事件，使其返回地图
+        const finishInteractionBtn = document.getElementById('finishInteraction');
+        if (finishInteractionBtn) {
+            // 先移除旧的事件监听器
+            finishInteractionBtn.replaceWith(finishInteractionBtn.cloneNode(true));
+            // 重新获取按钮并绑定新事件
+            const newFinishBtn = document.getElementById('finishInteraction');
+            newFinishBtn.addEventListener('click', () => {
+                document.getElementById('backToMap').click();
+                updateStatus();
+                updateHomePage();
+                autoSaveGame();
+            });
+        }
+        
+        // 动态生成事件记录
+        const npc2ChangeText = event.choice2Effect.change > 0 ? `+${event.choice2Effect.change}` : `${event.choice2Effect.change}`;
+        addEventRecord(`你在修罗场中跟${npc1Data.name}分手，${npc1Data.name}好感${npc1ChangeText}，${npc2Data.name}好感${npc2ChangeText}。`);
+    }
+});
 
 }
 
@@ -726,69 +786,6 @@ function resetScenePanels() {
 }
 
 
-// 根据好感度和不理次数计算NPC出现权重
-function calculateNpcWeights(availableNpcs) {
-    const weights = {};
-    availableNpcs.forEach(npcId => {
-        const favor = npcData[npcId].gameState.favor;
-        const ignoreCount = npcData[npcId].gameState.ignoreCount;
-        const isLove = npcData[npcId].gameState.love;
-        let weight = 1;
-        // 增强好感度加成
-        if (favor > 0) {
-            weight += Math.sqrt(favor) * 3; // 从2提高到3
-        }
-        // 添加高好感度额外加成
-        if (favor >= 80) {
-            weight *= 3; // 80+好感度：3倍权重！
-            console.log(`高好感度 ${npcData[npcId].name}: 额外3倍权重`);
-        } else if (favor >= 60) {
-            weight *= 2; // 60-79好感度：2倍权重
-        } else if (favor >= 40) {
-            weight *= 1.5; // 40-59好感度：1.5倍权重
-        }
-
-        // 添加恋人专属大幅加成
-        if (isLove) {
-            weight *= 5; // 恋人：5倍权重！
-            console.log(`恋人 ${npcData[npcId].name}: 额外5倍权重`);
-        }
-        // 减轻忽略惩罚
-        if (ignoreCount > 0) {
-            weight *= Math.pow(0.7, ignoreCount); // 从0.5改为0.7，惩罚减轻
-        }
-
-        if (ignoreCount >= 3) {
-            weight *= 0.3; // 从0.1改为0.3
-        }
-        if (ignoreCount >= 5) {
-            weight = 0;
-        }
-        weights[npcId] = Math.max(0, weight);
-        // 调试信息
-        console.log(`权重计算 ${npcData[npcId].name}: 基础=${weight.toFixed(2)}, 好感度=${favor}, 恋人=${isLove}, 忽略=${ignoreCount}`);
-    });
-    return weights;
-}
-
-// 根据权重随机选择NPC
-function weightedRandom(availableNpcs, weights) {
-    const totalWeight = availableNpcs.reduce((sum, npcId) => sum + weights[npcId], 0);
-    if (totalWeight === 0) {
-        return availableNpcs[Math.floor(Math.random() * availableNpcs.length)];
-    }
-    let random = Math.random() * totalWeight;
-    let weightSum = 0;
-
-    for (const npcId of availableNpcs) {
-        weightSum += weights[npcId];
-        if (random <= weightSum) {
-            return npcId;
-        }
-    }
-    return availableNpcs[availableNpcs.length - 1];
-}
-
 // 检查场景解锁
 function checkSceneUnlock(teamName) {
     const team = teamConfig[teamName];
@@ -800,7 +797,6 @@ function checkSceneUnlock(teamName) {
     }
 }
 
-// 更新场景UI元素为已解锁状态
 // 更新场景UI元素为已解锁状态
 function updateSceneElement(sceneName) {
     const sceneElement = document.querySelector(`.map-item[data-scene="${sceneName}"]`);
@@ -884,7 +880,6 @@ function checkLeagueUnlock() {
 }
 
 // 更新状态栏数据
-// 更新状态栏数据
 function updateStatus() {
     document.getElementById('dayCount').textContent = gameData.day;
     const unlockedCount = gameData.unlockedScenes.length;
@@ -960,11 +955,33 @@ function updateHomePage() {
             const favorItem = document.createElement('div');
             favorItem.className = "favor-item";
             let statusText = "";
-            if (ignoreCount >= 5) {
+
+
+            let warnThreshold, disappearThreshold;
+            // 获取定制化 不理他 永远不出现 阈值
+            if (id === "yexiu" || id === "wangjiexi") {
+                warnThreshold = 4; disappearThreshold = 7;
+            }
+            else if (id === "chenguo" || id === "sumucheng") {
+                warnThreshold = 4; disappearThreshold = 10;
+            }
+            else if (id === "huangshaotian") {
+                warnThreshold = 5; disappearThreshold = 20;
+            }
+            else if (id === "hanwenqing") {
+                warnThreshold = 2; disappearThreshold = 3;
+            }
+            else {
+                warnThreshold = 3; disappearThreshold = 5;
+            }
+
+            if (ignoreCount >= disappearThreshold) {
                 statusText = '<span class="text-xs text-red-500 ml-2">(不再出现)</span>';
-            } else if (ignoreCount >= 3) {
+            } else if (ignoreCount >= warnThreshold) {
                 statusText = '<span class="text-xs text-orange-500 ml-2">(出现减少)</span>';
             }
+
+
 
             // 在 updateHomePage() 函数中找到显示人名的部分
             favorItem.innerHTML = `
@@ -978,6 +995,8 @@ function updateHomePage() {
                     ${isLocked ? '***' : npc.name}  <!-- 这里修改：未解锁显示*** -->
                 </span>
                 ${isLove ? '<span class="love-badge ml-2">恋人</span>' : ''}
+                <!-- 新增：前任标签 -->
+                ${npcData[id].gameState.ex ? '<span class="ex-badge ml-2" style="background-color: #9ca3af; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px;">前任</span>' : ''}
                 ${statusText}
                 ${isLocked ? '<span class="text-xs text-gray-400 ml-2">(未解锁)</span>' : ''}
             </div>
@@ -1025,6 +1044,7 @@ function ensureAllCharactersDefined() {
             npcData[id].gameState = {
                 favor: 0,
                 love: false,
+                ex: false, // 新增：前任标记
                 ignoreCount: 0,
                 lastConfessDay: 0,
                 lastIntimateDay: 0
@@ -1039,7 +1059,6 @@ function ensureAllCharactersDefined() {
 // 绑定地图点击事件
 // 使用一个标记来确保只绑定一次
 let isMapEventsBound = false;
-
 function bindMapEvents() {
     console.log("绑定地图事件");
 
@@ -1106,6 +1125,7 @@ function restartGame() {
                 npcData[id].gameState = {
                     favor: 0,
                     love: false,
+                    ex: false, // 新增：前任标记
                     ignoreCount: 0,
                     lastConfessDay: 0,
                     lastIntimateDay: 0
@@ -1228,28 +1248,28 @@ function triggerHearts() {
 
 
 
-  // 等待 DOM 加载完成再执行
-        document.addEventListener('DOMContentLoaded', function () {
-            // 使用事件委托监听整个文档的点击
-            document.addEventListener('click', function (e) {
-                // 检查是否点击了置顶按钮（包括内部图标）
-                const pinBtn = e.target.closest('.map-pin-btn');
-                if (!pinBtn) return;
-                // 阻止冒泡和默认行为
-                e.stopPropagation();
-                e.preventDefault();
-                // 找到当前 map-item 和列表容器
-                const item = pinBtn.closest('.map-item');
-                const listContainer = document.getElementById('mapList'); // 👈 你的列表 ID
-                if (item && listContainer) {
-                    // 移到顶部
-                    listContainer.prepend(item);
-                    // 可选：视觉反馈 —— 图标变红表示已置顶
-                    pinBtn.innerHTML = '<i class="fa fa-thumb-tack text-red-500"></i>';
-                    pinBtn.title = '已置顶';
-                }
-            });
-        });
+// 等待 DOM 加载完成再执行
+document.addEventListener('DOMContentLoaded', function () {
+    // 使用事件委托监听整个文档的点击
+    document.addEventListener('click', function (e) {
+        // 检查是否点击了置顶按钮（包括内部图标）
+        const pinBtn = e.target.closest('.map-pin-btn');
+        if (!pinBtn) return;
+        // 阻止冒泡和默认行为
+        e.stopPropagation();
+        e.preventDefault();
+        // 找到当前 map-item 和列表容器
+        const item = pinBtn.closest('.map-item');
+        const listContainer = document.getElementById('mapList'); // 👈 你的列表 ID
+        if (item && listContainer) {
+            // 移到顶部
+            listContainer.prepend(item);
+            // 可选：视觉反馈 —— 图标变红表示已置顶
+            pinBtn.innerHTML = '<i class="fa fa-thumb-tack text-red-500"></i>';
+            pinBtn.title = '已置顶';
+        }
+    });
+});
 
 
 console.log('设置功能就绪');

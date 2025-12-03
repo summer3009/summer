@@ -138,111 +138,152 @@ const npcData = {
         },
 
         // 新格式：每个问题对应专属回答
-    choicesByIndex: {
-        low: [
-            // 对应第一个问题："来了？要不要一起打一把副本？正好缺个靠谱的队友"
-            [
-                { text: "好啊，求叶神带飞！", favorChange: 6 },
-                { text: "正好我也缺队友，一起打吧", favorChange: 5 },
-                { text: "下次吧，我今天有点累", favorChange: -2 }
-            ],
-            // 对应第二个问题："看你一直在看比赛录像，对哪个职业感兴趣？"
-            [
-                { text: "想学习叶神你的散人玩法！", favorChange: 6 },
-                { text: "我在研究战斗法师的打法", favorChange: 4 },
-                { text: "只是随便看看", favorChange: -2 }
-            ],
-            // 对应第三个问题："兴欣的氛围还不错吧？以后常来"
-            [
-                { text: "特别喜欢这里的氛围！感觉很温暖", favorChange: 6 },
-                { text: "嗯，以后会经常来找你们玩", favorChange: 4 },
-                { text: "还行吧，我先走了", favorChange: -2 }
-            ]
-        ],
-        mid: [
-            // 对应第一个问题："来啦？我刚开了个副本，就等你了"
-            [
-                { text: "来啦！马上就位，一起赢", favorChange: 7 },
-                { text: "今天打什么副本？我配合你", favorChange: 6 },
-                { text: "我有点事，先不打了吧", favorChange: -3 }
-            ],
-            // 对应第二个问题："你最近技术进步很快，有潜力成为职业选手"
-            [
-                { text: "真的吗？谢谢叶神夸奖！我会继续努力的", favorChange: 7 },
-                { text: "都是跟着你学的，你教得好", favorChange: 6 },
-                { text: "过奖了，我还差得远", favorChange: -3 }
-            ],
-            // 对应第三个问题："这是我整理的战术笔记，给你参考下"
-            [
-                { text: "太宝贵了！我会认真研究的", favorChange: 7 },
-                { text: "谢谢叶神，这对我帮助太大了", favorChange: 5 },
-                { text: "不用了，我看不懂这些", favorChange: -3 }
-            ]
-        ],
-        high: [
-            // 对应第一个问题："看到你来了，这局比赛就稳了"
-            [
-                { text: "有你在才稳呢，我们一起努力", favorChange: 8 },
-                { text: "你这么说我压力好大啊", favorChange: 6 },
-                { text: "别太依赖我", favorChange: -6 }
-            ],
-            // 对应第二个问题："其实我挺享受和你一起打游戏的时光，很默契"
-            [
-                { text: "我也觉得和你特别默契，和你一起很开心", favorChange: 8 },
-                { text: "是的，和你一起打游戏总是很愉快", favorChange: 7 },
-                { text: "还好吧，只是正常配合", favorChange: -6 }
-            ],
-            // 对应第三个问题："有件事想告诉你...我好像对你有点不一样的感觉"
-            [
-                { text: "其实我也一样，我对你也有特别的感觉", favorChange: 9 },
-                { text: "......（脸红说不出话）", favorChange: 7 },
-                { text: "我们还是保持队友关系比较好", favorChange: -8 }
-            ]
-        ],
-        love: [
-            // 对应第一个问题："来啦？快过来坐我旁边"
-            [
-                { text: "好呀，来了～今天想我了吗？", favorChange: 4 },
-                { text: "看你今天心情不错，有什么好事吗？", favorChange: 3 },
-                { text: "我坐这里就好", favorChange: -12 }
-            ],
-            // 对应第二个问题："今天不打游戏，带你去一个好地方"
-            [
-                { text: "好呀，去哪都跟着你", favorChange: 4 },
-                { text: "这么神秘？我很好奇是什么地方", favorChange: 3 },
-                { text: "我想打游戏，不想出去", favorChange: -12 }
-            ],
-            // 对应第三个问题："和你在一起的每一刻都很珍贵，我会好好对你的每一个瞬间"
-            [
-                { text: "我也是，要一直在一起", favorChange: 5 },
-                { text: "听到你这么说我好开心，我会永远珍惜的", favorChange: 4 },
-                { text: "别说这些肉麻的话了", favorChange: -15 }
-            ]
-        ]
-    },
-    
-        choices: {
+        choicesByIndex: {
             low: [
-                { text: "好啊，求叶神带飞！", favorChange: 6 },
-                { text: "不了，我先看看你们操作学习下", favorChange: 4 },
-                { ignore: -2 }
+                // 对应第一个问题："来了？要不要一起打一把副本？正好缺个靠谱的队友"
+                [
+                    {
+                        text: "好啊，求叶神带飞！",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "你和叶修组队打副本，他展现神级操作带你轻松通关...",
+                            eventRecord: "和叶修一起打副本，见识了他的神级操作"
+                        }
+                    },
+                    {
+                        text: "正好我也缺队友，一起打吧",
+                        favorChange: 5,
+                        customEvent: {
+                            resultText: "叶修点点头，拍了拍旁边的座位。你们配合默契，一路过关斩将...",
+                            eventRecord: "和叶修组队打副本，展现了良好的配合"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -2,
+                        customEvent: {
+                            resultText: "你装作没听见，继续低头看手机。叶修叹了口气，转身继续打游戏...",
+                            eventRecord: "故意忽略叶修的组队邀请"
+                        }
+                    }
+                ],
+                // 对应第二个问题："看你一直在看比赛录像，对哪个职业感兴趣？"
+                [
+                    {
+                        text: "想学习叶神你的散人玩法！",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "叶修眼睛一亮：'有眼光！散人玩法确实很有趣，来，我教你几招...'",
+                            eventRecord: "向叶修请教散人玩法，学到了不少技巧"
+                        }
+                    },
+                    {
+                        text: "我在研究战斗法师的打法",
+                        favorChange: 4,
+                        customEvent: {
+                            resultText: "叶修若有所思：'战斗法师啊，我以前也玩过...'他给你分享了一些心得",
+                            eventRecord: "和叶修讨论战斗法师的打法"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -2,
+                        customEvent: {
+                            resultText: "你头也不抬地说：'随便看看'，叶修若有所思地看了你一眼，不再说话...",
+                            eventRecord: "敷衍了叶修关于职业兴趣的询问"
+                        }
+                    }
+                ],
+                // 对应第三个问题："兴欣的氛围还不错吧？以后常来"
+                [
+                    {
+                        text: "特别喜欢这里的氛围！感觉很温暖",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "叶修笑了：'是吧？这里就像家一样。以后常来，我们随时欢迎你。'",
+                            eventRecord: "表达了对兴欣氛围的喜爱"
+                        }
+                    },
+                    {
+                        text: "嗯，以后会经常来找你们玩",
+                        favorChange: 4,
+                        customEvent: {
+                            resultText: "叶修点头：'随时欢迎。这里永远有你的位置。'",
+                            eventRecord: "答应以后常来兴欣"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -2,
+                        customEvent: {
+                            resultText: "你敷衍地应了一声，转身离开。叶修看着你的背影，若有所思...",
+                            eventRecord: "冷淡回应叶修的热情邀请"
+                        }
+                    }
+                ]
             ],
             mid: [
-                { text: "来啦！马上就位，一起赢", favorChange: 7 },
-                { text: "谢谢叶神！我一定认真看", favorChange: 5 },
-                { ignore: -3 }
+                // 对应第一个问题："来啦？我刚开了个副本，就等你了"
+                [
+                    { text: "来啦！马上就位，一起赢", favorChange: 7 },
+                    { text: "今天打什么副本？我配合你", favorChange: 6 },
+                    { text: "我有点事，先不打了吧", favorChange: -3 }
+                ],
+                // 对应第二个问题："你最近技术进步很快，有潜力成为职业选手"
+                [
+                    { text: "真的吗？谢谢叶神夸奖！我会继续努力的", favorChange: 7 },
+                    { text: "都是跟着你学的，你教得好", favorChange: 6 },
+                    { text: "过奖了，我还差得远", favorChange: -3 }
+                ],
+                // 对应第三个问题："这是我整理的战术笔记，给你参考下"
+                [
+                    { text: "太宝贵了！我会认真研究的", favorChange: 7 },
+                    { text: "谢谢叶神，这对我帮助太大了", favorChange: 5 },
+                    { text: "不用了，我看不懂这些", favorChange: -3 }
+                ]
             ],
             high: [
-                { text: "我也对你有不一样的感觉", favorChange: 8 },
-                { text: "能和你默契配合我也很开心", favorChange: 6 },
-                { ignore: -6 }
+                // 对应第一个问题："看到你来了，这局比赛就稳了"
+                [
+                    { text: "有你在才稳呢，我们一起努力", favorChange: 8 },
+                    { text: "你这么说我压力好大啊", favorChange: 6 },
+                    { text: "别太依赖我", favorChange: -6 }
+                ],
+                // 对应第二个问题："其实我挺享受和你一起打游戏的时光，很默契"
+                [
+                    { text: "我也觉得和你特别默契，和你一起很开心", favorChange: 8 },
+                    { text: "是的，和你一起打游戏总是很愉快", favorChange: 7 },
+                    { text: "还好吧，只是正常配合", favorChange: -6 }
+                ],
+                // 对应第三个问题："有件事想告诉你...我好像对你有点不一样的感觉"
+                [
+                    { text: "其实我也一样，我对你也有特别的感觉", favorChange: 9 },
+                    { text: "......（脸红说不出话）", favorChange: 7 },
+                    { text: "我们还是保持队友关系比较好", favorChange: -8 }
+                ]
             ],
             love: [
-                { text: "好呀，去哪都跟着你", favorChange: 4 },
-                { text: "我也会好好对你的，亲爱的", favorChange: 2 },
-                { ignore: -12 }
+                // 对应第一个问题："来啦？快过来坐我旁边"
+                [
+                    { text: "好呀，来了～今天想我了吗？", favorChange: 4 },
+                    { text: "看你今天心情不错，有什么好事吗？", favorChange: 3 },
+                    { text: "我坐这里就好", favorChange: -12 }
+                ],
+                // 对应第二个问题："今天不打游戏，带你去一个好地方"
+                [
+                    { text: "好呀，去哪都跟着你", favorChange: 4 },
+                    { text: "这么神秘？我很好奇是什么地方", favorChange: 3 },
+                    { text: "我想打游戏，不想出去", favorChange: -12 }
+                ],
+                // 对应第三个问题："和你在一起的每一刻都很珍贵，我会好好对你的每一个瞬间"
+                [
+                    { text: "我也是，要一直在一起", favorChange: 5 },
+                    { text: "听到你这么说我好开心，我会永远珍惜的", favorChange: 4 },
+                    { text: "别说这些肉麻的话了", favorChange: -15 }
+                ]
             ]
         },
+
         confess: "打了这么多年荣耀，遇到过很多对手和队友，但只有你让我觉得特别。和你在一起的时光很安心，我想和你一直走下去，你愿意做我的恋人吗？",
         intimateEvents: [
             "叶修带你去了他以前训练的秘密基地，在这里，他教了你很多独门技巧，还悄悄牵了你的手，你脸颊微红却没有躲开。",
@@ -3493,35 +3534,343 @@ const npcData = {
             low: ["要一起练习阵鬼操作吗？", "你的鬼阵布置很巧妙", "虚空的阵鬼传承，理解了吗？"],
             mid: ["今天的鬼阵训练要一起吗？", "和你配合布阵很默契", "开始觉得，你是很可靠的搭档"],
             high: ["有你在，鬼阵配合更完美", "你是我最想并肩的阵鬼", "看到你操控鬼阵，让我很欣赏"],
-            love: ["今天不想布战阵，想布情缘", "你专注的样子，让我心跳紊乱", "想和你一起编织命运"]
-        },
-        choices: {
-            low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "虚空的阵鬼很厉害", favorChange: 4 },
-                { ignore: -2 }
-            ],
-            mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
-                { ignore: -3 }
-            ],
-            high: [
-                { text: "你也是我想并肩的人", favorChange: 8 },
-                { text: "很欣赏你的操控", favorChange: 6 },
-                { ignore: -6 }
-            ],
-            love: [
-                { text: "我们的情缘已注定", favorChange: 4 },
-                { text: "想和你编织未来", favorChange: 2 },
-                { ignore: -12 }
+            love: ["今天不想布战阵，想布情缘", "你专注的样子，让我心跳紊乱", "想和你一起编织命运"],
+            ex: [
+                "吴羽策看到你，表情有些复杂：「...好久不见。」",
+                "他微微侧身：「训练很忙，我先走了...」",
+                "吴羽策沉默片刻：「你...还好吗？」",
+                "他欲言又止，最终还是转身离开",
+                "「过得好吗？」他轻声问道"
             ]
         },
-        confess: "我追求鬼阵的完美，但最完美的是与你的相遇。你愿意让我的鬼阵，只为守护我们的缘分而存在吗？",
+
+        choicesByIndex: {
+            low: [
+                // 对应第一个问题："要一起练习阵鬼操作吗？"
+                [
+                    {
+                        text: "好啊，请指教！",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "你和吴羽策一起练习阵鬼操作，他耐心地指导你各种技巧..."
+                        }
+                    },
+                    {
+                        text: "正好我也想提升阵鬼技术",
+                        favorChange: 5,
+                        customEvent: {
+                            resultText: "吴羽策点头，你们一起进入训练场，配合默契地布下各种鬼阵..."
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -2,
+                        customEvent: {
+                            resultText: "你装作没听见，继续低头看手机。吴羽策叹了口气，转身继续训练..."
+                        }
+                    }
+                ],
+                // 对应第二个问题："你的鬼阵布置很巧妙"
+                [
+                    {
+                        text: "谢谢夸奖！都是跟你学的",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "吴羽策微微一笑：「是吗？看来我们的风格很契合。」"
+                        }
+                    },
+                    {
+                        text: "你的鬼阵才是真正的艺术",
+                        favorChange: 5,
+                        customEvent: {
+                            resultText: "吴羽策眼神认真：「每个鬼阵都有它独特的灵魂。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -2,
+                        customEvent: {
+                            resultText: "你淡淡地回应，吴羽策略显尴尬地结束了话题..."
+                        }
+                    }
+                ],
+                // 对应第三个问题："虚空的阵鬼传承，理解了吗？"
+                [
+                    {
+                        text: "正在努力理解，希望能掌握精髓",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "吴羽策认真地看着你：「虚空的传承，最重要的是心意相通。」"
+                        }
+                    },
+                    {
+                        text: "已经有些感悟了",
+                        favorChange: 4,
+                        customEvent: {
+                            resultText: "吴羽策点头：「不错，继续努力。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -2,
+                        customEvent: {
+                            resultText: "你摇摇头，吴羽策轻轻叹了口气，不再多说..."
+                        }
+                    }
+                ]
+            ],
+            mid: [
+                // 对应第一个问题："今天的鬼阵训练要一起吗？"
+                [
+                    {
+                        text: "好呀，我很期待",
+                        favorChange: 7,
+                        customEvent: {
+                            resultText: "吴羽策眼中闪过笑意，你们一起进入训练室，配合越来越默契..."
+                        }
+                    },
+                    {
+                        text: "正好想和你一起研究新阵法",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "吴羽策点头：「我刚好有个新想法想试试。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -3,
+                        customEvent: {
+                            resultText: "你表示没兴趣，吴羽策眼中闪过一丝失望..."
+                        }
+                    }
+                ],
+                // 对应第二个问题："和你配合布阵很默契"
+                [
+                    {
+                        text: "和你配合我也觉得很舒服",
+                        favorChange: 7,
+                        customEvent: {
+                            resultText: "吴羽策的嘴角微微上扬：「看来我们确实很合得来。」"
+                        }
+                    },
+                    {
+                        text: "能被你认可我很开心",
+                        favorChange: 6,
+                        customEvent: {
+                            resultText: "吴羽策认真地看着你：「你值得我的认可。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -3,
+                        customEvent: {
+                            resultText: "你冷淡地应了一声，吴羽策的表情僵了一下..."
+                        }
+                    }
+                ],
+                // 对应第三个问题："开始觉得，你是很可靠的搭档"
+                [
+                    {
+                        text: "你也是我最信赖的搭档",
+                        favorChange: 7,
+                        customEvent: {
+                            resultText: "吴羽策的表情柔和了许多：「听到你这么说，我很高兴。」"
+                        }
+                    },
+                    {
+                        text: "我会继续努力的",
+                        favorChange: 5,
+                        customEvent: {
+                            resultText: "吴羽策点头：「嗯，我相信你。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -3,
+                        customEvent: {
+                            resultText: "你没有回应，吴羽策默默转身离开..."
+                        }
+                    }
+                ]
+            ],
+            high: [
+                // 对应第一个问题："有你在，鬼阵配合更完美"
+                [
+                    {
+                        text: "有你在，鬼阵才有了灵魂",
+                        favorChange: 8,
+                        customEvent: {
+                            resultText: "吴羽策的眼神变得深邃：「你让我看到了阵鬼的另一种可能。」"
+                        }
+                    },
+                    {
+                        text: "和你配合总是最舒服的",
+                        favorChange: 7,
+                        customEvent: {
+                            resultText: "吴羽策轻声说：「我也是这么觉得。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -6,
+                        customEvent: {
+                            resultText: "你转身离开，吴羽策看着你的背影，眼神黯淡..."
+                        }
+                    }
+                ],
+                // 对应第二个问题："你是我最想并肩的阵鬼"
+                [
+                    {
+                        text: "能和你并肩是我的荣幸",
+                        favorChange: 8,
+                        customEvent: {
+                            resultText: "吴羽策握住你的手：「希望我们能一直并肩前行。」"
+                        }
+                    },
+                    {
+                        text: "我会永远站在你身边",
+                        favorChange: 7,
+                        customEvent: {
+                            resultText: "吴羽策眼中闪过温柔的光芒：「有你这句话就够了。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -6,
+                        customEvent: {
+                            resultText: "你冷冷地转身离开，吴羽策的手僵在半空中..."
+                        }
+                    }
+                ],
+                // 对应第三个问题："看到你操控鬼阵，让我很欣赏"
+                [
+                    {
+                        text: "能被你欣赏，我很开心",
+                        favorChange: 8,
+                        customEvent: {
+                            resultText: "吴羽策走近一步：「不仅仅是欣赏...」"
+                        }
+                    },
+                    {
+                        text: "你的欣赏是我最大的动力",
+                        favorChange: 7,
+                        customEvent: {
+                            resultText: "吴羽策认真地看着你：「那就让我一直欣赏下去吧。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -6,
+                        customEvent: {
+                            resultText: "你无视吴羽策的表白，他眼中闪过一丝受伤..."
+                        }
+                    }
+                ]
+            ],
+            love: [
+                // 对应第一个问题："今天不想布战阵，想布情缘"
+                [
+                    {
+                        text: "我们的情缘早已注定",
+                        favorChange: 4,
+                        customEvent: {
+                            resultText: "吴羽策轻轻抱住你：「嗯，从第一次见面就注定了。」"
+                        }
+                    },
+                    {
+                        text: "想和你一起编织未来",
+                        favorChange: 3,
+                        customEvent: {
+                            resultText: "吴羽策微笑：「好，我们一起编织属于我们的未来。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -12,
+                        customEvent: {
+                            resultText: "你冷漠地推开吴羽策，他眼中的光芒瞬间熄灭..."
+                        }
+                    }
+                ],
+                // 对应第二个问题："你专注的样子，让我心跳紊乱"
+                [
+                    {
+                        text: "你专注的样子也让我心动",
+                        favorChange: 4,
+                        customEvent: {
+                            resultText: "吴羽策轻轻牵起你的手：「那就让我们一直为彼此心动吧。」"
+                        }
+                    },
+                    {
+                        text: "听到你这么说我很开心",
+                        favorChange: 3,
+                        customEvent: {
+                            resultText: "吴羽策眼神温柔：「我希望你永远开心。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -12,
+                        customEvent: {
+                            resultText: "你头也不回地离开，吴羽策的手无力地垂下..."
+                        }
+                    }
+                ],
+                // 对应第三个问题："想和你一起编织命运"
+                [
+                    {
+                        text: "我也只想和你共度余生",
+                        favorChange: 5,
+                        customEvent: {
+                            resultText: "吴羽策紧紧抱住你：「我会用一生来爱你。」"
+                        }
+                    },
+                    {
+                        text: "我的命运早已和你相连",
+                        favorChange: 4,
+                        customEvent: {
+                            resultText: "吴羽策深情地看着你：「那就让我们的命运永远交织在一起。」"
+                        }
+                    },
+                    {
+                        text: "不理他",
+                        favorChange: -12,
+                        customEvent: {
+                            resultText: "你冰冷的话语像利刃刺入吴羽策心中，他痛苦地闭上眼睛..."
+                        }
+                    }
+                ]
+            ]
+            // 注意：这里移除了 ex 类型的 choicesByIndex
+            // 因为 ex 对话应该使用 handleNormalEvent 中的默认前任选项
+        },
+
+        // 多条普通告白
+        confess: [
+            "我追求鬼阵的完美，但最完美的是与你的相遇。你愿意让我的鬼阵，只为守护我们的缘分而存在吗？",
+            "曾经的我只关注阵鬼的极致，直到遇见你才明白，比任何阵法都重要的，是你的陪伴。愿意和我一起吗？",
+            "在虚空的传承中，我学会了无数阵法，但唯独没有学会如何表达对你的心意。你愿意做我的恋人吗？",
+            "看着你专注操控鬼阵的样子，我才发现我的目光早已无法离开你。能给我一个守护你的机会吗？"
+        ],
+
+        // 多条复合告白
+        reconcileConfess: [
+            "失去你后我才明白，再完美的鬼阵也比不上你在身边。我们...还能重新开始吗？",
+            "这些日子我一直在想，当初不该轻易放手。给我一个弥补的机会好吗？",
+            "没有你的虚空，阵鬼的光芒都黯淡了。我还爱着你，能再给我一次机会吗？",
+            "看着你熟悉的身影，我的心依然会疼。我知道错了，我们还能回到从前吗？"
+        ],
+
         intimateEvents: [
             "吴羽策在训练室用鬼阵创造了梦幻的星空效果",
             "他带你去观星台，在星空的见证下告白",
             "在鬼阵表演中，吴羽策为你展示了最浪漫的阵法艺术"
+        ],
+        breakupTexts: [
+            "吴羽策眼神黯淡：「鬼阵可以困住敌人，却困不住你的心...」",
+            "吴羽策苦笑：「看来我的鬼阵，终究无法编织出我们的缘分。」",
+            "吴羽策轻叹：「虚空的传承里，没有教会我如何挽留离开的人...」",
+            "吴羽策沉默片刻：「你的选择，我会尊重。但鬼阵会记得你...」"
         ]
     },
 
@@ -3622,7 +3971,6 @@ const npcData = {
         confess: "我习惯用符咒驱散邪魔，但最想驱散的是你的寂寞。你愿意让我的符咒，只为守护你的笑容而存在吗？",
         intimateEvents: [
             "盖才捷在训练室用符咒摆出了爱的图案",
-            "他带你去神社，在神圣的氛围中告白",
             "在驱魔训练中，盖才捷为你展示了最温柔的符咒使用"
         ]
     },
@@ -4138,7 +4486,6 @@ const npcData = {
         borderColor: "border-red-600",
         textColor: "text-white",
         introTargets: [
-            { target: "yexiu", team: "happy", favorRequire: 35 },
             { target: "sumucheng", team: "happy", favorRequire: 31 },
             { target: "sunxiang", team: "lunhui", favorRequire: 31 },
             { target: "liuhao", team: "huxiao", favorRequire: 31 },
