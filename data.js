@@ -138,157 +138,116 @@ const npcData = {
         },
 
         // 新格式：每个问题对应专属回答
-        choicesByIndex: {
+    choicesByIndex: {
+        low: [
+            // 对应第一个问题："来了？要不要一起打一把副本？正好缺个靠谱的队友"
+            [
+                { text: "好啊，求叶神带飞！", favorChange: 4 },
+                { text: "正好我也缺队友，一起打吧", favorChange: 3 },
+                { text: "下次吧，我今天有点累", favorChange: -2 }
+            ],
+            // 对应第二个问题："看你一直在看比赛录像，对哪个职业感兴趣？"
+            [
+                { text: "想学习叶神你的散人玩法！", favorChange: 4 },
+                { text: "我在研究战斗法师的打法", favorChange: 3 },
+                { text: "只是随便看看", favorChange: -2 }
+            ],
+            // 对应第三个问题："兴欣的氛围还不错吧？以后常来"
+            [
+                { text: "特别喜欢这里的氛围！感觉很温暖", favorChange: 4 },
+                { text: "嗯，以后会经常来找你们玩", favorChange: 3 },
+                { text: "还行吧，我先走了", favorChange: -2 }
+            ]
+        ],
+        mid: [
+            // 对应第一个问题："来啦？我刚开了个副本，就等你了"
+            [
+                { text: "来啦！马上就位，一起赢", favorChange: 5 },
+                { text: "今天打什么副本？我配合你", favorChange: 4 },
+                { text: "我有点事，先不打了吧", favorChange: -3 }
+            ],
+            // 对应第二个问题："你最近技术进步很快，有潜力成为职业选手"
+            [
+                { text: "真的吗？谢谢叶神夸奖！我会继续努力的", favorChange: 5 },
+                { text: "都是跟着你学的，你教得好", favorChange: 4 },
+                { text: "过奖了，我还差得远", favorChange: -3 }
+            ],
+            // 对应第三个问题："这是我整理的战术笔记，给你参考下"
+            [
+                { text: "太宝贵了！我会认真研究的", favorChange: 5 },
+                { text: "谢谢叶神，这对我帮助太大了", favorChange: 3 },
+                { text: "不用了，我看不懂这些", favorChange: -3 }
+            ]
+        ],
+        high: [
+            // 对应第一个问题："看到你来了，这局比赛就稳了"
+            [
+                { text: "有你在才稳呢，我们一起努力", favorChange: 5 },
+                { text: "你这么说我压力好大啊", favorChange: 4 },
+                { text: "别太依赖我", favorChange: -6 }
+            ],
+            // 对应第二个问题："其实我挺享受和你一起打游戏的时光，很默契"
+            [
+                { text: "我也觉得和你特别默契，和你一起很开心", favorChange: 5 },
+                { text: "是的，和你一起打游戏总是很愉快", favorChange: 5 },
+                { text: "还好吧，只是正常配合", favorChange: -6 }
+            ],
+            // 对应第三个问题："有件事想告诉你...我好像对你有点不一样的感觉"
+            [
+                { text: "其实我也一样，我对你也有特别的感觉", favorChange: 5 },
+                { text: "......（脸红说不出话）", favorChange: 5 },
+                { text: "我们还是保持队友关系比较好", favorChange: -8 }
+            ]
+        ],
+        love: [
+            // 对应第一个问题："来啦？快过来坐我旁边"
+            [
+                { text: "好呀，来了～今天想我了吗？", favorChange: 3 },
+                { text: "看你今天心情不错，有什么好事吗？", favorChange: 2 },
+                { text: "我坐这里就好", favorChange: -6 }
+            ],
+            // 对应第二个问题："今天不打游戏，带你去一个好地方"
+            [
+                { text: "好呀，去哪都跟着你", favorChange: 3 },
+                { text: "这么神秘？我很好奇是什么地方", favorChange: 2 },
+                { text: "我想打游戏，不想出去", favorChange: -6 }
+            ],
+            // 对应第三个问题："和你在一起的每一刻都很珍贵，我会好好对你的每一个瞬间"
+            [
+                { text: "我也是，要一直在一起", favorChange: 3 },
+                { text: "听到你这么说我好开心，我会永远珍惜的", favorChange: 3 },
+                { text: "别说这些肉麻的话了", favorChange: -5 }
+            ]
+        ]
+    },
+    
+        choices: {
             low: [
-                // 对应第一个问题："来了？要不要一起打一把副本？正好缺个靠谱的队友"
-                [
-                    {
-                        text: "好啊，求叶神带飞！",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "你和叶修组队打副本，他展现神级操作带你轻松通关...",
-                            eventRecord: "和叶修一起打副本，见识了他的神级操作"
-                        }
-                    },
-                    {
-                        text: "正好我也缺队友，一起打吧",
-                        favorChange: 5,
-                        customEvent: {
-                            resultText: "叶修点点头，拍了拍旁边的座位。你们配合默契，一路过关斩将...",
-                            eventRecord: "和叶修组队打副本，展现了良好的配合"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -2,
-                        customEvent: {
-                            resultText: "你装作没听见，继续低头看手机。叶修叹了口气，转身继续打游戏...",
-                            eventRecord: "故意忽略叶修的组队邀请"
-                        }
-                    }
-                ],
-                // 对应第二个问题："看你一直在看比赛录像，对哪个职业感兴趣？"
-                [
-                    {
-                        text: "想学习叶神你的散人玩法！",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "叶修眼睛一亮：'有眼光！散人玩法确实很有趣，来，我教你几招...'",
-                            eventRecord: "向叶修请教散人玩法，学到了不少技巧"
-                        }
-                    },
-                    {
-                        text: "我在研究战斗法师的打法",
-                        favorChange: 4,
-                        customEvent: {
-                            resultText: "叶修若有所思：'战斗法师啊，我以前也玩过...'他给你分享了一些心得",
-                            eventRecord: "和叶修讨论战斗法师的打法"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -2,
-                        customEvent: {
-                            resultText: "你头也不抬地说：'随便看看'，叶修若有所思地看了你一眼，不再说话...",
-                            eventRecord: "敷衍了叶修关于职业兴趣的询问"
-                        }
-                    }
-                ],
-                // 对应第三个问题："兴欣的氛围还不错吧？以后常来"
-                [
-                    {
-                        text: "特别喜欢这里的氛围！感觉很温暖",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "叶修笑了：'是吧？这里就像家一样。以后常来，我们随时欢迎你。'",
-                            eventRecord: "表达了对兴欣氛围的喜爱"
-                        }
-                    },
-                    {
-                        text: "嗯，以后会经常来找你们玩",
-                        favorChange: 4,
-                        customEvent: {
-                            resultText: "叶修点头：'随时欢迎。这里永远有你的位置。'",
-                            eventRecord: "答应以后常来兴欣"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -2,
-                        customEvent: {
-                            resultText: "你敷衍地应了一声，转身离开。叶修看着你的背影，若有所思...",
-                            eventRecord: "冷淡回应叶修的热情邀请"
-                        }
-                    }
-                ]
+                { text: "好啊，求叶神带飞！", favorChange: 4 },
+                { text: "不了，我先看看你们操作学习下", favorChange: 3 },
+                { ignore: -2 }
             ],
             mid: [
-                // 对应第一个问题："来啦？我刚开了个副本，就等你了"
-                [
-                    { text: "来啦！马上就位，一起赢", favorChange: 7 },
-                    { text: "今天打什么副本？我配合你", favorChange: 6 },
-                    { text: "我有点事，先不打了吧", favorChange: -3 }
-                ],
-                // 对应第二个问题："你最近技术进步很快，有潜力成为职业选手"
-                [
-                    { text: "真的吗？谢谢叶神夸奖！我会继续努力的", favorChange: 7 },
-                    { text: "都是跟着你学的，你教得好", favorChange: 6 },
-                    { text: "过奖了，我还差得远", favorChange: -3 }
-                ],
-                // 对应第三个问题："这是我整理的战术笔记，给你参考下"
-                [
-                    { text: "太宝贵了！我会认真研究的", favorChange: 7 },
-                    { text: "谢谢叶神，这对我帮助太大了", favorChange: 5 },
-                    { text: "不用了，我看不懂这些", favorChange: -3 }
-                ]
+                { text: "来啦！马上就位，一起赢", favorChange: 5 },
+                { text: "谢谢叶神！我一定认真看", favorChange: 3 },
+                { ignore: -3 }
             ],
             high: [
-                // 对应第一个问题："看到你来了，这局比赛就稳了"
-                [
-                    { text: "有你在才稳呢，我们一起努力", favorChange: 8 },
-                    { text: "你这么说我压力好大啊", favorChange: 6 },
-                    { text: "别太依赖我", favorChange: -6 }
-                ],
-                // 对应第二个问题："其实我挺享受和你一起打游戏的时光，很默契"
-                [
-                    { text: "我也觉得和你特别默契，和你一起很开心", favorChange: 8 },
-                    { text: "是的，和你一起打游戏总是很愉快", favorChange: 7 },
-                    { text: "还好吧，只是正常配合", favorChange: -6 }
-                ],
-                // 对应第三个问题："有件事想告诉你...我好像对你有点不一样的感觉"
-                [
-                    { text: "其实我也一样，我对你也有特别的感觉", favorChange: 9 },
-                    { text: "......（脸红说不出话）", favorChange: 7 },
-                    { text: "我们还是保持队友关系比较好", favorChange: -8 }
-                ]
+                { text: "我也对你有不一样的感觉", favorChange: 5 },
+                { text: "能和你默契配合我也很开心", favorChange: 4 },
+                { ignore: -6 }
             ],
             love: [
-                // 对应第一个问题："来啦？快过来坐我旁边"
-                [
-                    { text: "好呀，来了～今天想我了吗？", favorChange: 4 },
-                    { text: "看你今天心情不错，有什么好事吗？", favorChange: 3 },
-                    { text: "我坐这里就好", favorChange: -12 }
-                ],
-                // 对应第二个问题："今天不打游戏，带你去一个好地方"
-                [
-                    { text: "好呀，去哪都跟着你", favorChange: 4 },
-                    { text: "这么神秘？我很好奇是什么地方", favorChange: 3 },
-                    { text: "我想打游戏，不想出去", favorChange: -12 }
-                ],
-                // 对应第三个问题："和你在一起的每一刻都很珍贵，我会好好对你的每一个瞬间"
-                [
-                    { text: "我也是，要一直在一起", favorChange: 5 },
-                    { text: "听到你这么说我好开心，我会永远珍惜的", favorChange: 4 },
-                    { text: "别说这些肉麻的话了", favorChange: -15 }
-                ]
+                { text: "好呀，去哪都跟着你", favorChange: 3 },
+                { text: "我也会好好对你的，亲爱的", favorChange: 2 },
+                { ignore: -12 }
             ]
         },
-
         confess: "打了这么多年荣耀，遇到过很多对手和队友，但只有你让我觉得特别。和你在一起的时光很安心，我想和你一直走下去，你愿意做我的恋人吗？",
         intimateEvents: [
-            "叶修带你去了他以前训练的秘密基地，在这里，他教了你很多独门技巧，还悄悄牵了你的手，你脸颊微红却没有躲开。",
+            "这天晚上，叶修教了你很多独门技巧，让你欲罢不能。",
             "你们一起熬夜看荣耀全明星赛，看到精彩处，叶修忍不住吻了你额头，对你说：'有你真好'",
-            "叶修用荣耀角色给你摆了个爱心阵型，在全服喊话：'我爱你，永远和你在一起'"
+            "你和叶修度过了亲密的一夜，第二天早上上班迟到了……"
         ]
     },
 
@@ -318,22 +277,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "来杯奶茶，谢谢老板！", favorChange: 6 },
-                { text: "今天想试试新设备", favorChange: 4 },
+                { text: "来杯奶茶，谢谢老板！", favorChange: 4 },
+                { text: "今天想试试新设备", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "谢谢老板！位置真不错", favorChange: 7 },
-                { text: "叶修对我挺好的，放心", favorChange: 5 },
+                { text: "谢谢老板！位置真不错", favorChange: 5 },
+                { text: "叶修对我挺好的，放心", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "我也很期待见到你", favorChange: 8 },
-                { text: "在你身边我也很安心", favorChange: 6 },
+                { text: "我也很期待见到你", favorChange: 5 },
+                { text: "在你身边我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "谢谢亲爱的，你真好", favorChange: 4 },
+                { text: "谢谢亲爱的，你真好", favorChange: 3 },
                 { text: "遇见你也是我的幸运", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -341,7 +300,7 @@ const npcData = {
         confess: "从你第一次来网吧到现在，看着你一点点进步，我的心也一点点被你占据。我想以恋人的身份陪在你身边，你愿意给我这个机会吗？",
         intimateEvents: [
             "陈果在网吧打烊后单独为你准备了烛光晚餐，在柔和的灯光下向你表白心意",
-            "她带你去了天台看星星，在夜色中轻轻靠在你肩上说'真想永远这样'",
+            "和陈果度过亲密一夜，老板娘房间里的床比想象中好睡",
             "陈果用网吧的所有电脑屏幕拼出你的名字和爱心，在众人见证下向你示爱"
         ]
     },
@@ -365,22 +324,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "你的连招真厉害，我学习下", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "你的连招真厉害，我学习下", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "来战！我不会输的", favorChange: 7 },
-                { text: "能被你欣赏是我的荣幸", favorChange: 5 },
+                { text: "来战！我不会输的", favorChange: 5 },
+                { text: "能被你欣赏是我的荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你对我来说也很特别", favorChange: 8 },
-                { text: "我也很期待见到你", favorChange: 6 },
+                { text: "你对我来说也很特别", favorChange: 5 },
+                { text: "我也很期待见到你", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想聊什么我都陪你", favorChange: 4 },
+                { text: "想聊什么我都陪你", favorChange: 3 },
                 { text: "我也想和你创造更多回忆", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -388,7 +347,7 @@ const npcData = {
         confess: "从小到大，我追求的一直是变强。但遇见你之后，我发现心里多了一份温柔的牵挂。我想和你在一起，不只是游戏中的搭档，你愿意吗？",
         intimateEvents: [
             "唐柔在竞技场用华丽的连招打出你的名字，在全场观众的惊呼中向你告白",
-            "她带你去音乐厅，在钢琴前为你弹奏专属的曲子，音符中满含爱意",
+            "和唐柔度过亲密一夜，打法和平时一样勇猛。",
             "在荣耀全明星赛上，唐柔当着所有选手的面走向你，献上胜利的玫瑰"
         ]
     },
@@ -415,22 +374,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "互相学习，共同进步", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "互相学习，共同进步", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "你也很努力，值得肯定", favorChange: 7 },
-                { text: "有你在我也很安心", favorChange: 5 },
+                { text: "你也很努力，值得肯定", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我重要的存在", favorChange: 8 },
-                { text: "想和你一起走下去", favorChange: 6 },
+                { text: "你也是我重要的存在", favorChange: 5 },
+                { text: "想和你一起走下去", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也想叫你的名字", favorChange: 4 },
+                { text: "我也想叫你的名字", favorChange: 3 },
                 { text: "我们一起走向未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -438,7 +397,7 @@ const npcData = {
         confess: "从微草到兴欣，我一直在寻找自己的位置。直到遇见你，我才明白什么是真正的归属感。你愿意和我一起，继续这段旅程吗？",
         intimateEvents: [
             "乔一帆在训练室用阵鬼技能布下浪漫的阵法，在星光中向你表白心意",
-            "他带你去你们第一次见面的地方，重温初遇时的美好回忆",
+            "和乔一帆度过亲密一夜，完全没有平时的羞涩呢。",
             "在全明星新秀挑战赛上，乔一帆选择你作为特别嘉宾，在万众瞩目下告白"
         ]
     },
@@ -467,22 +426,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，沐橙姐带带我！", favorChange: 6 },
-                { text: "你的操作才叫帅气", favorChange: 4 },
+                { text: "好啊，沐橙姐带带我！", favorChange: 4 },
+                { text: "你的操作才叫帅气", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "我也习惯每天见到你", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "我也习惯每天见到你", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我很特别的人", favorChange: 8 },
-                { text: "你的笑容也让我很开心", favorChange: 6 },
+                { text: "你也是我很特别的人", favorChange: 5 },
+                { text: "你的笑容也让我很开心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "好啊，想去哪里？", favorChange: 4 },
+                { text: "好啊，想去哪里？", favorChange: 3 },
                 { text: "我也想了解你的一切", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -490,7 +449,7 @@ const npcData = {
         confess: "在荣耀的世界里，我见过很多精彩的瞬间。但最让我心动的，是和你在一起的每一个平凡时刻。你愿意让这些时刻变成永远吗？",
         intimateEvents: [
             "苏沐橙在游乐园的摩天轮最高处向你告白，整个城市的灯火为你们见证",
-            "她为你准备了亲手做的便当，每一个细节都充满爱意",
+            "和苏沐橙度过亲密一夜，香香的软软的",
             "在荣耀周年庆上，苏沐橙穿着婚纱式的战斗服，在漫天烟花中走向你"
         ]
     },
@@ -519,22 +478,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "求方锐大神指点！", favorChange: 6 },
-                { text: "你的打法真有意思", favorChange: 4 },
+                { text: "求方锐大神指点！", favorChange: 4 },
+                { text: "你的打法真有意思", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "来配合！我准备好了", favorChange: 7 },
-                { text: "有你在我也很开心", favorChange: 5 },
+                { text: "来配合！我准备好了", favorChange: 5 },
+                { text: "有你在我也很开心", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "和你在一起我也很快乐", favorChange: 8 },
-                { text: "想一直和你配合下去", favorChange: 6 },
+                { text: "和你在一起我也很快乐", favorChange: 5 },
+                { text: "想一直和你配合下去", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "今天想看你正经的样子", favorChange: 4 },
+                { text: "今天想看你正经的样子", favorChange: 3 },
                 { text: "我也想和你创造回忆", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -542,7 +501,7 @@ const npcData = {
         confess: "我这个人平时没个正经，但在感情这件事上，我是认真的。你愿意接受这个有时候猥琐，但永远真心对你的我吗？",
         intimateEvents: [
             "方锐在训练室用最正经的态度向你表白，难得一见的认真模样让你心动",
-            "他带你去游乐园，在过山车最高点大声喊出'我爱你'",
+            "你和方锐度过亲密一夜，两个人都觉得很不错……",
             "在兴欣的庆功宴上，方锐当着所有人的面表演魔术，最后变出戒指向你求婚"
         ]
     },
@@ -562,37 +521,37 @@ const npcData = {
             { target: "huangshaotian", team: "lanyu", favorRequire: 25 }
         ],
         dialogs: {
-            low: ["小伙子/姑娘，要不要学两招老将的经验？", "看你骨骼清奇，是块打荣耀的料", "兴欣这地方，待着还习惯吗？"],
+            low: ["啧啧，要不要学两招老将的经验？", "看你骨骼清奇，是块打荣耀的料", "兴欣这地方，待着还习惯吗？"],
             mid: ["来，教你点真本事", "你这孩子，悟性不错", "开始觉得，教你挺有成就感的"],
             high: ["看到你进步，我这老家伙很欣慰", "不知不觉中，把你当成了重要的后辈", "你让我想起了年轻时的自己"],
             love: ["今天不教技术，想和你聊聊天", "看到你认真的样子，让我很心动", "想在你身边，看着你成长"]
         },
         choices: {
             low: [
-                { text: "请魏琛前辈指教！", favorChange: 6 },
-                { text: "兴欣很好，很温暖", favorChange: 4 },
+                { text: "请魏琛前辈指教！", favorChange: 4 },
+                { text: "兴欣很好，很温暖", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "谢谢前辈！我会努力", favorChange: 7 },
-                { text: "能被前辈认可太好了", favorChange: 5 },
+                { text: "谢谢前辈！我会努力", favorChange: 5 },
+                { text: "能被前辈认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "前辈对我也很重要", favorChange: 8 },
-                { text: "想一直跟着前辈学习", favorChange: 6 },
+                { text: "前辈对我也很重要", favorChange: 5 },
+                { text: "想一直跟着前辈学习", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也想和前辈聊天", favorChange: 4 },
+                { text: "我也想和前辈聊天", favorChange: 3 },
                 { text: "希望前辈一直在我身边", favorChange: 2 },
                 { ignore: -12 }
             ]
         },
         confess: "我这个人，年纪不小了，经历的事情也多。但在你面前，我感觉自己又变回了那个热血青年。你愿意给这个老家伙一个机会吗？",
         intimateEvents: [
-            "魏琛带你去他年轻时常去的老地方，在夕阳下讲述往事并表白心意",
-            "他在训练室用最古老的荣耀版本向你展示当年的风采，在怀旧中告白",
+            "和魏琛度过亲密一夜……老男人真香",
+            "魏琛在训练室用最古老的荣耀版本向你展示当年的风采，在怀旧中告白",
             "在兴欣的屋顶，魏琛为你放烟花，在绚烂中说出深藏心底的爱意"
         ]
     },
@@ -609,29 +568,29 @@ const npcData = {
             { target: "mofan", team: "happy", favorRequire: 25 }
         ],
         dialogs: {
-            low: ["兄弟/姐妹！来打本啊！", "你的操作很犀利嘛，不错不错", "兴欣这边超好玩的！"],
+            low: ["喂！来打本啊！", "你的操作很犀利嘛，不错不错", "兴欣这边超好玩的！"],
             mid: ["今天运气真好，一上线就遇到你", "和你组队总是很顺利", "开始觉得，你是我的幸运星"],
             high: ["有你在，打什么本都不怕", "你是我最重要的队友", "看到你上线，我就特别开心"],
             love: ["今天不打本，想和你去逛逛", "你的每一个表情，我都觉得超可爱", "想和你分享所有的快乐"]
         },
         choices: {
             low: [
-                { text: "好啊包子！一起上！", favorChange: 6 },
-                { text: "兴欣确实很好玩", favorChange: 4 },
+                { text: "好啊包子！一起上！", favorChange: 4 },
+                { text: "兴欣确实很好玩", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "你也是我的幸运星", favorChange: 7 },
-                { text: "和你组队我也很开心", favorChange: 5 },
+                { text: "你也是我的幸运星", favorChange: 5 },
+                { text: "和你组队我也很开心", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我重要的队友", favorChange: 8 },
-                { text: "看到你我也很开心", favorChange: 6 },
+                { text: "你也是我重要的队友", favorChange: 5 },
+                { text: "看到你我也很开心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "好啊，想去哪里逛？", favorChange: 4 },
+                { text: "好啊，想去哪里逛？", favorChange: 3 },
                 { text: "你也很可爱", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -639,7 +598,7 @@ const npcData = {
         confess: "我这个人比较简单，喜欢就是喜欢。我喜欢你，超喜欢！你愿意和我这个直来直去的人在一起吗？",
         intimateEvents: [
             "包荣兴在副本里用怪物摆出爱心形状，在队友们的起哄中向你告白",
-            "他带你去游戏里的风景点，在最美的夕阳下说出心里话",
+            "和包子度过亲密的一夜……发现他体力好到吓人。",
             "在兴欣的聚餐上，包子站起来大声宣布喜欢你，让所有人都为你祝福"
         ]
     },
@@ -662,30 +621,30 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "谢谢治疗！", favorChange: 6 },
-                { text: "兴欣的战术很灵活", favorChange: 4 },
+                { text: "谢谢治疗！", favorChange: 4 },
+                { text: "兴欣的战术很灵活", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很安心", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很安心", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我最佳搭档", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我最佳搭档", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想让你看到真实的我", favorChange: 4 },
+                { text: "想让你看到真实的我", favorChange: 3 },
                 { text: "我的心意数据是100%", favorChange: 2 },
-                { ignore: -12 }
+                { ignore: -8 }
             ]
         },
         confess: "我习惯用数据说话，但感情这件事无法用数字衡量。你是我生命中最大的变量，也是最美的意外。愿意和我一起计算未来吗？",
         intimateEvents: [
             "安文逸在训练室用数据图表展示你们的心跳同步率，用最理性的方式表达最感性的爱意",
-            "他带你去观星，用天文数据为你讲解星座，在星空下告白",
+            "和安文逸度过亲密一夜，那个，大学生……成年了吧？",
             "在兴欣的庆功宴上，安文逸放下平板电脑，第一次凭感觉说出'我爱你'"
         ]
     },
@@ -706,22 +665,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起研究！", favorChange: 6 },
-                { text: "正在努力适应中", favorChange: 4 },
+                { text: "好啊，一起研究！", favorChange: 4 },
+                { text: "正在努力适应中", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "你的模型很厉害", favorChange: 7 },
-                { text: "和你在一起我也很放松", favorChange: 5 },
+                { text: "你的模型很厉害", favorChange: 5 },
+                { text: "和你在一起我也很放松", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我的最优解", favorChange: 8 },
-                { text: "你让我的世界更精彩", favorChange: 6 },
+                { text: "你也是我的最优解", favorChange: 5 },
+                { text: "你让我的世界更精彩", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的未来是无限大", favorChange: 4 },
+                { text: "我们的未来是无限大", favorChange: 3 },
                 { text: "你是我唯一的解", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -729,7 +688,7 @@ const npcData = {
         confess: "我习惯用公式和定理理解世界，但爱情是无法计算的奇迹。你是我生命中最美的定理，愿意和我一起证明永恒吗？",
         intimateEvents: [
             "罗辑在黑板上写满数学公式，最后推导出'我爱你'的结论",
-            "他带你去天文馆，用星体运动规律比喻你们的缘分",
+            "和罗辑度过亲密一夜，没想到他各个方面的知识都很丰富。",
             "在兴欣的训练室，罗辑用代码编写了专属你们的爱情程序"
         ]
     },
@@ -750,22 +709,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊！", favorChange: 6 },
-                { text: "嗯！", favorChange: 4 },
+                { text: "好啊！", favorChange: 4 },
+                { text: "嗯！", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "你也很重要", favorChange: 7 },
-                { text: "和你一起我也开心", favorChange: 5 },
+                { text: "你也很重要", favorChange: 5 },
+                { text: "和你一起我也开心", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也很特别", favorChange: 8 },
-                { text: "想一直在一起", favorChange: 6 },
+                { text: "你也很特别", favorChange: 5 },
+                { text: "想一直在一起", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也喜欢你", favorChange: 4 },
+                { text: "我也喜欢你", favorChange: 3 },
                 { text: "永远在一起", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -773,7 +732,7 @@ const npcData = {
         confess: "...我...话少...但...真心...你...愿意...接受...这样的...我吗？",
         intimateEvents: [
             "莫凡在深夜的训练室为你表演了他最拿手的操作，用行动代替千言万语",
-            "他带你去了他最喜欢的安静角落，在沉默中紧紧握住你的手",
+            "和莫凡度过亲密一夜，只干不说真家伙。",
             "在兴欣的天台，莫凡用烟花在夜空中画出爱心，这是他最浪漫的表达"
         ]
     },
@@ -802,22 +761,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "谢谢队长指导！", favorChange: 6 },
-                { text: "蓝雨的氛围很棒", favorChange: 4 },
+                { text: "谢谢队长指导！", favorChange: 4 },
+                { text: "蓝雨的氛围很棒", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "队长有什么建议？", favorChange: 7 },
-                { text: "能被队长认可太好了", favorChange: 5 },
+                { text: "队长有什么建议？", favorChange: 5 },
+                { text: "能被队长认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我重要的存在", favorChange: 8 },
-                { text: "和你一起让我进步很多", favorChange: 6 },
+                { text: "你也是我重要的存在", favorChange: 5 },
+                { text: "和你一起让我进步很多", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也只想和你在一起", favorChange: 4 },
+                { text: "我也只想和你在一起", favorChange: 3 },
                 { text: "想和你创造更多回忆", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -851,22 +810,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，剑圣大大带带我！", favorChange: 6 },
-                { text: "正好饿了，去食堂吧", favorChange: 4 },
+                { text: "好啊，剑圣大大带带我！", favorChange: 4 },
+                { text: "正好饿了，去食堂吧", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "来练习！我准备好了", favorChange: 7 },
-                { text: "被你认可我很开心", favorChange: 5 },
+                { text: "来练习！我准备好了", favorChange: 5 },
+                { text: "被你认可我很开心", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你对我来说也很特别", favorChange: 8 },
-                { text: "我喜欢听你说话", favorChange: 6 },
+                { text: "你对我来说也很特别", favorChange: 5 },
+                { text: "我喜欢听你说话", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也喜欢静静看着你", favorChange: 4 },
+                { text: "我也喜欢静静看着你", favorChange: 3 },
                 { text: "想听你所有的故事", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -902,22 +861,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊小卢！一起练习！", favorChange: 6 },
-                { text: "蓝雨的训练确实有趣", favorChange: 4 },
+                { text: "好啊小卢！一起练习！", favorChange: 4 },
+                { text: "蓝雨的训练确实有趣", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你一起我也很開心", favorChange: 7 },
-                { text: "你也是很优秀的后辈", favorChange: 5 },
+                { text: "和你一起我也很開心", favorChange: 5 },
+                { text: "你也是很优秀的后辈", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我重要的后辈", favorChange: 8 },
-                { text: "看到你我也很有干劲", favorChange: 6 },
+                { text: "你也是我重要的后辈", favorChange: 5 },
+                { text: "看到你我也很有干劲", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也想叫你的名字", favorChange: 4 },
+                { text: "我也想叫你的名字", favorChange: 3 },
                 { text: "我们一起加油变强", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -951,22 +910,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起训练！", favorChange: 6 },
-                { text: "正在慢慢适应", favorChange: 4 },
+                { text: "好啊，一起训练！", favorChange: 4 },
+                { text: "正在慢慢适应", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很安心", favorChange: 7 },
-                { text: "有你在我也很放松", favorChange: 5 },
+                { text: "和你配合我也很安心", favorChange: 5 },
+                { text: "有你在我也很放松", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "和你在一起我也没压力", favorChange: 8 },
-                { text: "看到你我也很开心", favorChange: 6 },
+                { text: "和你在一起我也没压力", favorChange: 5 },
+                { text: "看到你我也很开心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也想和你待着", favorChange: 4 },
+                { text: "我也想和你待着", favorChange: 3 },
                 { text: "我们一起面对压力", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -999,22 +958,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "谢谢治疗！", favorChange: 6 },
-                { text: "蓝雨的治疗很专业", favorChange: 4 },
+                { text: "谢谢治疗！", favorChange: 4 },
+                { text: "蓝雨的治疗很专业", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合治疗我也很安心", favorChange: 7 },
-                { text: "能省治疗是我的荣幸", favorChange: 5 },
+                { text: "和你配合治疗我也很安心", favorChange: 5 },
+                { text: "能省治疗是我的荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我重要的治疗", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我重要的治疗", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的未来是100%", favorChange: 4 },
+                { text: "我们的未来是100%", favorChange: 3 },
                 { text: "我也想守护你", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1043,22 +1002,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应轮换体系", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应轮换体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我放心的搭档", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我放心的搭档", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你一直是我的主角", favorChange: 4 },
+                { text: "你一直是我的主角", favorChange: 3 },
                 { text: "想和你一起闪耀", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1087,22 +1046,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "蓝雨的召唤体系很厉害", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "蓝雨的召唤体系很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很流畅", favorChange: 7 },
-                { text: "能被你认可很荣幸", favorChange: 5 },
+                { text: "和你配合我也很流畅", favorChange: 5 },
+                { text: "能被你认可很荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我特别关注的人", favorChange: 8 },
-                { text: "很欣赏你的操作", favorChange: 6 },
+                { text: "你也是我特别关注的人", favorChange: 5 },
+                { text: "很欣赏你的操作", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心已经被你召唤", favorChange: 4 },
+                { text: "我的心已经被你召唤", favorChange: 3 },
                 { text: "想和你创造未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1140,22 +1099,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "请王队指导！", favorChange: 6 },
-                { text: "正在努力适应中", favorChange: 4 },
+                { text: "请王队指导！", favorChange: 4 },
+                { text: "正在努力适应中", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "谢谢王队！我会努力", favorChange: 7 },
-                { text: "能被王队认可太好了", favorChange: 5 },
+                { text: "谢谢王队！我会努力", favorChange: 5 },
+                { text: "能被王队认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我重要的导师", favorChange: 8 },
-                { text: "想和你一起让微草更强", favorChange: 6 },
+                { text: "你也是我重要的导师", favorChange: 5 },
+                { text: "想和你一起让微草更强", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也想和你单独相处", favorChange: 4 },
+                { text: "我也想和你单独相处", favorChange: 3 },
                 { text: "想了解你眼中的世界", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1193,22 +1152,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊英杰！一起练习！", favorChange: 6 },
-                { text: "微草的训练很有挑战", favorChange: 4 },
+                { text: "好啊英杰！一起练习！", favorChange: 4 },
+                { text: "微草的训练很有挑战", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "你也很优秀，要自信", favorChange: 7 },
-                { text: "有你在我也很安心", favorChange: 5 },
+                { text: "你也很优秀，要自信", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我信任的人", favorChange: 8 },
-                { text: "看到你我也很开心", favorChange: 6 },
+                { text: "你也是我信任的人", favorChange: 5 },
+                { text: "看到你我也很开心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也想叫你的名字", favorChange: 4 },
+                { text: "我也想叫你的名字", favorChange: 3 },
                 { text: "我们一起飞翔", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1242,22 +1201,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "正在适应防守体系", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "正在适应防守体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很安心", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很安心", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我放心的搭档", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我放心的搭档", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心需要你守护", favorChange: 4 },
+                { text: "我的心需要你守护", favorChange: 3 },
                 { text: "想和你守护未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1294,22 +1253,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，来比比看！", favorChange: 6 },
-                { text: "微草的快攻很犀利", favorChange: 4 },
+                { text: "好啊，来比比看！", favorChange: 4 },
+                { text: "微草的快攻很犀利", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你比试我也很享受", favorChange: 7 },
-                { text: "你也是我尊敬的对手", favorChange: 5 },
+                { text: "和你比试我也很享受", favorChange: 5 },
+                { text: "你也是我尊敬的对手", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想超越的人", favorChange: 8 },
-                { text: "看到你努力我也要加油", favorChange: 6 },
+                { text: "你也是我想超越的人", favorChange: 5 },
+                { text: "看到你努力我也要加油", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心早就为你加速", favorChange: 4 },
+                { text: "我的心早就为你加速", favorChange: 3 },
                 { text: "我们的未来会很快乐", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1343,22 +1302,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "谢谢治疗！", favorChange: 6 },
-                { text: "正在适应治疗节奏", favorChange: 4 },
+                { text: "谢谢治疗！", favorChange: 4 },
+                { text: "正在适应治疗节奏", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能省心是我的荣幸", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能省心是我的荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我放心的治疗", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我放心的治疗", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的缘分是100%", favorChange: 4 },
+                { text: "我们的缘分是100%", favorChange: 3 },
                 { text: "我也想守护你", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1387,22 +1346,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "微草的强攻很厉害", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "微草的强攻很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很痛快", favorChange: 7 },
-                { text: "你也是我欣赏的搭档", favorChange: 5 },
+                { text: "和你配合我也很痛快", favorChange: 5 },
+                { text: "你也是我欣赏的搭档", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想并肩的人", favorChange: 8 },
-                { text: "很欣赏你的勇气", favorChange: 6 },
+                { text: "你也是我想并肩的人", favorChange: 5 },
+                { text: "很欣赏你的勇气", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心已被你攻占", favorChange: 4 },
+                { text: "我的心已被你攻占", favorChange: 3 },
                 { text: "想和你温柔相待", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1440,22 +1399,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应远程支援", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应远程支援", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想掩护的人", favorChange: 8 },
-                { text: "很佩服你的精准", favorChange: 6 },
+                { text: "你也是我想掩护的人", favorChange: 5 },
+                { text: "很佩服你的精准", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心早已被你射中", favorChange: 4 },
+                { text: "我的心早已被你射中", favorChange: 3 },
                 { text: "想和你瞄准未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1490,22 +1449,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "微草的阵法很精妙", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "微草的阵法很精妙", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有灵感", favorChange: 7 },
-                { text: "能被你认可很荣幸", favorChange: 5 },
+                { text: "和你讨论我也很有灵感", favorChange: 5 },
+                { text: "能被你认可很荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想合作的人", favorChange: 8 },
-                { text: "很欣赏你的智慧", favorChange: 6 },
+                { text: "你也是我想合作的人", favorChange: 5 },
+                { text: "很欣赏你的智慧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我早已陷入你的情网", favorChange: 4 },
+                { text: "我早已陷入你的情网", favorChange: 3 },
                 { text: "想和你布置未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1542,22 +1501,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊！", favorChange: 6 },
-                { text: "轮回很强", favorChange: 4 },
+                { text: "好啊！", favorChange: 4 },
+                { text: "轮回很强", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "你也很棒", favorChange: 7 },
-                { text: "习惯有你在", favorChange: 5 },
+                { text: "你也很棒", favorChange: 5 },
+                { text: "习惯有你在", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也很特别", favorChange: 8 },
-                { text: "看到你开心", favorChange: 6 },
+                { text: "你也很特别", favorChange: 5 },
+                { text: "看到你开心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也喜欢你", favorChange: 4 },
+                { text: "我也喜欢你", favorChange: 3 },
                 { text: "永远在一起", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1565,7 +1524,7 @@ const npcData = {
         confess: "...我...话少...但...真心...你...愿意...接受...这样的...我吗？",
         intimateEvents: [
             "周泽楷在比赛现场用枪体术打出爱的轨迹，在万众瞩目下无声告白",
-            "他带你去轮回的冠军陈列室，在奖杯的见证下紧握你的手",
+            "和周泽楷度过亲密一夜，枪王不愧是枪王",
             "在广告拍摄现场，周泽楷打破沉默，用最简单的话说出最深的爱意"
         ]
     },
@@ -1592,22 +1551,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "轮回的团队很棒", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "轮回的团队很棒", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你沟通我也很顺畅", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你沟通我也很顺畅", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想沟通的人", favorChange: 8 },
-                { text: "很欣赏你的能力", favorChange: 6 },
+                { text: "你也是我想沟通的人", favorChange: 5 },
+                { text: "很欣赏你的能力", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心向你敞开", favorChange: 4 },
+                { text: "我的心向你敞开", favorChange: 3 },
                 { text: "想和你规划未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1646,22 +1605,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "轮回确实很强", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "轮回确实很强", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "能被你认可很荣幸", favorChange: 7 },
-                { text: "你也是我尊敬的对手", favorChange: 5 },
+                { text: "能被你认可很荣幸", favorChange: 5 },
+                { text: "你也是我尊敬的对手", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想超越的人", favorChange: 8 },
-                { text: "看到你努力我也要加油", favorChange: 6 },
+                { text: "你也是我想超越的人", favorChange: 5 },
+                { text: "看到你努力我也要加油", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我也想和你聊聊", favorChange: 4 },
+                { text: "我也想和你聊聊", favorChange: 3 },
                 { text: "想和你一起变强", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1669,7 +1628,7 @@ const npcData = {
         confess: "我追求力量，想要成为最强。但在你面前，我发现最强不如最真。你愿意接受这个还在成长的我吗？",
         intimateEvents: [
             "孙翔在训练室用一叶之秋打出最华丽的连招，在技能光效中告白",
-            "他带你去轮回的冠军墙前，在奖杯的见证下说出心里话",
+            "和孙翔度过亲密一夜，没想到他看起来小，其实很大",
             "在个人挑战赛中，孙翔为你献上了专属的胜利表演"
         ]
     },
@@ -1695,22 +1654,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "正在适应格斗体系", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "正在适应格斗体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的身手", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的身手", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你温柔相拥", favorChange: 4 },
+                { text: "想和你温柔相拥", favorChange: 3 },
                 { text: "我们的未来很美好", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1739,22 +1698,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "轮回的剑客很厉害", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "轮回的剑客很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你比剑我也很开心", favorChange: 7 },
-                { text: "你也是我尊敬的剑友", favorChange: 5 },
+                { text: "和你比剑我也很开心", favorChange: 5 },
+                { text: "你也是我尊敬的剑友", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想切磋的人", favorChange: 8 },
-                { text: "你的剑姿也很美", favorChange: 6 },
+                { text: "你也是我想切磋的人", favorChange: 5 },
+                { text: "你的剑姿也很美", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心早已属于你", favorChange: 4 },
+                { text: "我的心早已属于你", favorChange: 3 },
                 { text: "想和你共舞人生", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1783,22 +1742,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "请多指教！", favorChange: 6 },
-                { text: "正在适应治疗体系", favorChange: 4 },
+                { text: "请多指教！", favorChange: 4 },
+                { text: "正在适应治疗体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有收获", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有收获", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我放心的搭档", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我放心的搭档", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你谈情说爱", favorChange: 4 },
+                { text: "想和你谈情说爱", favorChange: 3 },
                 { text: "你治愈了我的心", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1806,7 +1765,7 @@ const npcData = {
         confess: "我习惯用治疗术拯救生命，但最想拯救的是你的心。你愿意让我用一生的时间，治愈你的所有伤痛吗？",
         intimateEvents: [
             "方明华在医疗室用专业的知识为你讲解爱情的心跳原理",
-            "他带你去医院的天台，在星空下承诺永远守护你",
+            "方明华他带你去医院的天台，在星空下承诺永远守护你",
             "在治疗训练中，方明华为你展示了最温柔的治疗方式"
         ]
     },
@@ -1827,22 +1786,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "轮回的暗杀很厉害", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "轮回的暗杀很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "你也是我信任的伙伴", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "你也是我信任的伙伴", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很佩服你的技巧", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很佩服你的技巧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我想光明正大爱你", favorChange: 4 },
+                { text: "我想光明正大爱你", favorChange: 3 },
                 { text: "和你一起走向光明", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1878,22 +1837,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "是，韩队！", favorChange: 6 },
-                { text: "正在适应霸图风格", favorChange: 4 },
+                { text: "是，韩队！", favorChange: 4 },
+                { text: "正在适应霸图风格", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "谢谢韩队认可", favorChange: 7 },
-                { text: "我会继续努力", favorChange: 5 },
+                { text: "谢谢韩队认可", favorChange: 5 },
+                { text: "我会继续努力", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "韩队也是我尊敬的人", favorChange: 8 },
-                { text: "想向韩队学习", favorChange: 6 },
+                { text: "韩队也是我尊敬的人", favorChange: 5 },
+                { text: "想向韩队学习", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和韩队在一起", favorChange: 4 },
+                { text: "想和韩队在一起", favorChange: 3 },
                 { text: "愿意一直坚守", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1935,22 +1894,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "请副队指导！", favorChange: 6 },
-                { text: "正在理解战术体系", favorChange: 4 },
+                { text: "请副队指导！", favorChange: 4 },
+                { text: "正在理解战术体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有收获", favorChange: 7 },
-                { text: "能被副队认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有收获", favorChange: 5 },
+                { text: "能被副队认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "副队也是我信任的人", favorChange: 8 },
-                { text: "很欣赏副队的严谨", favorChange: 6 },
+                { text: "副队也是我信任的人", favorChange: 5 },
+                { text: "很欣赏副队的严谨", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的永恒是无限", favorChange: 4 },
+                { text: "我们的永恒是无限", favorChange: 3 },
                 { text: "想和你规划人生", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -1993,22 +1952,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "想看百花式打法！", favorChange: 6 },
-                { text: "霸图氛围很热血", favorChange: 4 },
+                { text: "想看百花式打法！", favorChange: 4 },
+                { text: "霸图氛围很热血", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很开心", favorChange: 7 },
-                { text: "你也是很特别的人", favorChange: 5 },
+                { text: "和你配合我也很开心", favorChange: 5 },
+                { text: "你也是很特别的人", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想珍惜的人", favorChange: 8 },
-                { text: "想和你实现梦想", favorChange: 6 },
+                { text: "你也是我想珍惜的人", favorChange: 5 },
+                { text: "想和你实现梦想", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想听你的故事", favorChange: 4 },
+                { text: "想听你的故事", favorChange: 3 },
                 { text: "我们一起创造未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2045,22 +2004,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "正在适应新的环境", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "正在适应新的环境", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有收获", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有收获", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我放心的搭档", favorChange: 8 },
-                { text: "想向你学习经验", favorChange: 6 },
+                { text: "你也是我放心的搭档", favorChange: 5 },
+                { text: "想向你学习经验", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你分享心事", favorChange: 4 },
+                { text: "想和你分享心事", favorChange: 3 },
                 { text: "愿意陪你到老", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2095,22 +2054,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "霸图的法术很强", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "霸图的法术很强", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的法术", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的法术", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你已对我施展魅力", favorChange: 4 },
+                { text: "你已对我施展魅力", favorChange: 3 },
                 { text: "想和你创造魔法", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2144,23 +2103,23 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "一起练习基本功吧", favorChange: 6 },
-                { text: "韩队对你很严格吧", favorChange: 5 },
+                { text: "一起练习基本功吧", favorChange: 4 },
+                { text: "韩队对你很严格吧", favorChange: 3 },
                 { ignore: -3 }
             ],
             mid: [
-                { text: "你已经做得很好了", favorChange: 7 },
-                { text: "压力大的时候可以找我", favorChange: 6 },
+                { text: "你已经做得很好了", favorChange: 5 },
+                { text: "压力大的时候可以找我", favorChange: 4 },
                 { ignore: -5 }
             ],
             high: [
-                { text: "在我面前做你自己就好", favorChange: 8 },
-                { text: "你不仅是接班人，也是宋奇英", favorChange: 7 },
+                { text: "在我面前做你自己就好", favorChange: 5 },
+                { text: "你不仅是接班人，也是宋奇英", favorChange: 5 },
                 { ignore: -8 }
             ],
             love: [
-                { text: "我早就想拥抱你了", favorChange: 5 },
-                { text: "你的不确定是我最确定的选择", favorChange: 4 },
+                { text: "我早就想拥抱你了", favorChange: 3 },
+                { text: "你的不确定是我最确定的选择", favorChange: 3 },
                 { ignore: -15 }
             ]
         },
@@ -2194,22 +2153,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应远程支援", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应远程支援", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很精准", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很精准", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想掩护的人", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我想掩护的人", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心已被你射中", favorChange: 4 },
+                { text: "我的心已被你射中", favorChange: 3 },
                 { text: "想和你命中未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2254,22 +2213,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起看剧！", favorChange: 6 },
-                { text: "烟雨的雨天很浪漫", favorChange: 4 },
+                { text: "好啊，一起看剧！", favorChange: 4 },
+                { text: "烟雨的雨天很浪漫", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很开心", favorChange: 7 },
-                { text: "你也是很特别的人", favorChange: 5 },
+                { text: "和你讨论我也很开心", favorChange: 5 },
+                { text: "你也是很特别的人", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想分享的人", favorChange: 8 },
-                { text: "看到你我也很开心", favorChange: 6 },
+                { text: "你也是我想分享的人", favorChange: 5 },
+                { text: "看到你我也很开心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你一起去玩", favorChange: 4 },
+                { text: "想和你一起去玩", favorChange: 3 },
                 { text: "想陪你看风景", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2305,22 +2264,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "正在适应忍者体系", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "正在适应忍者体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的身法", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的身法", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你光明正大相爱", favorChange: 4 },
+                { text: "想和你光明正大相爱", favorChange: 3 },
                 { text: "愿意一起守护", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2358,22 +2317,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "双子星的配合很厉害", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "双子星的配合很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你搭档我也很开心", favorChange: 7 },
-                { text: "你也是很特别的伙伴", favorChange: 5 },
+                { text: "和你搭档我也很开心", favorChange: 5 },
+                { text: "你也是很特别的伙伴", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "看到你我也很开心", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "看到你我也很开心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你单独相处", favorChange: 4 },
+                { text: "想和你单独相处", favorChange: 3 },
                 { text: "想和你创造历史", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2411,22 +2370,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应双子星节奏", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应双子星节奏", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "你也是重要的存在", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "你也是重要的存在", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想同步的人", favorChange: 8 },
-                { text: "心跳为你加速", favorChange: 6 },
+                { text: "你也是我想同步的人", favorChange: 5 },
+                { text: "心跳为你加速", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的心跳已同步", favorChange: 4 },
+                { text: "我们的心跳已同步", favorChange: 3 },
                 { text: "想永远在一起", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2469,22 +2428,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "请肖队指导！", favorChange: 6 },
-                { text: "正在理解机械体系", favorChange: 4 },
+                { text: "请肖队指导！", favorChange: 4 },
+                { text: "正在理解机械体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有灵感", favorChange: 7 },
-                { text: "能被肖队认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有灵感", favorChange: 5 },
+                { text: "能被肖队认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "肖队也是我想合作的人", favorChange: 8 },
-                { text: "很欣赏肖队的智慧", favorChange: 6 },
+                { text: "肖队也是我想合作的人", favorChange: 5 },
+                { text: "很欣赏肖队的智慧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心向你敞开", favorChange: 4 },
+                { text: "我的心向你敞开", favorChange: 3 },
                 { text: "想和你创造未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2524,22 +2483,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "雷霆的体系很独特", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "雷霆的体系很独特", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有灵感", favorChange: 7 },
-                { text: "你也是很有创意的人", favorChange: 5 },
+                { text: "和你讨论我也很有灵感", favorChange: 5 },
+                { text: "你也是很有创意的人", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想研究的人", favorChange: 8 },
-                { text: "你的法术也很美", favorChange: 6 },
+                { text: "你也是我想研究的人", favorChange: 5 },
+                { text: "你的法术也很美", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你一起去玩", favorChange: 4 },
+                { text: "想和你一起去玩", favorChange: 3 },
                 { text: "我们的爱情就是魔法", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2572,22 +2531,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应刺客体系", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应刺客体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "你也是我信任的伙伴", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "你也是我信任的伙伴", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很佩服你的技巧", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很佩服你的技巧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我想光明正大爱你", favorChange: 4 },
+                { text: "我想光明正大爱你", favorChange: 3 },
                 { text: "和你一起走向光明", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2619,22 +2578,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "雷霆的防守很扎实", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "雷霆的防守很扎实", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很安心", favorChange: 7 },
-                { text: "能被你依靠很荣幸", favorChange: 5 },
+                { text: "和你配合我也很安心", favorChange: 5 },
+                { text: "能被你依靠很荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想依靠的人", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我想依靠的人", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心需要你守护", favorChange: 4 },
+                { text: "我的心需要你守护", favorChange: 3 },
                 { text: "想互相守护一生", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2678,22 +2637,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "呼啸的风格很强势", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "呼啸的风格很强势", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "能被你认可很荣幸", favorChange: 7 },
-                { text: "你也是我尊敬的对手", favorChange: 5 },
+                { text: "能被你认可很荣幸", favorChange: 5 },
+                { text: "你也是我尊敬的对手", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想超越的人", favorChange: 8 },
-                { text: "看到你努力我也要加油", favorChange: 6 },
+                { text: "你也是我想超越的人", favorChange: 5 },
+                { text: "看到你努力我也要加油", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你好好聊聊", favorChange: 4 },
+                { text: "想和你好好聊聊", favorChange: 3 },
                 { text: "想和你一起变强", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2730,22 +2689,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在理解呼啸战术", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在理解呼啸战术", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有收获", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有收获", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想合作的人", favorChange: 8 },
-                { text: "很欣赏你的智慧", favorChange: 6 },
+                { text: "你也是我想合作的人", favorChange: 5 },
+                { text: "很欣赏你的智慧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你谈情说爱", favorChange: 4 },
+                { text: "想和你谈情说爱", favorChange: 3 },
                 { text: "我们的未来很美好", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2782,22 +2741,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应元素体系", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应元素体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很流畅", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很流畅", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的天赋", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的天赋", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你已对我施展魅力", favorChange: 4 },
+                { text: "你已对我施展魅力", favorChange: 3 },
                 { text: "想和你创造奇迹", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2832,22 +2791,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "呼啸的治疗很专业", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "呼啸的治疗很专业", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我放心的搭档", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我放心的搭档", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的缘分是100%", favorChange: 4 },
+                { text: "我们的缘分是100%", favorChange: 3 },
                 { text: "你治愈了我的心", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2882,22 +2841,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应气功体系", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应气功体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很协调", favorChange: 7 },
-                { text: "你也是很和谐的人", favorChange: 5 },
+                { text: "和你配合我也很协调", favorChange: 5 },
+                { text: "你也是很和谐的人", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想调和的人", favorChange: 8 },
-                { text: "和你在一起很平静", favorChange: 6 },
+                { text: "你也是我想调和的人", favorChange: 5 },
+                { text: "和你在一起很平静", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你练习爱情", favorChange: 4 },
+                { text: "想和你练习爱情", favorChange: 3 },
                 { text: "我们的人生很和谐", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2937,22 +2896,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "百花的狂剑很厉害", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "百花的狂剑很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很痛快", favorChange: 7 },
-                { text: "你也是我欣赏的搭档", favorChange: 5 },
+                { text: "和你配合我也很痛快", favorChange: 5 },
+                { text: "你也是我欣赏的搭档", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想并肩的人", favorChange: 8 },
-                { text: "很欣赏你的勇猛", favorChange: 6 },
+                { text: "你也是我想并肩的人", favorChange: 5 },
+                { text: "很欣赏你的勇猛", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你温柔相待", favorChange: 4 },
+                { text: "想和你温柔相待", favorChange: 3 },
                 { text: "我们的未来很美好", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -2987,22 +2946,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "百花的传承很美丽", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "百花的传承很美丽", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很开心", favorChange: 7 },
-                { text: "你也是很特别的人", favorChange: 5 },
+                { text: "和你配合我也很开心", favorChange: 5 },
+                { text: "你也是很特别的人", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想绽放的人", favorChange: 8 },
-                { text: "想和你创造新传承", favorChange: 6 },
+                { text: "你也是我想绽放的人", favorChange: 5 },
+                { text: "想和你创造新传承", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你一起赏花", favorChange: 4 },
+                { text: "想和你一起赏花", favorChange: 3 },
                 { text: "我们的人生会绽放", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3037,22 +2996,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "百花的召唤很独特", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "百花的召唤很独特", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的指挥", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的指挥", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心已被你召唤", favorChange: 4 },
+                { text: "我的心已被你召唤", favorChange: 3 },
                 { text: "想和你召唤幸福", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3087,22 +3046,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应刺客体系", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应刺客体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "你也是我信任的伙伴", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "你也是我信任的伙伴", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很佩服你的技巧", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很佩服你的技巧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我想光明正大爱你", favorChange: 4 },
+                { text: "我想光明正大爱你", favorChange: 3 },
                 { text: "和你一起走向光明", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3137,22 +3096,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "百花的元素很强大", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "百花的元素很强大", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很流畅", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很流畅", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的稳定", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的稳定", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你已对我施展魅力", favorChange: 4 },
+                { text: "你已对我施展魅力", favorChange: 3 },
                 { text: "想和你创造奇迹", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3187,22 +3146,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "百花的治疗很专业", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "百花的治疗很专业", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我放心的搭档", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我放心的搭档", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的缘分是100%", favorChange: 4 },
+                { text: "我们的缘分是100%", favorChange: 3 },
                 { text: "你治愈了我的心", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3239,22 +3198,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "请杨队指导！", favorChange: 6 },
-                { text: "三零一的刺客很厉害", favorChange: 4 },
+                { text: "请杨队指导！", favorChange: 4 },
+                { text: "三零一的刺客很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有收获", favorChange: 7 },
-                { text: "能被杨队认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有收获", favorChange: 5 },
+                { text: "能被杨队认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "杨队也是我尊敬的人", favorChange: 8 },
-                { text: "想向杨队学习", favorChange: 6 },
+                { text: "杨队也是我尊敬的人", favorChange: 5 },
+                { text: "想向杨队学习", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和杨队谈感情", favorChange: 4 },
+                { text: "想和杨队谈感情", favorChange: 3 },
                 { text: "愿意一起守护", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3288,22 +3247,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "三零一的防守很扎实", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "三零一的防守很扎实", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很安心", favorChange: 7 },
-                { text: "能被你依靠很荣幸", favorChange: 5 },
+                { text: "和你配合我也很安心", favorChange: 5 },
+                { text: "能被你依靠很荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想依靠的人", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我想依靠的人", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心需要你守护", favorChange: 4 },
+                { text: "我的心需要你守护", favorChange: 3 },
                 { text: "想互相守护一生", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3336,22 +3295,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应远程支援", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应远程支援", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想掩护的人", favorChange: 8 },
-                { text: "很欣赏你的精准", favorChange: 6 },
+                { text: "你也是我想掩护的人", favorChange: 5 },
+                { text: "很欣赏你的精准", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心已被你射中", favorChange: 4 },
+                { text: "我的心已被你射中", favorChange: 3 },
                 { text: "想和你命中未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3384,22 +3343,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "三零一的元素很强大", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "三零一的元素很强大", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很流畅", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很流畅", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的稳定", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的稳定", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你已对我施展魅力", favorChange: 4 },
+                { text: "你已对我施展魅力", favorChange: 3 },
                 { text: "想和你创造奇迹", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3428,22 +3387,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请多指教！", favorChange: 6 },
-                { text: "正在适应格斗体系", favorChange: 4 },
+                { text: "好啊，请多指教！", favorChange: 4 },
+                { text: "正在适应格斗体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的身手", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的身手", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你温柔相拥", favorChange: 4 },
+                { text: "想和你温柔相拥", favorChange: 3 },
                 { text: "我们的未来很美好", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3488,22 +3447,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "请李队指导！", favorChange: 6 },
-                { text: "虚空的鬼剑士很独特", favorChange: 4 },
+                { text: "请李队指导！", favorChange: 4 },
+                { text: "虚空的鬼剑士很独特", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有灵感", favorChange: 7 },
-                { text: "能被李队认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有灵感", favorChange: 5 },
+                { text: "能被李队认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "李队也是我想合作的人", favorChange: 8 },
-                { text: "很欣赏李队的智慧", favorChange: 6 },
+                { text: "李队也是我想合作的人", favorChange: 5 },
+                { text: "很欣赏李队的智慧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我早已陷入你的情网", favorChange: 4 },
+                { text: "我早已陷入你的情网", favorChange: 3 },
                 { text: "想和你布置未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3534,343 +3493,35 @@ const npcData = {
             low: ["要一起练习阵鬼操作吗？", "你的鬼阵布置很巧妙", "虚空的阵鬼传承，理解了吗？"],
             mid: ["今天的鬼阵训练要一起吗？", "和你配合布阵很默契", "开始觉得，你是很可靠的搭档"],
             high: ["有你在，鬼阵配合更完美", "你是我最想并肩的阵鬼", "看到你操控鬼阵，让我很欣赏"],
-            love: ["今天不想布战阵，想布情缘", "你专注的样子，让我心跳紊乱", "想和你一起编织命运"],
-            ex: [
-                "吴羽策看到你，表情有些复杂：「...好久不见。」",
-                "他微微侧身：「训练很忙，我先走了...」",
-                "吴羽策沉默片刻：「你...还好吗？」",
-                "他欲言又止，最终还是转身离开",
-                "「过得好吗？」他轻声问道"
-            ]
+            love: ["今天不想布战阵，想布情缘", "你专注的样子，让我心跳紊乱", "想和你一起编织命运"]
         },
-
-        choicesByIndex: {
+        choices: {
             low: [
-                // 对应第一个问题："要一起练习阵鬼操作吗？"
-                [
-                    {
-                        text: "好啊，请指教！",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "你和吴羽策一起练习阵鬼操作，他耐心地指导你各种技巧..."
-                        }
-                    },
-                    {
-                        text: "正好我也想提升阵鬼技术",
-                        favorChange: 5,
-                        customEvent: {
-                            resultText: "吴羽策点头，你们一起进入训练场，配合默契地布下各种鬼阵..."
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -2,
-                        customEvent: {
-                            resultText: "你装作没听见，继续低头看手机。吴羽策叹了口气，转身继续训练..."
-                        }
-                    }
-                ],
-                // 对应第二个问题："你的鬼阵布置很巧妙"
-                [
-                    {
-                        text: "谢谢夸奖！都是跟你学的",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "吴羽策微微一笑：「是吗？看来我们的风格很契合。」"
-                        }
-                    },
-                    {
-                        text: "你的鬼阵才是真正的艺术",
-                        favorChange: 5,
-                        customEvent: {
-                            resultText: "吴羽策眼神认真：「每个鬼阵都有它独特的灵魂。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -2,
-                        customEvent: {
-                            resultText: "你淡淡地回应，吴羽策略显尴尬地结束了话题..."
-                        }
-                    }
-                ],
-                // 对应第三个问题："虚空的阵鬼传承，理解了吗？"
-                [
-                    {
-                        text: "正在努力理解，希望能掌握精髓",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "吴羽策认真地看着你：「虚空的传承，最重要的是心意相通。」"
-                        }
-                    },
-                    {
-                        text: "已经有些感悟了",
-                        favorChange: 4,
-                        customEvent: {
-                            resultText: "吴羽策点头：「不错，继续努力。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -2,
-                        customEvent: {
-                            resultText: "你摇摇头，吴羽策轻轻叹了口气，不再多说..."
-                        }
-                    }
-                ]
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "虚空的阵鬼很厉害", favorChange: 3 },
+                { ignore: -2 }
             ],
             mid: [
-                // 对应第一个问题："今天的鬼阵训练要一起吗？"
-                [
-                    {
-                        text: "好呀，我很期待",
-                        favorChange: 7,
-                        customEvent: {
-                            resultText: "吴羽策眼中闪过笑意，你们一起进入训练室，配合越来越默契..."
-                        }
-                    },
-                    {
-                        text: "正好想和你一起研究新阵法",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "吴羽策点头：「我刚好有个新想法想试试。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -3,
-                        customEvent: {
-                            resultText: "你表示没兴趣，吴羽策眼中闪过一丝失望..."
-                        }
-                    }
-                ],
-                // 对应第二个问题："和你配合布阵很默契"
-                [
-                    {
-                        text: "和你配合我也觉得很舒服",
-                        favorChange: 7,
-                        customEvent: {
-                            resultText: "吴羽策的嘴角微微上扬：「看来我们确实很合得来。」"
-                        }
-                    },
-                    {
-                        text: "能被你认可我很开心",
-                        favorChange: 6,
-                        customEvent: {
-                            resultText: "吴羽策认真地看着你：「你值得我的认可。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -3,
-                        customEvent: {
-                            resultText: "你冷淡地应了一声，吴羽策的表情僵了一下..."
-                        }
-                    }
-                ],
-                // 对应第三个问题："开始觉得，你是很可靠的搭档"
-                [
-                    {
-                        text: "你也是我最信赖的搭档",
-                        favorChange: 7,
-                        customEvent: {
-                            resultText: "吴羽策的表情柔和了许多：「听到你这么说，我很高兴。」"
-                        }
-                    },
-                    {
-                        text: "我会继续努力的",
-                        favorChange: 5,
-                        customEvent: {
-                            resultText: "吴羽策点头：「嗯，我相信你。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -3,
-                        customEvent: {
-                            resultText: "你没有回应，吴羽策默默转身离开..."
-                        }
-                    }
-                ]
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
+                { ignore: -3 }
             ],
             high: [
-                // 对应第一个问题："有你在，鬼阵配合更完美"
-                [
-                    {
-                        text: "有你在，鬼阵才有了灵魂",
-                        favorChange: 8,
-                        customEvent: {
-                            resultText: "吴羽策的眼神变得深邃：「你让我看到了阵鬼的另一种可能。」"
-                        }
-                    },
-                    {
-                        text: "和你配合总是最舒服的",
-                        favorChange: 7,
-                        customEvent: {
-                            resultText: "吴羽策轻声说：「我也是这么觉得。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -6,
-                        customEvent: {
-                            resultText: "你转身离开，吴羽策看着你的背影，眼神黯淡..."
-                        }
-                    }
-                ],
-                // 对应第二个问题："你是我最想并肩的阵鬼"
-                [
-                    {
-                        text: "能和你并肩是我的荣幸",
-                        favorChange: 8,
-                        customEvent: {
-                            resultText: "吴羽策握住你的手：「希望我们能一直并肩前行。」"
-                        }
-                    },
-                    {
-                        text: "我会永远站在你身边",
-                        favorChange: 7,
-                        customEvent: {
-                            resultText: "吴羽策眼中闪过温柔的光芒：「有你这句话就够了。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -6,
-                        customEvent: {
-                            resultText: "你冷冷地转身离开，吴羽策的手僵在半空中..."
-                        }
-                    }
-                ],
-                // 对应第三个问题："看到你操控鬼阵，让我很欣赏"
-                [
-                    {
-                        text: "能被你欣赏，我很开心",
-                        favorChange: 8,
-                        customEvent: {
-                            resultText: "吴羽策走近一步：「不仅仅是欣赏...」"
-                        }
-                    },
-                    {
-                        text: "你的欣赏是我最大的动力",
-                        favorChange: 7,
-                        customEvent: {
-                            resultText: "吴羽策认真地看着你：「那就让我一直欣赏下去吧。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -6,
-                        customEvent: {
-                            resultText: "你无视吴羽策的表白，他眼中闪过一丝受伤..."
-                        }
-                    }
-                ]
+                { text: "你也是我想并肩的人", favorChange: 5 },
+                { text: "很欣赏你的操控", favorChange: 4 },
+                { ignore: -6 }
             ],
             love: [
-                // 对应第一个问题："今天不想布战阵，想布情缘"
-                [
-                    {
-                        text: "我们的情缘早已注定",
-                        favorChange: 4,
-                        customEvent: {
-                            resultText: "吴羽策轻轻抱住你：「嗯，从第一次见面就注定了。」"
-                        }
-                    },
-                    {
-                        text: "想和你一起编织未来",
-                        favorChange: 3,
-                        customEvent: {
-                            resultText: "吴羽策微笑：「好，我们一起编织属于我们的未来。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -12,
-                        customEvent: {
-                            resultText: "你冷漠地推开吴羽策，他眼中的光芒瞬间熄灭..."
-                        }
-                    }
-                ],
-                // 对应第二个问题："你专注的样子，让我心跳紊乱"
-                [
-                    {
-                        text: "你专注的样子也让我心动",
-                        favorChange: 4,
-                        customEvent: {
-                            resultText: "吴羽策轻轻牵起你的手：「那就让我们一直为彼此心动吧。」"
-                        }
-                    },
-                    {
-                        text: "听到你这么说我很开心",
-                        favorChange: 3,
-                        customEvent: {
-                            resultText: "吴羽策眼神温柔：「我希望你永远开心。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -12,
-                        customEvent: {
-                            resultText: "你头也不回地离开，吴羽策的手无力地垂下..."
-                        }
-                    }
-                ],
-                // 对应第三个问题："想和你一起编织命运"
-                [
-                    {
-                        text: "我也只想和你共度余生",
-                        favorChange: 5,
-                        customEvent: {
-                            resultText: "吴羽策紧紧抱住你：「我会用一生来爱你。」"
-                        }
-                    },
-                    {
-                        text: "我的命运早已和你相连",
-                        favorChange: 4,
-                        customEvent: {
-                            resultText: "吴羽策深情地看着你：「那就让我们的命运永远交织在一起。」"
-                        }
-                    },
-                    {
-                        text: "不理他",
-                        favorChange: -12,
-                        customEvent: {
-                            resultText: "你冰冷的话语像利刃刺入吴羽策心中，他痛苦地闭上眼睛..."
-                        }
-                    }
-                ]
+                { text: "我们的情缘已注定", favorChange: 3 },
+                { text: "想和你编织未来", favorChange: 2 },
+                { ignore: -12 }
             ]
-            // 注意：这里移除了 ex 类型的 choicesByIndex
-            // 因为 ex 对话应该使用 handleNormalEvent 中的默认前任选项
         },
-
-        // 多条普通告白
-        confess: [
-            "我追求鬼阵的完美，但最完美的是与你的相遇。你愿意让我的鬼阵，只为守护我们的缘分而存在吗？",
-            "曾经的我只关注阵鬼的极致，直到遇见你才明白，比任何阵法都重要的，是你的陪伴。愿意和我一起吗？",
-            "在虚空的传承中，我学会了无数阵法，但唯独没有学会如何表达对你的心意。你愿意做我的恋人吗？",
-            "看着你专注操控鬼阵的样子，我才发现我的目光早已无法离开你。能给我一个守护你的机会吗？"
-        ],
-
-        // 多条复合告白
-        reconcileConfess: [
-            "失去你后我才明白，再完美的鬼阵也比不上你在身边。我们...还能重新开始吗？",
-            "这些日子我一直在想，当初不该轻易放手。给我一个弥补的机会好吗？",
-            "没有你的虚空，阵鬼的光芒都黯淡了。我还爱着你，能再给我一次机会吗？",
-            "看着你熟悉的身影，我的心依然会疼。我知道错了，我们还能回到从前吗？"
-        ],
-
+        confess: "我追求鬼阵的完美，但最完美的是与你的相遇。你愿意让我的鬼阵，只为守护我们的缘分而存在吗？",
         intimateEvents: [
             "吴羽策在训练室用鬼阵创造了梦幻的星空效果",
             "他带你去观星台，在星空的见证下告白",
             "在鬼阵表演中，吴羽策为你展示了最浪漫的阵法艺术"
-        ],
-        breakupTexts: [
-            "吴羽策眼神黯淡：「鬼阵可以困住敌人，却困不住你的心...」",
-            "吴羽策苦笑：「看来我的鬼阵，终究无法编织出我们的缘分。」",
-            "吴羽策轻叹：「虚空的传承里，没有教会我如何挽留离开的人...」",
-            "吴羽策沉默片刻：「你的选择，我会尊重。但鬼阵会记得你...」"
         ]
     },
 
@@ -3896,22 +3547,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应刺客体系", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应刺客体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "你也是我信任的伙伴", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "你也是我信任的伙伴", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很佩服你的技巧", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很佩服你的技巧", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我想光明正大爱你", favorChange: 4 },
+                { text: "我想光明正大爱你", favorChange: 3 },
                 { text: "和你一起走向光明", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3948,22 +3599,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "虚空的驱魔很独特", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "虚空的驱魔很独特", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的天赋", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的天赋", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你已驱散我的孤独", favorChange: 4 },
+                { text: "你已驱散我的孤独", favorChange: 3 },
                 { text: "想和你驱散阴霾", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -3971,6 +3622,7 @@ const npcData = {
         confess: "我习惯用符咒驱散邪魔，但最想驱散的是你的寂寞。你愿意让我的符咒，只为守护你的笑容而存在吗？",
         intimateEvents: [
             "盖才捷在训练室用符咒摆出了爱的图案",
+            "他带你去神社，在神圣的氛围中告白",
             "在驱魔训练中，盖才捷为你展示了最温柔的符咒使用"
         ]
     },
@@ -3997,22 +3649,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "虚空的守护很专业", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "虚空的守护很专业", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很安心", favorChange: 7 },
-                { text: "能被你守护很荣幸", favorChange: 5 },
+                { text: "和你配合我也很安心", favorChange: 5 },
+                { text: "能被你守护很荣幸", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想守护的人", favorChange: 8 },
-                { text: "有你在我也很安心", favorChange: 6 },
+                { text: "你也是我想守护的人", favorChange: 5 },
+                { text: "有你在我也很安心", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心需要你守护", favorChange: 4 },
+                { text: "我的心需要你守护", favorChange: 3 },
                 { text: "想互相守护一生", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4047,22 +3699,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "虚空的弹药很厉害", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "虚空的弹药很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的熟练", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的熟练", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心已被你射中", favorChange: 4 },
+                { text: "我的心已被你射中", favorChange: 3 },
                 { text: "想和你引爆幸福", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4102,22 +3754,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "请田队指导！", favorChange: 6 },
-                { text: "皇风的驱魔很厉害", favorChange: 4 },
+                { text: "请田队指导！", favorChange: 4 },
+                { text: "皇风的驱魔很厉害", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有收获", favorChange: 7 },
-                { text: "能被田队认可太好了", favorChange: 5 },
+                { text: "和你讨论我也很有收获", favorChange: 5 },
+                { text: "能被田队认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "田队也是我尊敬的人", favorChange: 8 },
-                { text: "想向田队学习", favorChange: 6 },
+                { text: "田队也是我尊敬的人", favorChange: 5 },
+                { text: "想向田队学习", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和田队谈感情", favorChange: 4 },
+                { text: "想和田队谈感情", favorChange: 3 },
                 { text: "愿意一起守护", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4150,22 +3802,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "皇风的元素很强大", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "皇风的元素很强大", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很流畅", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很流畅", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的稳定", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的稳定", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你已对我施展魅力", favorChange: 4 },
+                { text: "你已对我施展魅力", favorChange: 3 },
                 { text: "想和你创造奇迹", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4197,22 +3849,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应远程支援", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应远程支援", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { target: "你也是我想掩护的人", favorChange: 8 },
-                { text: "很欣赏你的精准", favorChange: 6 },
+                { target: "你也是我想掩护的人", favorChange: 5 },
+                { text: "很欣赏你的精准", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心已被你射中", favorChange: 4 },
+                { text: "我的心已被你射中", favorChange: 3 },
                 { text: "想和你命中未来", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4247,22 +3899,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "义斩的氛围很棒", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "义斩的氛围很棒", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你讨论我也很有收获", favorChange: 7 },
-                { text: "你也是重要的伙伴", favorChange: 5 },
+                { text: "和你讨论我也很有收获", favorChange: 5 },
+                { text: "你也是重要的伙伴", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想合作的人", favorChange: 8 },
-                { text: "很感动你的付出", favorChange: 6 },
+                { text: "你也是我想合作的人", favorChange: 5 },
+                { text: "很感动你的付出", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你谈我们的事", favorChange: 4 },
+                { text: "想和你谈我们的事", favorChange: 3 },
                 { text: "想和你共创辉煌", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4297,22 +3949,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，请指教！", favorChange: 6 },
-                { text: "义斩很温暖", favorChange: 4 },
+                { text: "好啊，请指教！", favorChange: 4 },
+                { text: "义斩很温暖", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "能被你认可很荣幸", favorChange: 7 },
-                { text: "你也是我尊敬的对手", favorChange: 5 },
+                { text: "能被你认可很荣幸", favorChange: 5 },
+                { text: "你也是我尊敬的对手", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想切磋的人", favorChange: 8 },
-                { text: "想向你学习经验", favorChange: 6 },
+                { text: "你也是我想切磋的人", favorChange: 5 },
+                { text: "想向你学习经验", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和你好好聊聊", favorChange: 4 },
+                { text: "想和你好好聊聊", favorChange: 3 },
                 { text: "想和你重拾荣耀", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4346,22 +3998,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "义斩的元素很有特色", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "义斩的元素很有特色", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很开心", favorChange: 7 },
-                { text: "你也是很有趣的人", favorChange: 5 },
+                { text: "和你配合我也很开心", favorChange: 5 },
+                { text: "你也是很有趣的人", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想研究的人", favorChange: 8 },
-                { text: "很欣赏你的创新", favorChange: 6 },
+                { text: "你也是我想研究的人", favorChange: 5 },
+                { text: "很欣赏你的创新", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我的心向你敞开", favorChange: 4 },
+                { text: "我的心向你敞开", favorChange: 3 },
                 { text: "想和你创造奇迹", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4395,22 +4047,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "正在适应刺客体系", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "正在适应刺客体系", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很默契", favorChange: 7 },
-                { text: "你也是我信任的伙伴", favorChange: 5 },
+                { text: "和你配合我也很默契", favorChange: 5 },
+                { text: "你也是我信任的伙伴", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的优雅", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的优雅", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我想光明正大爱你", favorChange: 4 },
+                { text: "我想光明正大爱你", favorChange: 3 },
                 { text: "想和你创造艺术", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4449,22 +4101,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "义斩的治疗很专业", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "义斩的治疗很专业", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很舒服", favorChange: 7 },
-                { text: "你也是很温暖的人", favorChange: 5 },
+                { text: "和你配合我也很舒服", favorChange: 5 },
+                { text: "你也是很温暖的人", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想治愈的人", favorChange: 8 },
-                { text: "很心动你的温柔", favorChange: 6 },
+                { text: "你也是我想治愈的人", favorChange: 5 },
+                { text: "很心动你的温柔", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "我们的幸福是100%", favorChange: 4 },
+                { text: "我们的幸福是100%", favorChange: 3 },
                 { text: "你温暖了我的心", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4486,11 +4138,11 @@ const npcData = {
         borderColor: "border-red-600",
         textColor: "text-white",
         introTargets: [
+            { target: "yexiu", team: "happy", favorRequire: 35 },
             { target: "sumucheng", team: "happy", favorRequire: 31 },
             { target: "sunxiang", team: "lunhui", favorRequire: 31 },
             { target: "liuhao", team: "huxiao", favorRequire: 31 },
             { target: "luhanwen", team: "lanyu", favorRequire: 31 },
-            { target: "wenli", team: "jiashi", favorRequire: 31 },
             { target: "gaoyingjie", team: "weicao", favorRequire: 31 }
         ],
         dialogs: {
@@ -4501,22 +4153,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "新嘉世很有潜力", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "新嘉世很有潜力", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "谢谢前辈指导", favorChange: 7 },
-                { text: "想向前辈学习", favorChange: 5 },
+                { text: "谢谢前辈指导", favorChange: 5 },
+                { text: "想向前辈学习", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "前辈对我也很重要", favorChange: 8 },
-                { text: "想和前辈一起努力", favorChange: 6 },
+                { text: "前辈对我也很重要", favorChange: 5 },
+                { text: "想和前辈一起努力", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "想和前辈谈心", favorChange: 4 },
+                { text: "想和前辈谈心", favorChange: 3 },
                 { text: "愿意一起重振嘉世", favorChange: 2 },
                 { ignore: -12 }
             ]
@@ -4545,22 +4197,22 @@ const npcData = {
         },
         choices: {
             low: [
-                { text: "好啊，一起练习！", favorChange: 6 },
-                { text: "嘉世的元素很有特色", favorChange: 4 },
+                { text: "好啊，一起练习！", favorChange: 4 },
+                { text: "嘉世的元素很有特色", favorChange: 3 },
                 { ignore: -2 }
             ],
             mid: [
-                { text: "和你配合我也很流畅", favorChange: 7 },
-                { text: "能被你认可太好了", favorChange: 5 },
+                { text: "和你配合我也很流畅", favorChange: 5 },
+                { text: "能被你认可太好了", favorChange: 3 },
                 { ignore: -3 }
             ],
             high: [
-                { text: "你也是我想搭档的人", favorChange: 8 },
-                { text: "很欣赏你的法术", favorChange: 6 },
+                { text: "你也是我想搭档的人", favorChange: 5 },
+                { text: "很欣赏你的法术", favorChange: 4 },
                 { ignore: -6 }
             ],
             love: [
-                { text: "你已对我施展魅力", favorChange: 4 },
+                { text: "你已对我施展魅力", favorChange: 3 },
                 { text: "想和你创造奇迹", favorChange: 2 },
                 { ignore: -12 }
             ]

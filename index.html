@@ -42,7 +42,14 @@
             <button id="restartGame" class="w-3/4 btn-secondary py-4 text-lg font-bold" onclick="restartGame();">
                 <i class="fa fa-refresh mr-2"></i>重启游戏
             </button>
+            <!-- 新增图标菜单样式的连连看按钮 -->
+            <button id="linkLinkGame" class="w-3/4 btn-secondary py-4 text-lg font-bold"
+                onclick="window.location.href='llk.html'">
+                <i class="fa fa-gamepad"></i>
+                <span>连连看</span>
+            </button>
         </div>
+
 
         <div class="text-center text-xs text-gray-500 mt-12">
             <p>多多战队 | 多多选手 | 多多益善</p>
@@ -572,6 +579,25 @@
             </div>
         </div>
 
+
+        <!-- 邀约面板 -->
+        <div class="card mb-6 hidden" id="invitationPanel"
+            style="background-color: #fff8f1; border: 1px solid #fed7aa;">
+            <h3 class="text-lg font-bold mb-3" style="color: #ea580c;">活动邀约</h3>
+            <div class="dialog-box" style="background-color: #fffbeb; border: 1px solid #fbbf24;">
+                <p id="invitationText"></p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-3">
+                <button class="btn-primary py-2 text-sm" id="invitationChoose1"
+                    style="background-color: #f97316 !important; color: white; border-color: #ea580c;">接受邀约</button>
+                <button class="btn-secondary py-2 text-sm" id="invitationChoose2"
+                    style="background-color: #fef3c7 !important; color: #d97706; border-color: #fbbf24;">接受邀约</button>
+                <button class="btn-gray py-2 text-sm" id="invitationChoose3"
+                    style="background-color: #f3f4f6; color: #6b7280; border-color: #d1d5db;">自己参加</button>
+            </div>
+        </div>
+
+
         <!-- 告白面板 -->
         <div class="card mb-6 hidden" id="confessPanel"
             style="background-color: #fff0f5 !important; border: 2px solid #ff9ec2; border-radius: 12px; position: relative; overflow: hidden;">
@@ -625,6 +651,7 @@
     </div>
 
     <!-- 家页面 -->
+    <!-- 家页面 -->
     <div id="homePage" class="container mx-auto px-3 py-5 max-w-md hidden">
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center">
@@ -633,39 +660,95 @@
                 </button>
                 <h2 class="text-xl font-bold text-gray-700 ml-4">我的家</h2>
             </div>
-
         </div>
 
-        <div class="card mb-6">
-            <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
-                <i class="fa fa-heart text-pink-500 mr-2"></i> 好感度列表
-            </h3>
+        <!-- 横向页签导航 - 新增 -->
+        <div class="flex border-b border-gray-200 mb-4">
+            <button class="home-tab active" onclick="showTab('favor')">
+                <i class="fa fa-heart text-pink-500 mr-2"></i>好感度列表
+            </button>
+            <button class="home-tab" onclick="showTab('event')">
+                <i class="fa fa-history text-gray-500 mr-2"></i>历史事件记录
+            </button>
+        </div>
 
-            <!-- 竖排页签布局 -->
-            <div class="tabs-wrapper">
-                <!-- 竖排页签导航 -->
-                <div class="team-tabs-container" id="teamTabs">
-                    <!-- 动态生成战队页签 -->
-                </div>
-
-                <!-- 好感度内容区域 -->
-                <div class="tabs-content" id="teamContents">
-                    <!-- 动态生成战队成员列表 -->
+        <!-- 原有的两个卡片，加上ID用于控制显示 -->
+        <div id="favorCard" class="home-tab-content active">
+            <div class="card mb-6">
+                <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
+                    <i class="fa fa-heart text-pink-500 mr-2"></i> 好感度列表
+                </h3>
+                <!-- 竖排页签布局 -->
+                <div class="tabs-wrapper">
+                    <!-- 竖排页签导航 -->
+                    <div class="team-tabs-container" id="teamTabs">
+                        <!-- 动态生成战队页签 -->
+                    </div>
+                    <!-- 好感度内容区域 -->
+                    <div class="tabs-content" id="teamContents">
+                        <!-- 动态生成战队成员列表 -->
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="card mb-6">
-            <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
-                <i class="fa fa-history text-primary mr-2"></i> 历史事件记录
-            </h3>
-            <div class="max-h-[300px] overflow-y-auto" id="eventLog">
-                <!-- 动态生成 -->
+        <div id="eventCard" class="home-tab-content hidden">
+            <div class="card mb-6">
+                <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
+                    <i class="fa fa-history text-primary mr-2"></i> 历史事件记录
+                </h3>
+                <div class="max-h-[450px] overflow-y-auto" id="eventLog">
+                    <!-- 动态生成 -->
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- 微信风格对话框（居中显示）- 紧凑版 -->
+    <div id="wechatDialog" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50">
+        <div
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-xl max-h-[75vh] flex flex-col">
+            <!-- 对话框头部 - 更紧凑 -->
+            <div class="p-3 border-b border-gray-200 flex items-center justify-between">
+                <div class="flex items-center">
+                    <div id="dialogAvatar"
+                        class="w-8 h-8 rounded-full mr-2 bg-gray-200 flex items-center justify-center">
+                        <i class="fa fa-user text-gray-500 text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 id="dialogName" class="font-bold text-gray-800 text-sm"></h3>
+                        <p id="dialogTeam" class="text-xs text-gray-500 text-xs"></p>
+                    </div>
+                </div>
+                <button id="closeDialog" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-base"></i>
+                </button>
+            </div>
+
+            <!-- 聊天内容区域 - 更紧凑 -->
+            <div id="chatContent" class="flex-1 overflow-y-auto p-3 space-y-3">
+                <!-- 消息将动态插入到这里 -->
+            </div>
+
+            <!-- 输入区域 - 更紧凑 -->
+            <div class="p-3 border-t border-gray-200">
+                <div class="flex items-center">
+                    <input type="text" id="chatInput"
+                        class="flex-1 border border-gray-300 rounded-full px-3 py-1.5 text-xs focus:outline-none focus:border-blue-400"
+                        placeholder="输入消息...">
+                    <button id="sendMessage"
+                        class="ml-2 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 text-sm">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="main.js"></script>
     <script src="business.js"></script>
+    <script src="chat.js"></script>
     <script>
         // 简化的初始化代码
         function initPage() {
@@ -694,6 +777,17 @@
         document.addEventListener('DOMContentLoaded', function () {
             console.log('DOM加载完成，开始初始化');
             initPage();
+            // 确保聊天功能初始化
+            if (typeof initWechatDialog === 'function') {
+                initWechatDialog();
+            }
+
+            // 确保聊天按钮事件绑定
+            if (typeof setupChatButtonClick === 'function') {
+                setupChatButtonClick();
+            }
+
+
         });
 
         // 游戏核心数据

@@ -309,157 +309,27 @@ function bindButtonEvents() {
     });
 
     // ----------------修罗场按钮
+    // ----------------修罗场按钮（新版）
     // 选择他按钮
-    if (jealousyChoose1) jealousyChoose1.addEventListener('click', () => {
-        const eventData = document.getElementById('jealousyPanel').dataset.event;
-        if (eventData) {
-            const event = JSON.parse(eventData);
-            const npc1 = event.npc1;
-            const npc2 = event.npc2;
-            if (npcData[npc1]) {
-                npcData[npc1].gameState.favor += event.choice1.change;
-            }
-            if (npcData[npc2]) {
-                npcData[npc2].gameState.favor += event.choice1Effect.change;
-            }
-            // 确保好感度不低于0
-            if (npcData[npc1] && npcData[npc1].gameState.favor < 0) {
-                npcData[npc1].gameState.favor = 0;
-            }
-            if (npcData[npc2] && npcData[npc2].gameState.favor < 0) {
-                npcData[npc2].gameState.favor = 0;
-            }
-            const npc1ChangeText = event.choice1.change > 0 ? `+${event.choice1.change}` : `${event.choice1.change}`;
-            const npc2ChangeText = event.choice1Effect.change > 0 ? `+${event.choice1Effect.change}` : `${event.choice1Effect.change}`;
-            addEventRecord(`你在修罗场中选择了${npcData[npc1].name}，${npcData[npc1].name}好感${npc1ChangeText}，${npcData[npc2].name}好感${npc2ChangeText}。`);
-            document.getElementById('backToMap').click();
-            updateStatus();
-            updateHomePage();
-            autoSaveGame();
-        }
-    });
+    if (jealousyChoose1) {
+        jealousyChoose1.addEventListener('click', () => {
+            handleJealousyChoice(1);
+        });
+    }
+
+    // 分手按钮
+    if (jealousyChoose2) {
+        jealousyChoose2.addEventListener('click', () => {
+            handleJealousyChoice(2);
+        });
+    }
 
     // 沉默不语按钮
-    if (jealousyChoose3) jealousyChoose3.addEventListener('click', () => {
-        const eventData = document.getElementById('jealousyPanel').dataset.event;
-        if (eventData) {
-            const event = JSON.parse(eventData);
-            const npc1 = event.npc1;
-            const npc2 = event.npc2;
-            if (npcData[npc1]) {
-                npcData[npc1].gameState.favor += event.choice3.change;
-            }
-            if (npcData[npc2]) {
-                npcData[npc2].gameState.favor += event.choice3Effect.change;
-            }
-            // 确保好感度不低于0
-            if (npcData[npc1] && npcData[npc1].gameState.favor < 0) {
-                npcData[npc1].gameState.favor = 0;
-            }
-            if (npcData[npc2] && npcData[npc2].gameState.favor < 0) {
-                npcData[npc2].gameState.favor = 0;
-            }
-            const npc1ChangeText = event.choice3.change > 0 ? `+${event.choice3.change}` : `${event.choice3.change}`;
-            const npc2ChangeText = event.choice3Effect.change > 0 ? `+${event.choice3Effect.change}` : `${event.choice3Effect.change}`;
-            addEventRecord(`你在修罗场中沉默不语，${npcData[npc1].name}好感${npc1ChangeText}，${npcData[npc2].name}好感${npc2ChangeText}。`);
-            document.getElementById('backToMap').click();
-            updateStatus();
-            updateHomePage();
-            autoSaveGame();
-        }
-    });
-
-    // 分手按钮事件
-  // 分手按钮事件
-if (jealousyChoose2) jealousyChoose2.addEventListener('click', () => {
-    const eventData = document.getElementById('jealousyPanel').dataset.event;
-    if (eventData) {
-        const event = JSON.parse(eventData);
-        const npc1 = event.npc1;
-        const npc2 = event.npc2;
-        const npc1Data = npcData[npc1];
-        const npc2Data = npcData[npc2];
-        
-        // 跟当前NPC分手：当前NPC随机变化好感并取消恋人状态，另一个恋人随机变化好感
-        if (npc1Data) {
-            npc1Data.gameState.favor += event.choice2.change;
-            // 无论如何都取消恋人状态
-            npc1Data.gameState.love = false;
-            npc1Data.gameState.ex = true; // 新增：标记为前任
-        }
-        if (npc2Data) {
-            npc2Data.gameState.favor += event.choice2Effect.change;
-        }
-        // 确保好感度不低于0
-        if (npc1Data && npc1Data.gameState.favor < 0) {
-            npc1Data.gameState.favor = 0;
-        }
-        if (npc2Data && npc2Data.gameState.favor < 0) {
-            npc2Data.gameState.favor = 0;
-        }
-        
-        // ========== 新增：显示分手结果面板 ==========
-        // 生成分手心情文字（可以从npcData中获取或随机选择）
-        let breakupTexts = [];
-        
-        // 尝试从NPC数据中获取分手文本
-        if (npc1Data.breakupTexts && npc1Data.breakupTexts.length > 0) {
-            breakupTexts = npc1Data.breakupTexts;
-        } else {
-            // 默认分手文本
-            breakupTexts = [
-                `${npc1Data.name}眼神黯淡地看着你：「这就是你的选择吗...我明白了。」`,
-                `${npc1Data.name}苦笑着摇头：「原来我们的感情这么脆弱。」`,
-                `${npc1Data.name}沉默片刻，轻声说：「祝你幸福...」`,
-                `${npc1Data.name}强忍泪水：「我不会再打扰你们了。」`,
-                `${npc1Data.name}深吸一口气：「没想到最后会是这样...保重。」`
-            ];
-        }
-        
-        const randomBreakupText = breakupTexts[Math.floor(Math.random() * breakupTexts.length)];
-        const npc1ChangeText = event.choice2.change > 0 ? `+${event.choice2.change}` : `${event.choice2.change}`;
-        
-        // 构建结果文本
-        const resultText = `
-            ${randomBreakupText}<br><br>
-            <span style="color: #ef4444; font-weight: bold;">
-                你和${npc1Data.name}分手了，${npc1Data.name}好感度${npc1ChangeText}
-            </span>
-        `;
-        
-        // 显示结果面板
-        document.getElementById('resultText').innerHTML = resultText;
-        
-        // 修改结果面板标题
-        const resultTitle = document.querySelector('#resultPanel h3');
-        if (resultTitle) {
-            resultTitle.textContent = "分手结果";
-        }
-        
-        // 隐藏修罗场面板，显示结果面板
-        document.getElementById('jealousyPanel').classList.add('hidden');
-        document.getElementById('resultPanel').classList.remove('hidden');
-        
-        // 修改结果面板按钮的事件，使其返回地图
-        const finishInteractionBtn = document.getElementById('finishInteraction');
-        if (finishInteractionBtn) {
-            // 先移除旧的事件监听器
-            finishInteractionBtn.replaceWith(finishInteractionBtn.cloneNode(true));
-            // 重新获取按钮并绑定新事件
-            const newFinishBtn = document.getElementById('finishInteraction');
-            newFinishBtn.addEventListener('click', () => {
-                document.getElementById('backToMap').click();
-                updateStatus();
-                updateHomePage();
-                autoSaveGame();
-            });
-        }
-        
-        // 动态生成事件记录
-        const npc2ChangeText = event.choice2Effect.change > 0 ? `+${event.choice2Effect.change}` : `${event.choice2Effect.change}`;
-        addEventRecord(`你在修罗场中跟${npc1Data.name}分手，${npc1Data.name}好感${npc1ChangeText}，${npc2Data.name}好感${npc2ChangeText}。`);
+    if (jealousyChoose3) {
+        jealousyChoose3.addEventListener('click', () => {
+            handleJealousyChoice(3);
+        });
     }
-});
 
 }
 
@@ -926,7 +796,7 @@ function updateHomePage() {
         tab.dataset.team = team;
         tab.innerHTML = `
             <span class="team-tag ${teamInfo.color} text-xs mr-2">${teamInfo.name.substring(0, 2)}</span>
-            <span class="text-sm">${teamInfo.name}</span>
+            
         `;
 
         tab.addEventListener('click', function () {
@@ -999,6 +869,17 @@ function updateHomePage() {
                 ${npcData[id].gameState.ex ? '<span class="ex-badge ml-2" style="background-color: #9ca3af; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px;">前任</span>' : ''}
                 ${statusText}
                 ${isLocked ? '<span class="text-xs text-gray-400 ml-2">(未解锁)</span>' : ''}
+                <!-- 这是添加聊天按钮的关键代码 -->
+               ${!isLocked ? `
+                 <button class="chat-btn ml-auto w-5 h-5 flex items-center justify-center bg-green-500 text-white rounded-full hover:bg-green-600 transition-all shadow-md" 
+                  data-id="${id}"
+                  title="与${npc.name}聊天">
+                 <i class="fa fa-wechat text-xs"></i>
+                 <span class="sr-only">聊天</span>
+                  </button>
+            ` : ''}
+
+                
             </div>
             <div class="favor-bar mt-1">
                 <div class="favor-fill ${isLove ? 'favor-fill-love' : ''} ${isLocked ? 'opacity-50' : ''}" style="width: ${favorPercent}%"></div>
@@ -1011,7 +892,10 @@ function updateHomePage() {
         </span>
     </div>
 `;
-            teamContent.appendChild(favorItem);
+ // 为整个项目添加点击效果
+      favorItem.className = "favor-item cursor-pointer hover:bg-gray-50 transition-colors p-3 rounded-lg";
+
+        teamContent.appendChild(favorItem);
         });
         teamContents.appendChild(teamContent);
         firstTeam = false;
@@ -1273,3 +1157,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 console.log('设置功能就绪');
+
+
+
+// 家页面页签切换函数 - 纯显示隐藏
+function showTab(tabName) {
+    // 更新按钮状态
+    document.querySelectorAll('.home-tab').forEach(tab => {
+        tab.classList.remove('active');
+        tab.classList.remove('text-primary');
+        tab.classList.add('text-gray-500');
+    });
+    
+    // 激活当前按钮
+    const activeButton = Array.from(document.querySelectorAll('.home-tab'))
+        .find(btn => btn.textContent.includes(tabName === 'favor' ? '好感度' : '历史事件'));
+    if (activeButton) {
+        activeButton.classList.add('active');
+        activeButton.classList.add('text-primary');
+        activeButton.classList.remove('text-gray-500');
+    }
+    
+    // 隐藏所有内容
+    document.querySelectorAll('.home-tab-content').forEach(content => {
+        content.classList.remove('active');
+        content.classList.add('hidden');
+    });
+    
+    // 显示目标内容
+    const targetContent = document.getElementById(tabName + 'Card');
+    if (targetContent) {
+        targetContent.classList.add('active');
+        targetContent.classList.remove('hidden');
+    }
+}

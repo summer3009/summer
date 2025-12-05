@@ -307,9 +307,7 @@
     display: flex;
     flex-direction: column;
     border-right: 1px solid #e5e7eb;
-    border-bottom: none;
-    margin-right: 1rem;
-    padding-right: 1rem;
+    border-bottom: none;    
     min-width: 10px;
 }
 
@@ -385,9 +383,7 @@
 
 
 
-.favor-item .text-right span {
-    font-size: 1rem !important;
-    /* 恢复正常大小 */
+.favor-item .text-right span {    
     font-weight: 500 !important;
 }
 
@@ -533,3 +529,324 @@ body::before {
   height: 60px; /* 添加你想要的高度 */
 }
 
+
+    /* 邀约面板特殊样式 - 使用更具体的选择器 */
+    #invitationPanel.card {
+        background-color: #fff8f1 !important;
+        border: 1px solid #fed7aa !important;
+    }
+    
+    #invitationPanel h3 {
+        color: #ea580c !important;
+    }
+    
+    #invitationPanel .dialog-box {
+        background-color: #fffbeb !important;
+        border: 1px solid #fbbf24 !important;
+    }
+    
+    #invitationChoose1.btn-primary {
+        background-color: #f97316 !important;
+        color: white !important;
+        border-color: #ea580c !important;
+    }
+    
+    #invitationChoose2.btn-secondary {
+        background-color: #fef3c7 !important;
+        color: #d97706 !important;
+        border-color: #fbbf24 !important;
+    }
+    
+    #invitationChoose3.btn-gray {
+        background-color: #f3f4f6 !important;
+        color: #6b7280 !important;
+        border-color: #d1d5db !important;
+    }
+
+
+     #introPanel.card {
+        background-color: #f0fdf4 !important;
+        border: 1px solid #bbf7d0 !important;
+    }
+    
+    #introPanel h3 {
+        color: #16a34a !important;
+    }
+    
+    #introPanel .dialog-box {
+        background-color: #f7fee7 !important;
+        border: 1px solid #d9f99d !important;
+    }
+    
+    #finishIntro.btn-primary {
+        background-color: #22c55e !important;
+        color: white !important;
+        border-color: #16a34a !important;
+    }
+
+
+  
+    /* 好感度变化通用样式 */
+    .favor-change {
+        color: #ef4444 !important;
+        font-size: 0.875rem !important;
+        margin-top: 4px;
+        display: block;
+    }
+
+
+
+ 
+    /* 亲密面板的淡紫色样式 */
+    #intimatePanel.card {
+        background-color: #faf5ff !important;
+        border: 1px solid #e9d5ff !important;
+    }
+    
+    #intimatePanel h3 {
+        color: #9333ea !important;
+    }
+    
+    #intimatePanel .dialog-box {
+        background-color: #faf5ff !important;
+        border: 1px solid #d8b4fe !important;
+    }
+    
+    #finishIntimate.btn-primary {
+        background-color: #a855f7 !important;
+        color: white !important;
+        border-color: #9333ea !important;
+    }
+
+
+
+    /* 修罗场面板的淡红色样式 */
+    #jealousyPanel.card {
+        background-color: #fef2f2 !important;
+        border: 1px solid #fecaca !important;
+    }
+    
+    #jealousyPanel h3 {
+        color: #dc2626 !important;
+    }
+    
+    #jealousyPanel .dialog-box {
+        background-color: #fef2f2 !important;
+        border: 1px solid #fca5a5 !important;
+    }
+    
+    #jealousyChoose1.btn-primary {
+        background-color: #ef4444 !important;
+        color: white !important;
+        border-color: #dc2626 !important;
+    }
+    
+    #jealousyChoose2.btn-secondary {
+        background-color: #fca5a5 !important;
+        color: #991b1b !important;
+        border-color: #f87171 !important;
+    }
+    
+    #jealousyChoose3.btn-gray {
+        background-color: #d1d5db !important;
+        color: #4b5563 !important;
+        border-color: #9ca3af !important;
+    }
+
+
+
+/* 淡蓝色前任面板样式 */
+#interactionPanel.ex-mode.card {
+    background-color: #f0f9ff !important;
+    border: 1px solid #7dd3fc !important;
+}
+
+#interactionPanel.ex-mode h3 {
+    color: #0369a1 !important;
+}
+
+#interactionPanel.ex-mode .dialog-box {
+    background-color: #f0f9ff !important;
+    border: 1px solid #38bdf8 !important;
+}
+
+#interactionPanel.ex-mode .btn-primary {
+    background-color: #38bdf8 !important;
+    color: #082f49 !important;
+    border-color: #0ea5e9 !important;
+}
+
+#interactionPanel.ex-mode .btn-secondary {
+    background-color: #bae6fd !important;
+    color: #0c4a6e !important;
+    border-color: #7dd3fc !important;
+}
+
+/* 第三个按钮的特殊样式 */
+#interactionPanel.ex-mode #choiceIgnore.btn-secondary {
+    background-color: #e0f2fe !important;
+    color: #075985 !important;
+    border-color: #7dd3fc !important;
+}
+
+
+/* 如果使用 CSS-in-JS 或单独 CSS 文件 */
+.flex-1 {
+  flex: 110%;
+  height: 60px; /* 添加你想要的高度 */
+}
+/* 微信风格对话框样式 */
+.chat-bubble-left {
+    max-width: 70%;
+    border-radius: 18px 18px 18px 4px;
+    background-color: #f1f1f1;
+    padding: 12px 16px;
+    margin-right: auto;
+    position: relative;
+}
+
+.chat-bubble-right {
+    max-width: 70%;
+    border-radius: 18px 18px 4px 18px;
+    background-color: #95ec69;
+    padding: 12px 16px;
+    margin-left: auto;
+    position: relative;
+}
+
+.chat-time {
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    margin: 8px 0;
+}
+
+.typing-indicator {
+    display: inline-flex;
+    align-items: center;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #999;
+    margin: 0 2px;
+    animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-8px); }
+}
+
+
+
+/* 家页面横向页签样式 */
+/* 家页面横向页签样式 */
+.home-tab {
+    background: rgba(255, 255, 255, 0.3); /* 30%透明白色背景 */
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    border-radius: 8px 8px 0 0; /* 顶部圆角 */
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+    margin: 0 2px;
+}
+
+.home-tab:hover {
+    background: rgba(255, 255, 255, 0.5); /* 悬停时更明显 */
+    color: #4299e1;
+}
+
+.home-tab.active {
+    background: rgba(255, 255, 255, 0.8); /* 选中时80%透明白色 */
+    color: #4299e1;
+    border-bottom: 2px solid #4299e1;
+    font-weight: 600;
+}
+.home-tab-content {
+    display: none;
+}
+
+.home-tab-content.active {
+    display: block;
+}
+
+/* 强制降低高度 */
+.favor-item {
+    height: auto !important;
+    min-height: unset !important;
+    padding: 4px 8px !important; /* 更小的内边距 */
+}
+
+.favor-item .flex-1 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    height: 40px !important;
+}
+
+/* 好感度条也缩小 */
+.favor-bar {
+    height: 6px !important;  /* 原来是8px */
+    margin-top: 2px !important;
+}
+
+/* 在styles.css中添加 */
+.favor-item .text-right span.text-xs {
+    font-size: 12px !important;
+}
+
+/* 最简单的彩色图标 */
+#linkLinkGame i.fa-gamepad {
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.2em;
+}
+
+
+
+/* 淡灰色前任面板样式 */
+#resultPanel.wg-mode.card {
+    background-color: #f9fafb !important;
+    border: 1px solid #d1d5db !important;
+}
+
+#resultPanel.wg-mode h3 {
+    color: #4b5563 !important;
+}
+
+#resultPanel.wg-mode .dialog-box {
+    background-color: #f9fafb !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+#resultPanel.wg-mode .btn-primary {
+    background-color: #9ca3af !important;
+    color: #111827 !important;
+    border-color: #6b7280 !important;
+}
+
+#resultPanel.wg-mode .btn-secondary {
+    background-color: #e5e7eb !important;
+    color: #374151 !important;
+    border-color: #d1d5db !important;
+}
+
+/* 第三个按钮的特殊样式 */
+#resultPanel.wg-mode #choiceIgnore.btn-secondary {
+    background-color: #f3f4f6 !important;
+    color: #4b5563 !important;
+    border-color: #d1d5db !important;
+}
