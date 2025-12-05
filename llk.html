@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国家队连连看</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+        .game-container {
+            text-align: center;
+            padding-top: 100px; /* 增加顶部间距 */
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(6, 60px);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .cell {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ccc;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+        }
+        .hidden {
+            background-image: none !important;
+        }
+        .button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        #timer {
+            margin-top: 20px;
+            font-size: 18px;
+            color: red;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 24px;
+            color: green;
+        }
+    </style>
+</head>
+<body>  
+    <!-- 在 llk.html 的 body 开头添加 -->
+<div style="position: fixed; top: 10px; left: 10px; z-index: 1000;">
+    <button onclick="window.location.href='index.html'" 
+            style="padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        ← 返回主游戏
+    </button>
+</div>
+    <div class="game-container"> 
+        <h2>国家队连连看</h2>
+        <button id="resetButton" class="button">再来一局</button>
+        <div id="timer">剩余时间: 03:00</div>
+        <div id="message"></div>
+        <div id="board" class="board"></div>
+    </div>
+
+    <script>
+        const board = document.getElementById('board');
+        const resetButton = document.getElementById('resetButton');
+        const timerDisplay = document.getElementById('timer');
+        const messageDisplay = document.getElementById('message');
+        let images = [
+            "img/01.png",
+            "img/02.png",
+            "img/03.png",
+            "img/04.png",
+            "img/05.png",
+            "img/06.png",
+            "img/07.png",
+            "img/08.png",
+            "img/09.png",
+            "img/10.png",
+            "img/11.png",
+            "img/12.png",
+            "img/13.png",
+            "img/14.png"
+        ];
+        let selectedCells = [];
+        let timeLeft = 180; // 3 minutes in seconds
+        let timerInterval;
+
+        function createBoard() {
+            clearInterval(timerInterval);
+            board.innerHTML = '';
+            messageDisplay.textContent = '';
+            selectedCells = [];
+            timeLeft = 180;
+            updateTimer();
+
+            const totalCells = 60; // 6x10 grid
+
+            // Ensure each of the 14 images appears 4 times
+            const repeatedImages = images.flatMap(img => [img, img, img, img]);
+
+            // Add additional pairs to fill the remaining cells
+            const additionalPairsCount = Math.floor((totalCells - repeatedImages.length) / 2);
+            for (let i = 0; i < additionalPairsCount; i++) {
+                const randomIndex = Math.floor(Math.random() * images.length);
+                repeatedImages.push(images[randomIndex], images[randomIndex]);
+            }
+
+            // Shuffle the array to randomize positions
+            shuffleArray(repeatedImages);
+
+            // Fill the board with the shuffled images
+            for (let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.style.backgroundImage = `url(${repeatedImages[i]})`;
+                cell.dataset.index = i;
+                cell.addEventListener('click', selectCell);
+                board.appendChild(cell);
+            }
+
+            startTimer();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function selectCell(event) {
+            if (selectedCells.includes(event.target)) return;
+
+            event.target.classList.add('active');
+            selectedCells.push(event.target);
+
+            if (selectedCells.length === 2) {
+                setTimeout(() => {
+                    checkMatch();
+                }, 300);
+            }
+        }
+
+        function checkMatch() {
+            const [first, second] = selectedCells;
+            if (first.style.backgroundImage === second.style.backgroundImage) {
+                first.classList.add('hidden');
+                second.classList.add('hidden');
+            } else {
+                first.classList.remove('active');
+                second.classList.remove('active');
+            }
+            selectedCells = [];
+
+            if (document.querySelectorAll('.hidden').length === 60) {
+                clearInterval(timerInterval);
+                messageDisplay.textContent = '散花~~大成功！';
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    messageDisplay.textContent = '时间到，游戏失败！';
+                    disableCells();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const seconds = (timeLeft % 60).toString().padStart(2, '0');
+            timerDisplay.textContent = `剩余时间: ${minutes}:${seconds}`;
+        }
+
+        function disableCells() {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                cell.removeEventListener('click', selectCell);
+            });
+        }
+
+        resetButton.addEventListener('click', () => {
+            createBoard();
+        });
+
+        window.onload = createBoard;
+    </script>
+</body>
+</html>
+
+
+
