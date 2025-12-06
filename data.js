@@ -124,9 +124,10 @@ const npcData = {
             { target: "zhouzekai", team: "lunhui", favorRequire: 31 },
             { target: "sunxiang", team: "lunhui", favorRequire: 31 },
             { target: "xiaoshiqin", team: "leiting", favorRequire: 31 },
-            { target: "liuhao", team: "huxiao", favorRequire: 31 },
+                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "liuhao", team: "huxiao", favorRequire: 31 },
             { target: "tiansen", team: "huangfeng", favorRequire: 31 },
-            { target: "louguanning", team: "yizhan", favorRequire: 31 },
+             { target: "wenli", team: "jiashi", favorRequire: 31 },
+        { target: "louguanning", team: "yizhan", favorRequire: 31 },
             { target: "qiufei", team: "jiashi", favorRequire: 31 }
 
         ],
@@ -415,7 +416,8 @@ const npcData = {
             { target: "liufei", team: "weicao", favorRequire: 25 },
             { target: "shukexin", team: "yuyan", favorRequire: 25 },
             { target: "shukeyi", team: "yuyan", favorRequire: 25 },
-            { target: "zhongyeli", team: "yizhan", favorRequire: 25 },
+           { target: "wenli", team: "jiashi", favorRequire: 31 },
+          { target: "zhongyeli", team: "yizhan", favorRequire: 25 },
             { target: "qiufei", team: "jiashi", favorRequire: 31 }
         ],
         dialogs: {
@@ -1826,7 +1828,7 @@ const npcData = {
             { target: "zhangxinjie", team: "batu", favorRequire: 35 },
             { target: "zhangjiale", team: "batu", favorRequire: 31 },
             { target: "linjingyan", team: "batu", favorRequire: 31 },
-            { target: "baiyanfei", team: "batu", favorRequire: 31 },
+                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "baiyanfei", team: "batu", favorRequire: 31 },
             { target: "qinyunmu", team: "batu", favorRequire: 31 }
         ],
         dialogs: {
@@ -1882,7 +1884,7 @@ const npcData = {
             { target: "yuwenzhou", team: "lanyu", favorRequire: 31 },
             { target: "huangshaotian", team: "lanyu", favorRequire: 31 },
             { target: "chuyunxiu", team: "yuyan", favorRequire: 31 },
-            { target: "sumucheng", team: "happy", favorRequire: 31 },
+                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "sumucheng", team: "happy", favorRequire: 31 },
             { target: "xiaoshiqin", team: "leiting", favorRequire: 31 },
             { target: "lixuan", team: "xukong", favorRequire: 31 }
         ],
@@ -2043,7 +2045,7 @@ const npcData = {
             { target: "hanwenqing", team: "batu", favorRequire: 25 },
             { target: "zhangxinjie", team: "batu", favorRequire: 25 },
             { target: "zhangjiale", team: "batu", favorRequire: 25 },
-            { target: "linjingyan", team: "batu", favorRequire: 25 },
+                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "linjingyan", team: "batu", favorRequire: 25 },
             { target: "qinyunmu", team: "batu", favorRequire: 25 }
         ],
         dialogs: {
@@ -2142,7 +2144,7 @@ const npcData = {
             { target: "hanwenqing", team: "batu", favorRequire: 25 },
             { target: "zhangxinjie", team: "batu", favorRequire: 25 },
             { target: "zhangjiale", team: "batu", favorRequire: 25 },
-            { target: "linjingyan", team: "batu", favorRequire: 25 },
+                    { target: "songqiying", team: "batu", favorRequire: 25 },    { target: "linjingyan", team: "batu", favorRequire: 25 },
             { target: "baiyanfei", team: "batu", favorRequire: 25 }
         ],
         dialogs: {
@@ -4143,6 +4145,7 @@ const npcData = {
             { target: "sunxiang", team: "lunhui", favorRequire: 31 },
             { target: "liuhao", team: "huxiao", favorRequire: 31 },
             { target: "luhanwen", team: "lanyu", favorRequire: 31 },
+            { target: "wenli", team: "jiashi", favorRequire: 31 },
             { target: "gaoyingjie", team: "weicao", favorRequire: 31 }
         ],
         dialogs: {
