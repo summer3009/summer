@@ -313,8 +313,9 @@ function handleIntroEvent(data) {
     let introProbability = Math.min(0.4, 0.4 + (favor - 31) * 0.1);
     console.log('介绍成功率:', introProbability);
 
-    let selectedIntro = availableIntroTargets[Math.floor(Math.random() * availableIntroTargets.length)];
+    if (Math.random() < introProbability) {
 
+    let selectedIntro = availableIntroTargets[Math.floor(Math.random() * availableIntroTargets.length)];
     if (!selectedIntro || !selectedIntro.target) {
         console.error('介绍目标数据不完整:', selectedIntro);
         return;
@@ -422,8 +423,19 @@ function handleIntroEvent(data) {
     if (!isSameTeam) {
         checkSceneUnlock(targetTeam);
     }
+}else{
+      // 介绍没触发，进入一般事件
+        //alert("介绍未触发，进入一般事件");
+        console.log(`${npc.name} 介绍事件未触发，回退到普通互动`);
+        // 重置面板
+        resetScenePanels();
+        // 显示普通互动
+        handleNormalEvent({ npc, randomNpcId, favor, isLove: npcData[randomNpcId].gameState.love });
+}
 
 }
+
+
 
 
 // 处理告白事件
