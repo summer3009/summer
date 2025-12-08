@@ -1076,3 +1076,42 @@ body::before {
     background-color: #444 !important;
     border-color: #222 !important;
 }
+
+
+
+/* 关系图谱相关样式 */
+.home-tab-content {
+    transition: all 0.3s ease;
+}
+
+#relationCanvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 改进滚动条样式 */
+#relationCard .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+#relationCard .overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#relationCard .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+#relationCard .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 图例样式优化 */
+.relation-legend-item {
+    padding: 4px 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    font-size: 12px;
+}
