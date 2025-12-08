@@ -748,7 +748,7 @@
         <!-- 在成就卡片后面添加关系图卡片 -->
         <!-- 在成就卡片后面添加关系图卡片 -->
         <div id="relationCard" class="home-tab-content hidden">
-            <div class="card mb-6" style="max-height: 80vh; overflow-y: auto;">
+           <div class="card mb-6 flex flex-col" style="height: 105vh;">
                 <div class="flex justify-between items-center mb-3 sticky top-0 bg-white z-10 pb-2">
                     <h3 class="text-lg font-bold text-gray-700 flex items-center">
                         <i class="fa fa-project-diagram text-purple-500 mr-2"></i> 关系图谱
@@ -760,182 +760,182 @@
                 </div>
 
                 <!-- 关系图可视化区域 -->
-                <div id="relationGraph"
-                    style="width: 100%; height: 450px; background: #f9fafb; border-radius: 8px; position: relative;">
-                    <canvas id="relationCanvas"></canvas>
-                </div>
+                <!-- 关系图可视化区域 -->
+                <div class="flex-1 overflow-y-auto"> <!-- 新增这行 -->
+                    <div id="relationGraph"
+                        style="width: 100%; height: 450px; background: #f9fafb; border-radius: 8px; position: relative;">
+                        <canvas id="relationCanvas"></canvas>
+                    </div>
 
-                <!-- 图例 -->
-                <div class="mt-4 flex flex-wrap gap-3 justify-center">
-                    <div class="flex items-center">
-                        <div class="w-6 h-0.5 bg-red-500 mr-2"></div>
-                        <span class="text-xs">恋人关系</span>
+                    <!-- 图例 -->
+                    <div class="mt-4 flex flex-wrap gap-3 justify-center">
+                        <div class="flex items-center">
+                            <div class="w-6 h-0.5 bg-red-500 mr-2"></div>
+                            <span class="text-xs">恋人关系</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-6 h-0.5 bg-blue-500 mr-2"></div>
+                            <span class="text-xs">前任关系</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-6 h-0.5 bg-gray-800 mr-2"></div>
+                            <span class="text-xs">同队关系</span>
+                        </div>
                     </div>
-                    <div class="flex items-center">
-                        <div class="w-6 h-0.5 bg-blue-500 mr-2"></div>
-                        <span class="text-xs">前任关系</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-6 h-0.5 bg-gray-800 mr-2"></div>
-                        <span class="text-xs">同队关系</span>
-                    </div>
-                </div>
 
-                <!-- 提示信息 -->
-                <div id="relationHint" class="text-center text-gray-500 text-sm mt-3 p-2 bg-gray-50 rounded">
-                    点击节点查看详情，拖动节点可以调整位置
-                </div>
+                    <!-- 提示信息 -->
+                    <div id="relationHint" class="text-center text-gray-500 text-sm mt-3 p-2 bg-gray-50 rounded">
+                        点击节点查看详情，拖动节点可以调整位置
+                    </div>
+                </div> <!-- 新增这行 -->
+
             </div>
+
         </div>
 
-
-
-
-    </div>
-
-    <!-- 微信风格对话框（居中显示）- 紧凑版 -->
-    <div id="wechatDialog" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50">
-        <div
-            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-xl max-h-[75vh] flex flex-col">
-            <!-- 对话框头部 - 更紧凑 -->
-            <div class="p-3 border-b border-gray-200 flex items-center justify-between">
-                <div class="flex items-center">
-                    <div id="dialogAvatar"
-                        class="w-8 h-8 rounded-full mr-2 bg-gray-200 flex items-center justify-center">
-                        <i class="fa fa-user text-gray-500 text-sm"></i>
+        <!-- 微信风格对话框（居中显示）- 紧凑版 -->
+        <div id="wechatDialog" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50">
+            <div
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-xl max-h-[75vh] flex flex-col">
+                <!-- 对话框头部 - 更紧凑 -->
+                <div class="p-3 border-b border-gray-200 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div id="dialogAvatar"
+                            class="w-8 h-8 rounded-full mr-2 bg-gray-200 flex items-center justify-center">
+                            <i class="fa fa-user text-gray-500 text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 id="dialogName" class="font-bold text-gray-800 text-sm"></h3>
+                            <p id="dialogTeam" class="text-xs text-gray-500 text-xs"></p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 id="dialogName" class="font-bold text-gray-800 text-sm"></h3>
-                        <p id="dialogTeam" class="text-xs text-gray-500 text-xs"></p>
-                    </div>
-                </div>
-                <button id="closeDialog" class="text-gray-500 hover:text-gray-700">
-                    <i class="fa fa-times text-base"></i>
-                </button>
-            </div>
-
-            <!-- 聊天内容区域 - 更紧凑 -->
-            <div id="chatContent" class="flex-1 overflow-y-auto p-3 space-y-3">
-                <!-- 消息将动态插入到这里 -->
-            </div>
-
-            <!-- 输入区域 - 更紧凑 -->
-            <div class="p-3 border-t border-gray-200">
-                <div class="flex items-center">
-                    <input type="text" id="chatInput"
-                        class="flex-1 border border-gray-300 rounded-full px-3 py-1.5 text-xs focus:outline-none focus:border-blue-400"
-                        placeholder="输入消息...">
-                    <button id="sendMessage"
-                        class="ml-2 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 text-sm">
-                        <i class="fa fa-paper-plane"></i>
+                    <button id="closeDialog" class="text-gray-500 hover:text-gray-700">
+                        <i class="fa fa-times text-base"></i>
                     </button>
                 </div>
+
+                <!-- 聊天内容区域 - 更紧凑 -->
+                <div id="chatContent" class="flex-1 overflow-y-auto p-3 space-y-3">
+                    <!-- 消息将动态插入到这里 -->
+                </div>
+
+                <!-- 输入区域 - 更紧凑 -->
+                <div class="p-3 border-t border-gray-200">
+                    <div class="flex items-center">
+                        <input type="text" id="chatInput"
+                            class="flex-1 border border-gray-300 rounded-full px-3 py-1.5 text-xs focus:outline-none focus:border-blue-400"
+                            placeholder="输入消息...">
+                        <button id="sendMessage"
+                            class="ml-2 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 text-sm">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <script src="main.js"></script>
-    <script src="business.js"></script>
-    <script src="chat.js"></script>
-    <script src="achieve.js"></script>
-    <script src="show.js"></script>
-    <script>
-        // 简化的初始化代码
-        function initPage() {
-            console.log('初始化页面...');
-            // alert("init");   
-            // 绑定封面页按钮事件
-            document.getElementById('startNewGame').addEventListener('click', function () {
-                console.log('点击进入游戏');
-                if (typeof enterGame === 'function') {
-                    enterGame();
-                } else {
-                    alert('游戏功能加载中，请稍后重试');
+        <script src="main.js"></script>
+        <script src="business.js"></script>
+        <script src="chat.js"></script>
+        <script src="achieve.js"></script>
+        <script src="show.js"></script>
+        <script>
+            // 简化的初始化代码
+            function initPage() {
+                console.log('初始化页面...');
+                // alert("init");   
+                // 绑定封面页按钮事件
+                document.getElementById('startNewGame').addEventListener('click', function () {
+                    console.log('点击进入游戏');
+                    if (typeof enterGame === 'function') {
+                        enterGame();
+                    } else {
+                        alert('游戏功能加载中，请稍后重试');
+                    }
+                });
+                document.getElementById('loadGame').addEventListener('click', function () {
+                    console.log('点击加载游戏');
+                    if (typeof showLoadPage === 'function') {
+                        showLoadPage();
+                    } else {
+                        alert('加载功能暂不可用');
+                    }
+                });
+                console.log('页面初始化完成');
+            }
+            // 页面加载完成后初始化
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('DOM加载完成，开始初始化');
+                initPage();
+                // 确保聊天功能初始化
+                if (typeof initWechatDialog === 'function') {
+                    initWechatDialog();
                 }
-            });
-            document.getElementById('loadGame').addEventListener('click', function () {
-                console.log('点击加载游戏');
-                if (typeof showLoadPage === 'function') {
-                    showLoadPage();
-                } else {
-                    alert('加载功能暂不可用');
+
+                // 确保聊天按钮事件绑定
+                if (typeof setupChatButtonClick === 'function') {
+                    setupChatButtonClick();
                 }
+
+
             });
-            console.log('页面初始化完成');
-        }
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('DOM加载完成，开始初始化');
-            initPage();
-            // 确保聊天功能初始化
-            if (typeof initWechatDialog === 'function') {
-                initWechatDialog();
+
+            // 游戏核心数据
+            const gameData = {
+                day: 1,
+                favor: {},
+                love: {},
+                ex: {}, // 新增：前任标记
+                ignoreCount: {},
+                unlockedScenes: ["home", "happy"],
+                unlockedCharacters: ["yexiu", "chenguo"],
+                events: [
+                    { day: 1, content: "在兴欣网吧认识了叶修、陈果和唐柔，开启了荣耀之旅～" }
+                ],
+                currentScene: "",
+                currentNpc: null,
+                lastConfessDay: {},
+                lastIntimateDay: {},
+                introHistory: {},
+                dayEvents: {}
+            };
+
+
+            // 初始化游戏数据
+            function initGameData() {
+                //  alert("初始化数据");
+                ensureAllCharactersDefined();
+                gameData.introHistory = {};
+                for (const id in npcData) {
+                    gameData.introHistory[id] = {};
+                }
+                gameData.events = [
+                    // { day: 1, content: "在兴欣网吧认识了叶修和陈果，开启了荣耀之旅～" }
+                ];
+                if (!gameData.dayEvents) {
+                    gameData.dayEvents = {};
+                }
+                gameData.dayAdvanced = false;
+                gameData.day = 1;
+                gameData.currentScene = "";
+                // 初始好感度设置
+                npcData.yexiu.gameState.favor = 10;
+                npcData.chenguo.gameState.favor = 10;
+                gameData.unlockedScenes = ['home', 'happy'];
+                gameData.unlockedCharacters = ["yexiu", "chenguo"];
+
+                // 确保成就数据结构存在
+                if (!gameData.achievements) {
+                    gameData.achievements = achievementsData;
+                }
+
+                // 初始化成就数据
+                initAchievements();
+
+
             }
-
-            // 确保聊天按钮事件绑定
-            if (typeof setupChatButtonClick === 'function') {
-                setupChatButtonClick();
-            }
-
-
-        });
-
-        // 游戏核心数据
-        const gameData = {
-            day: 1,
-            favor: {},
-            love: {},
-            ex: {}, // 新增：前任标记
-            ignoreCount: {},
-            unlockedScenes: ["home", "happy"],
-            unlockedCharacters: ["yexiu", "chenguo"],
-            events: [
-                { day: 1, content: "在兴欣网吧认识了叶修、陈果和唐柔，开启了荣耀之旅～" }
-            ],
-            currentScene: "",
-            currentNpc: null,
-            lastConfessDay: {},
-            lastIntimateDay: {},
-            introHistory: {},
-            dayEvents: {}
-        };
-
-
-        // 初始化游戏数据
-        function initGameData() {
-            //  alert("初始化数据");
-            ensureAllCharactersDefined();
-            gameData.introHistory = {};
-            for (const id in npcData) {
-                gameData.introHistory[id] = {};
-            }
-            gameData.events = [
-                // { day: 1, content: "在兴欣网吧认识了叶修和陈果，开启了荣耀之旅～" }
-            ];
-            if (!gameData.dayEvents) {
-                gameData.dayEvents = {};
-            }
-            gameData.dayAdvanced = false;
-            gameData.day = 1;
-            gameData.currentScene = "";
-            // 初始好感度设置
-            npcData.yexiu.gameState.favor = 10;
-            npcData.chenguo.gameState.favor = 10;
-            gameData.unlockedScenes = ['home', 'happy'];
-            gameData.unlockedCharacters = ["yexiu", "chenguo"];
-
-            // 确保成就数据结构存在
-            if (!gameData.achievements) {
-                gameData.achievements = achievementsData;
-            }
-
-            // 初始化成就数据
-            initAchievements();
-
-
-        }
-    </script>
+        </script>
 </body>
 
 </html>
