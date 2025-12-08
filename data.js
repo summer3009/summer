@@ -88,15 +88,16 @@ const teamConfig = {
         name: "义斩",
         color: "bg-yellow-500", // 金色系
         scene: "yizhan",
-        members: ["louguanning", "sunzeping", "wenkebei", "guxiye", "zhongyeli"]
+        members: ["louguanning", "sunzeping", "wenkebei", "guxiye","zhongyeli"]
     },
 
-    league: {
-        name: "荣耀联盟",
-        color: "bg-yellow-500",
-        scene: "league",
-        members: []
-    }
+// 在teamConfig的league成员中添加
+league: {
+    name: "荣耀联盟",
+    color: "bg-yellow-500",
+    scene: "league",
+    members: ["linjie", "fangshiqian", "wuxuefeng", "guomingyu", "luliang", "wuchen", "dengfusheng","liyibo"]
+}
 };
 
 // 所有NPC完整数据 - 重新设计介绍系统
@@ -121,13 +122,13 @@ const npcData = {
             { target: "wangjiexi", team: "weicao", favorRequire: 31 },
             { target: "hanwenqing", team: "batu", favorRequire: 31 },
             { target: "huangshaotian", team: "lanyu", favorRequire: 31 },
+           { target: "wenli", team: "jiashi", favorRequire: 31 },
             { target: "zhouzekai", team: "lunhui", favorRequire: 31 },
             { target: "sunxiang", team: "lunhui", favorRequire: 31 },
             { target: "xiaoshiqin", team: "leiting", favorRequire: 31 },
-                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "liuhao", team: "huxiao", favorRequire: 31 },
+            { target: "liuhao", team: "huxiao", favorRequire: 31 },
             { target: "tiansen", team: "huangfeng", favorRequire: 31 },
-             { target: "wenli", team: "jiashi", favorRequire: 31 },
-        { target: "louguanning", team: "yizhan", favorRequire: 31 },
+            { target: "louguanning", team: "yizhan", favorRequire: 31 },
             { target: "qiufei", team: "jiashi", favorRequire: 31 }
 
         ],
@@ -246,9 +247,9 @@ const npcData = {
         },
         confess: "打了这么多年荣耀，遇到过很多对手和队友，但只有你让我觉得特别。和你在一起的时光很安心，我想和你一直走下去，你愿意做我的恋人吗？",
         intimateEvents: [
-            "这天晚上，叶修教了你很多独门技巧，让你欲罢不能。",
-            "你们一起熬夜看荣耀全明星赛，看到精彩处，叶修忍不住吻了你额头，对你说：'有你真好'",
-            "你和叶修度过了亲密的一夜，第二天早上上班迟到了……"
+            "这天晚上，叶修教了你很多有趣的技巧，让你欲罢不能。",
+            "你发现叶修竟然认真记录了你的喜好、厌恶和各种小习惯，被问到时他说：只有认真对待，才能顺利升级啊。",
+            "你和叶修度过了亲密的一夜。他谦虚地让你手把手教他，你也不知道他的’我不会哎‘是真的还是假的。"
         ]
     },
 
@@ -416,8 +417,8 @@ const npcData = {
             { target: "liufei", team: "weicao", favorRequire: 25 },
             { target: "shukexin", team: "yuyan", favorRequire: 25 },
             { target: "shukeyi", team: "yuyan", favorRequire: 25 },
-           { target: "wenli", team: "jiashi", favorRequire: 31 },
-          { target: "zhongyeli", team: "yizhan", favorRequire: 25 },
+            { target: "wenli", team: "jiashi", favorRequire: 31 },
+            { target: "zhongyeli", team: "yizhan", favorRequire: 25 },
             { target: "qiufei", team: "jiashi", favorRequire: 31 }
         ],
         dialogs: {
@@ -646,7 +647,7 @@ const npcData = {
         confess: "我习惯用数据说话，但感情这件事无法用数字衡量。你是我生命中最大的变量，也是最美的意外。愿意和我一起计算未来吗？",
         intimateEvents: [
             "安文逸在训练室用数据图表展示你们的心跳同步率，用最理性的方式表达最感性的爱意",
-            "和安文逸度过亲密一夜，那个，大学生……成年了吧？",
+            "和安文逸度过亲密一夜，他的手很热。",
             "在兴欣的庆功宴上，安文逸放下平板电脑，第一次凭感觉说出'我爱你'"
         ]
     },
@@ -785,9 +786,9 @@ const npcData = {
         },
         confess: "作为战术师，我习惯计算每一步。但在感情这件事上，我选择跟随内心。你是我计算之外的最美意外，愿意和我一起书写我们的故事吗？",
         intimateEvents: [
-            "喻文州在战术板上画出了你们的未来规划，每一个细节都考虑周到",
-            "他带你去蓝雨的训练室，在深夜的月光下为你弹奏钢琴曲",
-            "在全明星周末，喻文州当着所有选手的面，用最严谨的战术分析证明你们是天生一对"
+            "慵懒的假期早上喻文州为你亲手端上美味粥饭，他问你：要不要日日煮饭你食？",
+            "看着你学他的语调唤他’笨笨居‘的可爱样子，喻文州忍不住上前亲吻了你",
+            "和喻文州度过亲密一夜，发现他耐心十足。一直到你先无法忍耐开始求他，他才如你所愿。"
         ]
     },
 
@@ -834,9 +835,9 @@ const npcData = {
         },
         confess: "我这个人平时话很多你知道的但是现在我突然不知道该怎么说了就是那个我喜欢你超级喜欢喜欢到想要一直和你在一起你愿意给我这个机会吗？",
         intimateEvents: [
-            "黄少天在竞技场用超快手速打出了满屏的'我爱你'，让所有观众目瞪口呆",
-            "他带你去看夜景，在星空下难得安静地握着你的手，轻声说'这样真好'",
-            "在蓝雨训练基地，黄少天用最快的语速背诵了为你写的情诗，脸红得像苹果"
+            "在只有两个人的场合里黄少天的话很少，因为他的嘴巴正忙着亲你。",
+            "和黄少天度过亲密一夜，发现被他哄着不知不觉做了不少奇怪的事。",
+            "黄少天带你见了家人，朋友和小学同学，他说他有了最中意的人，就要让全世界都知道。"
         ]
     },
 
@@ -886,7 +887,7 @@ const npcData = {
         confess: "我年纪还小可能不懂什么是爱情但是我知道和你在一起的时候特别开心心跳也会变快你愿意等我长大然后和我在一起吗？",
         intimateEvents: [
             "卢瀚文在训练室用最认真的态度向你展示他的进步，在汗水中告白",
-            "他带你去游乐园，在旋转木马上红着脸说出喜欢你",
+            "和卢瀚文度过……不，不可以。",
             "在蓝雨的青训营，小卢当着所有学员的面，用稚嫩却真诚的声音表白"
         ]
     },
@@ -1123,9 +1124,9 @@ const npcData = {
         },
         confess: "作为魔术师，我习惯用出人意料的方式取胜。但在感情这件事上，我想用最真诚的心意打动你。你愿意成为我生命中最重要的那个人吗？",
         intimateEvents: [
-            "王杰希在训练室用魔道学者的扫把在空中画出了爱心轨迹，在星光中向你告白",
-            "他带你去微草的天台，在满月下为你表演只有你能看到的'魔术'",
-            "在全明星赛上，王杰希用标志性的魔术师打法为你献上了一场专属的表演"
+            "热吻之后，王杰希望着你说，要不要干脆结婚好了，正好他下个月有假期。",
+            "王杰希把你拉到战术白板后亲吻，你问他队规里允许队员们在会议室做这种事吗？他笑着回答你：其他人不行，但是他特批了‘王杰希‘。",
+            "和王杰希度过亲密一夜，没想到他喜欢的姿势……十分地传统。"
         ]
     },
 
@@ -1192,9 +1193,9 @@ const npcData = {
         introTargets: [
             { target: "wangjiexi", team: "weicao", favorRequire: 25 },
             { target: "liuxiaobie", team: "weicao", favorRequire: 25 },
-            { target: "yuanbaiqing", team: "weicao", favorRequire: 25 },
-            { target: "linfeng", team: "weicao", favorRequire: 25 }
-        ],
+           { target: "yangcong", team: "sanyiling", favorRequire: 31 },
+         { target: "yuanbaiqing", team: "weicao", favorRequire: 25 }
+                ],
         dialogs: {
             low: ["要一起练习骑士操作吗？", "你的防守意识很不错", "微草的防守体系，适应得如何？"],
             mid: ["今天的防守战术需要调整吗？", "和你配合防守很稳固", "开始觉得，你是很可靠的队友"],
@@ -1525,9 +1526,9 @@ const npcData = {
         },
         confess: "...我...话少...但...真心...你...愿意...接受...这样的...我吗？",
         intimateEvents: [
-            "周泽楷在比赛现场用枪体术打出爱的轨迹，在万众瞩目下无声告白",
-            "和周泽楷度过亲密一夜，枪王不愧是枪王",
-            "在广告拍摄现场，周泽楷打破沉默，用最简单的话说出最深的爱意"
+            "周泽楷说话很简短，例如：’还好吗‘、’是这里吗‘和’这样会舒服吗‘……",
+            "和周泽楷度过亲密一夜，枪王不愧是枪王，枪体术厉害，’体术‘也厉害。",
+            "在电视采访时，周泽楷主动提及自己处于热恋中，惹得广大粉丝心碎一地。"
         ]
     },
 
@@ -1629,9 +1630,9 @@ const npcData = {
         },
         confess: "我追求力量，想要成为最强。但在你面前，我发现最强不如最真。你愿意接受这个还在成长的我吗？",
         intimateEvents: [
-            "孙翔在训练室用一叶之秋打出最华丽的连招，在技能光效中告白",
-            "和孙翔度过亲密一夜，没想到他看起来小，其实很大",
-            "在个人挑战赛中，孙翔为你献上了专属的胜利表演"
+            "孙翔喜欢带你去吃情侣套餐，为了证明’情侣关系‘，他勉为其难地亲了你一次又一次。",
+            "和孙翔度过亲密一夜，没想到他看起来小，其实很大。",
+            "孙翔把你的照片设置成手机屏保、电脑桌面、朋友圈壁纸……在修改荣耀账号头像时被发现并及时阻止了。"
         ]
     },
 
@@ -1827,8 +1828,9 @@ const npcData = {
         introTargets: [
             { target: "zhangxinjie", team: "batu", favorRequire: 35 },
             { target: "zhangjiale", team: "batu", favorRequire: 31 },
-            { target: "linjingyan", team: "batu", favorRequire: 31 },
-                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "baiyanfei", team: "batu", favorRequire: 31 },
+            { target: "linjingyan", team: "batu", favorRequire: 31 },            
+            { target: "songqiying", team: "batu", favorRequire: 25 },
+            { target: "baiyanfei", team: "batu", favorRequire: 31 },
             { target: "qinyunmu", team: "batu", favorRequire: 31 }
         ],
         dialogs: {
@@ -1861,9 +1863,9 @@ const npcData = {
         },
         confess: "我这个人不懂浪漫，只会用行动证明。你愿意相信这个笨拙但真心的我吗？",
         intimateEvents: [
-            "韩文清在训练室用最直接的方式表达心意，虽然笨拙但真诚",
-            "他带你去霸图的荣誉室，在冠军旗帜前紧握你的手",
-            "在团队训练中，韩文清为你打破了多年的严肃形象"
+            "韩文清将和你的恋情通报给了俱乐部备案，还给你办了专门的出入卡。现在连霸图门口保安都认识你是’韩队家属‘了。",
+            "和韩文清度过了亲密一夜，只觉得一夜顶三夜……早上称称体重好像都瘦了3斤。",
+            "只要一个吻，什么晨练、跑操、早八……韩文清通通给你免了。"
         ]
     },
 
@@ -1884,7 +1886,8 @@ const npcData = {
             { target: "yuwenzhou", team: "lanyu", favorRequire: 31 },
             { target: "huangshaotian", team: "lanyu", favorRequire: 31 },
             { target: "chuyunxiu", team: "yuyan", favorRequire: 31 },
-                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "sumucheng", team: "happy", favorRequire: 31 },
+            { target: "sumucheng", team: "happy", favorRequire: 31 },            
+            { target: "songqiying", team: "batu", favorRequire: 25 },
             { target: "xiaoshiqin", team: "leiting", favorRequire: 31 },
             { target: "lixuan", team: "xukong", favorRequire: 31 }
         ],
@@ -2044,8 +2047,9 @@ const npcData = {
         introTargets: [
             { target: "hanwenqing", team: "batu", favorRequire: 25 },
             { target: "zhangxinjie", team: "batu", favorRequire: 25 },
-            { target: "zhangjiale", team: "batu", favorRequire: 25 },
-                     { target: "songqiying", team: "batu", favorRequire: 25 },   { target: "linjingyan", team: "batu", favorRequire: 25 },
+            { target: "zhangjiale", team: "batu", favorRequire: 25 },            
+            { target: "songqiying", team: "batu", favorRequire: 25 },
+            { target: "linjingyan", team: "batu", favorRequire: 25 },
             { target: "qinyunmu", team: "batu", favorRequire: 25 }
         ],
         dialogs: {
@@ -2144,7 +2148,8 @@ const npcData = {
             { target: "hanwenqing", team: "batu", favorRequire: 25 },
             { target: "zhangxinjie", team: "batu", favorRequire: 25 },
             { target: "zhangjiale", team: "batu", favorRequire: 25 },
-                    { target: "songqiying", team: "batu", favorRequire: 25 },    { target: "linjingyan", team: "batu", favorRequire: 25 },
+            { target: "linjingyan", team: "batu", favorRequire: 25 },            
+            { target: "songqiying", team: "batu", favorRequire: 25 },
             { target: "baiyanfei", team: "batu", favorRequire: 25 }
         ],
         dialogs: {
@@ -2452,9 +2457,9 @@ const npcData = {
         },
         confess: "我习惯用机械和逻辑解决问题，但爱情是最精密的机械也无法计算的。你愿意和我一起，用一生来调试这个美丽的程序吗？",
         intimateEvents: [
-            "肖时钦在实验室用机械装置拼出了爱心图案",
-            "他带你去科技馆，在科技的浪漫中告白",
-            "在机械研发中，肖时钦为你创造了专属的爱心机器人"
+            "肖时钦很高，胳膊也很有力气，被他抱起时仿佛都能呼吸到上层的新鲜空气。",
+            "和肖时钦度过亲密一夜，他听从你的指挥做了很多奇怪的事。",
+            "总被你叫做’老肖‘让他颇为无奈，可是想了半天反击的话，他最终选择叫你’老婆‘。"
         ]
     },
 
@@ -4226,7 +4231,409 @@ const npcData = {
             "他带你去天文台，在星空的见证下告白",
             "在法术表演中，闻理为你展示了最浪漫的魔法时刻"
         ]
+    },
+
+
+    linjie: {
+        name: "林杰",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-green-600", // 微草绿色
+        borderColor: "border-green-700",
+        textColor: "text-white",
+        introTargets: [
+            { target: "wangjiexi", team: "weicao", favorRequire: 25 },
+            { target: "fangshiqian", team: "league", favorRequire: 20 },
+            { target: "gaoyingjie", team: "weicao", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["年轻人，想听听微草建队的故事吗？", "看到现在的职业联盟，真让人感慨万千", "王不留行在那个孩子手里，发扬光大了"],
+            mid: ["你是个很有潜力的选手，让我想起了年轻时的自己", "微草的传承，不仅仅是账号卡，更是精神", "有时候看着现在的比赛，还是会手痒"],
+            high: ["和你聊天很愉快，让我感觉年轻了许多", "你让我想起了把王不留行交给杰希的那一天", "荣耀的精神，需要你们这样的年轻人传承"],
+            love: ["我已经退休了，但看到你，心还是会跳动", "这份感情可能不太合适，但我控制不住自己", "如果你不介意我这个老头子的话……"]
+        },
+        choices: {
+            low: [
+                { text: "想听！请林前辈讲讲微草的故事", favorChange: 4 },
+                { text: "您对现在的荣耀怎么看？", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能听前辈教诲是我的荣幸", favorChange: 5 },
+                { text: "微草的精神确实令人敬佩", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "前辈的故事总是让我受益匪浅", favorChange: 5 },
+                { text: "荣耀的传承需要前辈们的指引", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "年龄不是问题，我也对前辈有好感", favorChange: 3 },
+                { text: "前辈的成熟魅力很吸引人", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这一生最骄傲的两件事：一是创建了微草，二是遇见了你。虽然我已经退役多年，但这份心意是真的。你愿意接受我这个老家伙吗？",
+        intimateEvents: [
+            "林杰带你去了微草战队的旧址，在月光下分享了他年轻时创建战队的故事，你们的关系在怀旧氛围中变得更加亲密",
+            "在联盟的档案馆里，林杰给你看他珍藏的旧照片，讲述着王不留行的传承，那个夜晚你们的心靠得很近",
+            "林杰为你准备了一顿温馨的家常菜，在轻松的氛围中，他放下了前辈的架子，展现出真实而温柔的一面"
+        ]
+    },
+
+    // 方士谦 - 微草治疗之神（绿色系）
+    fangshiqian: {
+        name: "方士谦",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-green-500", // 微草绿色
+        borderColor: "border-green-600",
+        textColor: "text-white",
+        introTargets: [
+            { target: "wangjiexi", team: "weicao", favorRequire: 25 },
+            { target: "linjie", team: "league", favorRequire: 20 },
+            { target: "gaoyingjie", team: "weicao", favorRequire: 20 },
+            { target: "yuanbaiqing", team: "weicao", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["治疗之神在此，有什么问题尽管问", "现在的治疗选手，还是太嫩了", "双治疗职业精通？那可是我的专利"],
+            mid: ["你的治疗意识还不错，有点我当年的影子", "冬虫夏草和防风，都是我精心培养的孩子", "王杰希那小子，现在应该很想念我吧"],
+            high: ["能遇到理解双治疗精髓的人，真不容易", "你让我想起了巅峰时期的自己", "有时候真想复出，再打一场"],
+            love: ["治疗可以治愈伤口，但治愈不了对你的思念", "我治过那么多人，却治不好自己的心病", "你愿意做我的专属病人吗？"]
+        },
+        choices: {
+            low: [
+                { text: "求治疗之神指点！", favorChange: 4 },
+                { text: "双治疗职业真的可能吗？", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能得到您的认可太荣幸了", favorChange: 5 },
+                { text: "您当年的比赛我都看过", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "您永远是治疗职业的巅峰", favorChange: 5 },
+                { text: "真希望能看您再打一场", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "我愿意做您的专属病人", favorChange: 3 },
+                { text: "您能治愈我的心", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这个人，巅峰时退役，不想看到自己状态下滑。但在你面前，我愿意展现最真实的自己，哪怕不再完美。你愿意接受这个曾经的治疗之神吗？",
+        intimateEvents: [
+            "方士谦在联盟医疗室给你演示双治疗技巧时，不知不觉靠得很近，治疗之神的专业魅力让你心跳加速",
+            "他带你去了一家安静的茶馆，在茶香中分享治疗之道的精髓，那个夜晚的交流让你们的关系更加特别",
+            "方士谦难得地放下了傲娇的一面，在星空下向你倾诉退役后的心情，你们的关系变得更加亲密"
+        ]
+    },
+
+    // 吴雪峰 - 嘉世三连冠副队长（红色系）
+    wuxuefeng: {
+        name: "吴雪峰",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-red-500", // 嘉世红色
+        borderColor: "border-red-600",
+        textColor: "text-white",
+        introTargets: [
+            { target: "yexiu", team: "happy", favorRequire: 25 },
+            { target: "sumucheng", team: "happy", favorRequire: 20 },
+            { target: "qiufei", team: "jiashi", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["嘉世三连冠的岁月，真是令人怀念", "叶修那小子，现在过得怎么样？", "气冲云水，是我最骄傲的伙伴"],
+            mid: ["你的战术意识不错，有点像当年的我", "和叶修配合，最重要的是信任", "看到现在的嘉世，心情很复杂"],
+            high: ["能遇到理解团队配合重要性的人，很难得", "你让我想起了嘉世最辉煌的岁月", "有时候真想回到赛场，再打一场"],
+            love: ["我辅助过叶修拿下三连冠，现在想辅助你的人生", "气功可以推开敌人，却推不开对你的思念", "你愿意让我成为你生命中的最佳搭档吗？"]
+        },
+        choices: {
+            low: [
+                { text: "想听您讲嘉世三连冠的故事", favorChange: 4 },
+                { text: "您和叶神当年是怎么配合的？", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能得到您的指导太荣幸了", favorChange: 5 },
+                { text: "您的团队配合是教科书级的", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "您永远是团队配合的典范", favorChange: 5 },
+                { text: "真希望能看您和叶神再配合一次", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "您就是我生命中的最佳搭档", favorChange: 3 },
+                { text: "我想和您配合一生", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这个人，习惯了在幕后支持别人。但在你面前，我想走到台前，成为你生命中最重要的那个人。你愿意给我这个机会吗？",
+        intimateEvents: [
+            "吴雪峰在战术分析室为你重现嘉世三连冠的经典配合，在专业的氛围中，你们的心灵产生了奇妙的共鸣",
+            "他带你去了一家老字号的点心店，在轻松的氛围中分享当年和叶修并肩作战的趣事，那个夜晚很温暖",
+            "吴雪峰展现了他细腻体贴的一面，为你解决了战术难题后，在深夜的办公室里，你们的距离悄然拉近"
+        ]
+    },
+
+    // 郭明宇 - 皇风首任队长（琥珀色系）
+    guomingyu: {
+        name: "郭明宇",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-amber-600", // 皇风琥珀色
+        borderColor: "border-amber-700",
+        textColor: "text-white",
+        introTargets: [
+            { target: "tiansen", team: "huangfeng", favorRequire: 25 },
+            { target: "luliang", team: "league", favorRequire: 20 },
+            { target: "yexiu", team: "happy", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["第一赛季的决赛，我到现在还记得", "扫地焚香，是我一生的骄傲", "皇风虽然输了，但我们打得很精彩"],
+            mid: ["你的操作很有气势，有我当年的影子", "和叶修对决，是我职业生涯最难忘的经历", "看到现在的驱魔师选手，很欣慰"],
+            high: ["能遇到理解驱魔师精髓的人，不容易", "你让我想起了那个热血的年代", "有时候真想回到赛场，再和叶修打一场"],
+            love: ["我用驱魔符咒困住过无数对手，却困不住自己的心", "扫地焚香可以扫地，却扫不清对你的思念", "你愿意让我这个老将，守护你一生吗？"]
+        },
+        choices: {
+            low: [
+                { text: "想听您讲第一赛季的故事", favorChange: 4 },
+                { text: "您当年和叶神对决是什么感觉？", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能得到您的认可太荣幸了", favorChange: 5 },
+                { text: "您是驱魔师的先驱", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "您永远是驱魔师的传奇", favorChange: 5 },
+                { text: "真希望能看您再打一场", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "我愿意让您守护一生", favorChange: 3 },
+                { text: "您在我心中永远是传奇", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这个人，拿过亚军，经历过失败。但在你面前，我找到了重新站起来的勇气。你愿意和这个曾经失败的老将一起，创造新的胜利吗？",
+        intimateEvents: [
+            "郭明宇在训练场演示扫地焚香的经典操作时，那份专注和热情深深吸引了你，训练后的交流让你们更加了解彼此",
+            "他带你去了一家传统武馆，在古朴的环境中讲述驱魔师的历史，那个夜晚的对话让你们的感情更加深厚",
+            "郭明宇难得地聊起了第一赛季决赛的心路历程，在坦诚的分享中，你们的关系变得更加亲密无间"
+        ]
+    },
+
+    // 吕良 - 扫地焚香继承者（琥珀色系）
+    luliang: {
+        name: "吕良",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-amber-500", // 皇风琥珀色
+        borderColor: "border-amber-600",
+        textColor: "text-white",
+        introTargets: [
+            { target: "guomingyu", team: "league", favorRequire: 20 },
+            { target: "tiansen", team: "huangfeng", favorRequire: 20 },
+            { target: "gaicaijie", team: "xukong", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["继承扫地焚香，是我最大的荣幸", "第三赛季的全明星，记忆犹新", "驱魔师的传承，需要年轻人继续"],
+            mid: ["你的驱魔师操作很有潜力", "接过前辈的账号卡，压力很大，但也很光荣", "看到现在的驱魔师选手，很欣慰"],
+            high: ["能遇到理解驱魔师传承的人，很难得", "你让我想起了接过扫地焚香的那一天", "有时候真想回到赛场，再证明一次自己"],
+            love: ["我继承了扫地焚香，现在想继承你的心", "驱魔可以驱散邪祟，却驱不散对你的思念", "你愿意让我这个传承者，传承我们的爱情吗？"]
+        },
+        choices: {
+            low: [
+                { text: "想听您讲继承扫地焚香的故事", favorChange: 4 },
+                { text: "继承传奇账号是什么感觉？", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能得到您的指导太荣幸了", favorChange: 5 },
+                { text: "您把扫地焚香发扬光大了", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "您是优秀的传承者", favorChange: 5 },
+                { text: "真希望能看您再操作扫地焚香", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "我愿意让您传承我的心", favorChange: 3 },
+                { text: "我们的爱情需要传承", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这个人，继承了传奇账号，也继承了前辈的期望。但在你面前，我只想做最真实的自己。你愿意接受这个努力传承的选手吗？",
+        intimateEvents: [
+            "吕良耐心地指导你驱魔师的操作技巧，那份认真和传承精神让你感动，训练后的谈心让感情升温",
+            "他带你去看了他收藏的历代驱魔师装备，在分享传承故事时，你们的心灵产生了深深的共鸣",
+            "吕良在星空下向你倾诉继承扫地焚香的压力和荣耀，那个夜晚的坦诚让你们的关系更加牢固"
+        ]
+    },
+
+    // 伍晨 - 前无极队长，现兴欣公会管理（蓝色系，无极/雷霆颜色）
+    wuchen: {
+        name: "伍晨",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-blue-500", // 无极/雷霆蓝色
+        borderColor: "border-blue-600",
+        textColor: "text-white",
+        introTargets: [
+            { target: "yexiu", team: "happy", favorRequire: 20 },
+            { target: "chenguo", team: "happy", favorRequire: 20 },
+            { target: "sumucheng", team: "happy", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["从职业选手到公会管理，我经历了太多", "晓枪现在在兴欣，过得很好", "无极战队虽然解散了，但记忆还在"],
+            mid: ["你的公会管理意识不错", "和兴欣合作，是我最正确的决定", "看到现在的公会发展，很欣慰"],
+            high: ["能遇到理解公会管理重要性的人，很难得", "你让我想起了管理无极战队的日子", "有时候真想回到赛场，再当一次队长"],
+            love: ["我管理过战队，也管理过公会，现在想管理你的心", "枪炮可以远程攻击，却攻击不到你的心房", "你愿意让我这个转型选手，陪伴你一生吗？"]
+        },
+        choices: {
+            low: [
+                { text: "想听您讲无极战队的故事", favorChange: 4 },
+                { text: "从选手转型管理是什么感觉？", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能得到您的指导太荣幸了", favorChange: 5 },
+                { text: "您的转型很成功", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "您是成功的转型典范", favorChange: 5 },
+                { text: "真希望能看您再操作晓枪", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "我愿意让您管理我的心", favorChange: 3 },
+                { text: "您在我心中很特别", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这个人，经历过战队的解散，也经历过转型的艰难。但在你面前，我找到了新的方向。你愿意和这个不断适应的选手，一起走向未来吗？",
+        intimateEvents: [
+            "伍晨在公会管理室耐心教你运营技巧，那份细致和责任心让你欣赏，工作后的交流让感情自然发展",
+            "他带你去了一家网咖，在熟悉的游戏氛围中分享从选手到管理者的心路历程，那个夜晚很轻松愉快",
+            "伍晨展现了他务实而可靠的一面，在帮你解决实际问题后，你们的距离在默契中悄然拉近"
+        ]
+    },
+
+    // 邓复升 - 前微草骑士（绿色系）
+    dengfusheng: {
+        name: "邓复升",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-green-700", // 微草绿色
+        borderColor: "border-green-800",
+        textColor: "text-white",
+        introTargets: [
+            { target: "wangjiexi", team: "weicao", favorRequire: 25 },
+            { target: "fangshiqian", team: "league", favorRequire: 20 },
+            { target: "xubin", team: "weicao", favorRequire: 20 },
+            { target: "gaoyingjie", team: "weicao", favorRequire: 20 },
+            { target: "yangcong", team: "sanyiling", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["我是邓复升，前微草战队的骑士", "潮汐现在在皇风，用得还不错", "微草的双治疗+骑士体系，当年很坚固"],
+            mid: ["你的骑士操作很稳健，有潜力", "和方士谦、王杰希配合的日子，很难忘", "看到微草现在的骑士，很欣慰"],
+            high: ["能遇到理解骑士重要性的人，不容易", "你让我想起了守护微草防线的日子", "有时候看到比赛，手还是会痒"],
+            love: ["我用盾牌守护过微草，现在想守护你", "骑士可以格挡攻击，却挡不住对你的心动", "你愿意让这个老骑士，成为你一生的守护者吗？"]
+        },
+        choices: {
+            low: [
+                { text: "邓前辈好！您的骑士很厉害", favorChange: 4 },
+                { text: "潮汐是很好的骑士账号", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能得到您的认可太荣幸了", favorChange: 5 },
+                { text: "您的防守是教科书级别", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "您永远是骑士的典范", favorChange: 5 },
+                { text: "想向您学习防守技巧", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "我愿意让您守护一生", favorChange: 3 },
+                { text: "您的稳重很吸引人", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这个人，在赛场上习惯了默默守护队友。但在你面前，我想走到前方，勇敢表达我的心意。你愿意接受这个总是站在后方的骑士吗？",
+        intimateEvents: [
+            "邓复升在训练场耐心教你骑士的格挡技巧，那份稳重和可靠让你安心，训练后的深夜交流让感情自然发展",
+            "他带你去了一家传统的茶馆，在宁静的氛围中分享微草时期的防守心得，那个夜晚的对话让关系更加亲密",
+            "在联盟的战术研讨会上，邓复升展现了他深厚的防守理解，会后单独为你解惑时，你们的距离在专业交流中拉近"
+        ]
+    },
+
+    // 李艺博 - 前霸图选手，现解说（黑色系）
+    liyibo: {
+        name: "李艺博",
+        team: "league",
+        gender: "male",
+        bgColor: "bg-black", // 霸图黑色
+        borderColor: "border-gray-800",
+        textColor: "text-white",
+        introTargets: [
+            { target: "hanwenqing", team: "batu", favorRequire: 25 },
+            { target: "zhangxinjie", team: "batu", favorRequire: 20 },
+            { target: "linjingyan", team: "batu", favorRequire: 20 },
+            { target: "yuwenzhou", team: "lanyu", favorRequire: 20 },
+            { target: "huangshaotian", team: "lanyu", favorRequire: 20 }
+        ],
+        dialogs: {
+            low: ["我是李艺博，现在的荣耀解说", "你经常看荣耀比赛吗？我可是专业解说", "望山云雾，是我当年的账号卡，元素法师"],
+            mid: ["你的游戏理解不错，有当解说的潜质", "从选手到解说，我经历了很大的转型", "有时候解说比赛，还是会想起当年打职业的日子"],
+            high: ["和你讨论比赛很有趣，你很有见解", "解说这么多年，你是少数能跟上我思路的人", "看到你的进步，让我想起了年轻时的自己"],
+            love: ["我解说过无数场比赛，却解说不清对你的感觉", "麦克风可以让全场听到我的声音，却传不到你心里", "你愿意让这个前选手现解说，为你解说一生的幸福吗？"]
+        },
+        choices: {
+            low: [
+                { text: "李指导好！我经常看您的解说", favorChange: 4 },
+                { text: "您当年的元素法师厉害吗？", favorChange: 3 },
+                { ignore: -2 }
+            ],
+            mid: [
+                { text: "能得到您的认可太荣幸了", favorChange: 5 },
+                { text: "您的解说很专业", favorChange: 3 },
+                { ignore: -3 }
+            ],
+            high: [
+                { text: "您的分析总是很精准", favorChange: 5 },
+                { text: "想向您学习比赛解读", favorChange: 4 },
+                { ignore: -6 }
+            ],
+            love: [
+                { text: "我愿意听您解说我的人生", favorChange: 3 },
+                { text: "您的声音让我心动", favorChange: 2 },
+                { ignore: -12 }
+            ]
+        },
+        confess: "我这个人，从选手到解说，一直在用嘴说话。但在你面前，我却常常词不达意。你愿意让这个靠说话为生的人，用一生向你诉说真心吗？",
+        intimateEvents: [
+            "李艺博在解说间为你单独解说了一场经典比赛，专业而迷人的声音让你沉醉，解说结束后的深夜交流让感情升温",
+            "他带你去了一家安静的咖啡馆，在轻松的氛围中分享从选手转型解说的心路历程，那个夜晚的坦诚让关系更加亲密",
+            "在联盟的庆功宴后，李艺博微醺中向你吐露了解说背后的压力与孤独，你们的距离在理解中悄然拉近"
+        ]
     }
-};
+
+  };
+
+console.log('NPC数据加载完成，包含', Object.keys(npcData).length, '个角色');
+
+
 
 console.log('数据就绪');

@@ -6,7 +6,8 @@ function autoSaveGame() {
             npcStates: {},
             currentPage: getCurrentPage(),
             currentScene: getCurrentScene(),
-            timestamp: new Date().getTime()
+            timestamp: new Date().getTime(),
+            achievements: JSON.parse(JSON.stringify(achievementsData)) // 保存成就
         };
         // 保存NPC状态
         for (const id in npcData) {
@@ -15,6 +16,8 @@ function autoSaveGame() {
             }
         }
         localStorage.setItem('honor_game_save', JSON.stringify(saveData));
+         // 确保gameData中有成就数据
+        saveData.gameData.achievements = JSON.parse(JSON.stringify(achievementsData));
         console.log('游戏已自动保存');
     } catch (e) {
         console.error('自动保存失败:', e);
@@ -29,6 +32,14 @@ function loadAutoSave() {
         if (savedData) {
             const loadedData = JSON.parse(savedData);
             console.log('发现自动存档，正在恢复游戏...');
+
+             // 恢复成就数据
+            if (loadedData.achievements) {
+                achievementsData = JSON.parse(JSON.stringify(loadedData.achievements));
+            } else if (loadedData.gameData && loadedData.gameData.achievements) {
+                achievementsData = JSON.parse(JSON.stringify(loadedData.gameData.achievements));
+            }
+
             // 清空当前游戏数据
             for (const key in gameData) {
                 delete gameData[key];
@@ -60,6 +71,12 @@ function loadAutoSave() {
                 gameData.unlockedScenes = ['home', 'happy'];
             }
             console.log('自动存档恢复成功');
+
+             // 检查成就
+            setTimeout(() => {
+                checkAchievements();
+            }, 100);
+
             return true;
         }
         return false;
@@ -100,19 +117,28 @@ function setupAutoSaveHooks() {
     const originalUpdateStatus = updateStatus;
     updateStatus = function () {
         const result = originalUpdateStatus.apply(this, arguments);
-        setTimeout(autoSaveGame, 100);
+        setTimeout(() => {
+            autoSaveGame();
+            checkAchievements();
+        }, 100);
         return result;
     };
     const originalAddEventRecord = addEventRecord;
     addEventRecord = function () {
         const result = originalAddEventRecord.apply(this, arguments);
-        setTimeout(autoSaveGame, 100);
+        setTimeout(() => {
+            autoSaveGame();
+            checkAchievements();
+        }, 100);
         return result;
     };
     const originalUpdateHomePage = updateHomePage;
     updateHomePage = function () {
         const result = originalUpdateHomePage.apply(this, arguments);
-        setTimeout(autoSaveGame, 100);
+        setTimeout(() => {
+            autoSaveGame();
+            checkAchievements();
+        }, 100);
         return result;
     };
 }
@@ -121,6 +147,9 @@ function setupAutoSaveHooks() {
 function enterGame() {
     console.log('进入游戏...');
     //alert("entergame");
+     // 初始化成就数据
+    initAchievements();
+
     // 自动尝试加载存档
     const autoSaveLoaded = loadAutoSave();
     if (autoSaveLoaded) {
@@ -166,6 +195,10 @@ function enterGame() {
     }
     // 设置自动保存钩子
     setupAutoSaveHooks();
+    // 初始成就检查
+    setTimeout(() => {
+        checkAchievements();
+    }, 500);
 }
 
 
@@ -442,6 +475,7 @@ function saveToSlot(slotNumber) {
             data: {
                 gameData: JSON.parse(JSON.stringify(gameData)),
                 npcStates: {},
+                achievements: JSON.parse(JSON.stringify(achievementsData)), // 保存成就
                 currentPage: currentPage,
                 currentScene: currentSceneToSave
             }
@@ -449,6 +483,9 @@ function saveToSlot(slotNumber) {
 
         // 确保gameData中的currentScene正确
         saveData.data.gameData.currentScene = currentSceneToSave;
+        // 确保gameData中的成就数据也保存
+        saveData.data.gameData.achievements = JSON.parse(JSON.stringify(achievementsData));
+
         for (const id in npcData) {
             if (npcData[id].gameState) {
                 saveData.data.npcStates[id] = JSON.parse(JSON.stringify(npcData[id].gameState));
@@ -567,6 +604,12 @@ function loadFromSlot(slotNumber) {
                 break;
         }
 
+         // 恢复成就数据
+        if (loadedData.achievements) {
+            achievementsData = JSON.parse(JSON.stringify(loadedData.achievements));
+            console.log('加载成就数据:', achievementsData);
+        }
+
         // 重新绑定事件
         bindButtonEvents();
         bindMapEvents();
@@ -580,6 +623,11 @@ function loadFromSlot(slotNumber) {
         setTimeout(() => {
             updateStatus();
             updateHomePage();
+        }, 100);
+
+         // 检查成就状态
+        setTimeout(() => {
+            checkAchievements();
         }, 100);
 
     } catch (e) {
@@ -721,6 +769,8 @@ function updateUnlockedScenesUI() {
 }
 
 // 检查联盟总部解锁
+// 检查联盟总部解锁
+// 检查联盟总部解锁
 function checkLeagueUnlock() {
     let loveCount = 0;
     for (const id in npcData) {
@@ -728,11 +778,42 @@ function checkLeagueUnlock() {
             loveCount++;
         }
     }
-    //alert(loveCount); 
 
+    // 1. 检查是否需要解锁联盟场景
     if (loveCount >= 5 && gameData.unlockedScenes && !gameData.unlockedScenes.includes('league')) {
         gameData.unlockedScenes.push('league');
-        addEventRecord(`你的恋人数量达到5人，解锁了荣耀联盟总部！所有战队成员均可在此相遇～`, 'unlock');
+        
+        // 确保unlockedCharacters数组存在
+        if (!gameData.unlockedCharacters) {
+            gameData.unlockedCharacters = [];
+        }
+        
+        // 当联盟场景解锁时，自动解锁所有联盟成员
+        const leagueMembers = teamConfig.league.members;
+        for (const npcId of leagueMembers) {
+            // 添加到解锁角色列表
+            if (!gameData.unlockedCharacters.includes(npcId)) {
+                gameData.unlockedCharacters.push(npcId);
+                console.log(`[联盟解锁] 添加 ${npcData[npcId].name} 到解锁名单`);
+            }
+            
+            // 初始化gameState（避免后续代码出错）
+            if (npcData[npcId] && !npcData[npcId].gameState) {
+                npcData[npcId].gameState = {
+                    favor: 0,
+                    love: false,
+                    confess: false,
+                    intimate: 0,
+                    locked: false,
+                    ignoreCount: 0,
+                    ex: false
+                };
+            }
+        }
+        
+       // addEventRecord(`你的恋人数量达到5人，解锁了荣耀联盟总部！所有退役选手都已自动解锁～`, 'unlock');
+        
+        // 更新地图显示
         const leagueElement = document.querySelector('.map-item[data-scene="league"]');
         if (leagueElement) {
             leagueElement.classList.remove('opacity-70', 'cursor-not-allowed');
@@ -745,9 +826,61 @@ function checkLeagueUnlock() {
             const pElement = leagueElement.querySelector('p');
             if (pElement) pElement.classList.remove('text-gray-400');
         }
+        
+        // 触发NPC列表更新
         updateStatus();
+        updateHomePage(); // 立即更新主页显示
+        autoSaveGame();
+    }
+    
+    // 2. 检查是否已解锁联盟但人员未解锁（补丁功能）
+    else if (gameData.unlockedScenes && gameData.unlockedScenes.includes('league')) {
+        if (!gameData.unlockedCharacters) {
+            gameData.unlockedCharacters = [];
+        }
+        
+        const leagueMembers = teamConfig.league.members;
+        let addedCount = 0;
+        
+        for (const npcId of leagueMembers) {
+            // 检查联盟成员是否已解锁
+            const isUnlocked = gameData.unlockedCharacters.includes(npcId);
+            
+            if (!isUnlocked) {
+                // 添加到解锁角色列表
+                gameData.unlockedCharacters.push(npcId);
+                addedCount++;
+                console.log(`[补丁] 添加 ${npcData[npcId].name} 到解锁名单`);
+                
+                // 初始化gameState
+                if (npcData[npcId] && !npcData[npcId].gameState) {
+                    npcData[npcId].gameState = {
+                        favor: 0,
+                        love: false,
+                        confess: false,
+                        intimate: 0,
+                        locked: false,
+                        ignoreCount: 0,
+                        ex: false
+                    };
+                }
+            }
+        }
+        
+        // 如果有新添加的人员，更新显示
+        if (addedCount > 0) {
+            console.log(`[补丁] 成功解锁了 ${addedCount} 个联盟成员`);
+            updateStatus();
+            updateHomePage();
+            
+            // 可选：添加一条事件记录
+            if (addedCount === leagueMembers.length) {
+                addEventRecord(`联盟总部已解锁，所有退役选手现已全部可用！`, 'unlock');
+            }
+        }
     }
 }
+
 
 // 更新状态栏数据
 function updateStatus() {
@@ -1017,6 +1150,14 @@ function restartGame() {
             }
         }
 
+         // 重置成就数据
+        achievementsData = {
+            unlocked: [],
+            points: 0,
+            lastChecked: new Date().getTime()
+        };
+        saveAchievements();
+
         // 重新初始化
         initGameData();
         // 清空自动存档
@@ -1161,7 +1302,7 @@ console.log('设置功能就绪');
 
 
 // 家页面页签切换函数 - 纯显示隐藏
-function showTab(tabName) {
+function showTab000(tabName) {
     // 更新按钮状态
     document.querySelectorAll('.home-tab').forEach(tab => {
         tab.classList.remove('active');
@@ -1189,5 +1330,56 @@ function showTab(tabName) {
     if (targetContent) {
         targetContent.classList.add('active');
         targetContent.classList.remove('hidden');
+    }
+}
+
+// 家页面页签切换函数 - 纯显示隐藏
+function showTab(tabName) {
+    // 隐藏所有内容
+    document.querySelectorAll('.home-tab-content').forEach(content => {
+        content.classList.add('hidden');
+        content.classList.remove('active');
+    });
+    
+    // 显示目标内容
+    const targetContent = document.getElementById(tabName + 'Card');
+    if (targetContent) {
+        targetContent.classList.remove('hidden');
+        targetContent.classList.add('active');
+        
+        // 如果切换到成就页面，更新显示
+        if (tabName === 'achievement' && typeof updateAchievementsDisplay === 'function') {
+            updateAchievementsDisplay();
+        }
+        
+        // 新增：如果切换到关系图页面，初始化关系图
+        if (tabName === 'relation') {
+            // 延迟一点确保DOM已更新
+            setTimeout(() => {
+                if (typeof window.initRelationGraph === 'function') {
+                    window.initRelationGraph();
+                } else {
+                    console.error('initRelationGraph 函数未定义，请检查show.js是否加载');
+                }
+            }, 50);
+        }
+    }
+    
+    // 更新按钮状态（可选）
+    document.querySelectorAll('.home-tab').forEach(tab => {
+        tab.classList.remove('active', 'text-primary');
+        tab.classList.add('text-gray-500');
+    });
+    
+    const activeBtn = Array.from(document.querySelectorAll('.home-tab')).find(btn => 
+        (tabName === 'favor' && btn.textContent.includes('好感度')) ||
+        (tabName === 'event' && btn.textContent.includes('历史事件')) ||
+        (tabName === 'achievement' && btn.textContent.includes('成就')) ||
+        (tabName === 'relation' && btn.textContent.includes('关系图')) // 新增关系图
+    );
+    
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'text-primary');
+        activeBtn.classList.remove('text-gray-500');
     }
 }

@@ -850,3 +850,229 @@ body::before {
     color: #4b5563 !important;
     border-color: #d1d5db !important;
 }
+
+
+/* 成就系统样式 */
+.achievement-item {
+    transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 成就滚动条样式 */
+#achievementsList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#achievementsList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#achievementsList::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+#achievementsList::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+
+
+
+/* 淡灰底金边联盟面板样式 */
+#interactionPanel.league-mode.card {
+    background-color: #f9fafb !important; /* 淡灰色背景 */
+    border: 1px solid #fbbf24 !important; /* 金色边框 */
+}
+
+#interactionPanel.league-mode h3 {
+    color: #92400e !important; /* 棕色标题，更搭配金色 */
+}
+
+#interactionPanel.league-mode .dialog-box {
+    background-color: #f9fafb !important; /* 淡灰背景 */
+    border: 1px solid #fbbf24 !important; /* 金色边框 */
+}
+
+#interactionPanel.league-mode .btn-primary {
+    background-color: #fef3c7 !important; /* 淡金色 */
+    color: #92400e !important; /* 棕色文字 */
+    border-color: #fbbf24 !important; /* 金色边框 */
+}
+
+#interactionPanel.league-mode .btn-secondary {
+    background-color: #fef3c7 !important; /* 淡金色 */
+    color: #92400e !important; /* 棕色文字 */
+    border-color: #fbbf24 !important; /* 金色边框 */
+}
+
+/* 第三个按钮（不理按钮）的特殊样式 */
+#interactionPanel.league-mode #choiceIgnore.btn-secondary {
+  
+    background-color: #e0f2fe !important;
+    color: #075985 !important;
+    border-color: #7dd3fc !important;
+}
+
+
+
+
+/* 在现有CSS中添加 */
+#relationCanvas {
+    display: block;
+    cursor: default;
+}
+
+#relationGraph {
+    position: relative;
+    user-select: none; /* 防止选中文本 */
+}
+
+/* 悬停提示样式优化 */
+#relationHint {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* 在HTML文件的style标签或CSS文件中添加 */
+#relationCanvas {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+
+
+
+/* 家页面横向页签样式 */
+.home-tab {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+    margin: 0 2px;
+    white-space: nowrap;
+}
+
+/* 确保所有页签都有图标 */
+.home-tab i {
+    margin-right: 4px;
+    font-size: 12px;
+}
+
+/* 明确指定关系页签使用 project-diagram 图标 */
+.home-tab[onclick*="relation"] i.fa-project-diagram {
+    display: inline-block !important;
+    color: #9333ea; /* 紫色 */
+}
+
+.home-tab:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: #4299e1;
+}
+
+.home-tab.active {
+    background: rgba(255, 255, 255, 0.8);
+    color: #4299e1;
+    border-bottom: 2px solid #4299e1;
+    font-weight: 600;
+}
+
+/* 页签容器防止换行 */
+.flex.border-b {
+    flex-wrap: nowrap;
+}
+
+.home-tab-content {
+    display: none;
+}
+
+.home-tab-content.active {
+    display: block;
+}
+
+
+
+.achievement-progress-box {
+    min-height: auto !important;
+    padding: 0.25rem !important;
+}
+
+.achievement-progress-box .text-2xl {
+    font-size: 1.125rem !important; /* text-lg */
+    line-height: 1.2 !important;
+}
+
+
+
+
+/* 爱恨交织面板样式 - 仿照前任面板风格但用灰色系 */
+#jealousyPanel.lovehate-mode.card {
+    background-color: #f5f5f5 !important;
+    border: 1px solid #999 !important;
+}
+
+#jealousyPanel.lovehate-mode h3 {
+    color: #444 !important;
+}
+
+/* 对应前任面板的 .dialog-box */
+#jealousyPanel.lovehate-mode .dialog-box {
+    background-color: #f5f5f5 !important;
+    border: 1px solid #888 !important;
+    color: #333 !important;
+    padding: 10px 15px !important;
+    border-radius: 4px !important;
+    margin: 15px 0 !important;
+}
+
+/* 第一个按钮 - 挽留按钮 */
+#jealousyPanel.lovehate-mode #jealousyChoose1.btn-primary {
+    background-color: #e6c939 !important;
+    color: #fff !important;
+    border-color: #777 !important;
+}
+
+#jealousyPanel.lovehate-mode #jealousyChoose1.btn-primary:hover {
+    background-color: #888 !important;
+    border-color: #666 !important;
+}
+
+/* 第二个按钮 - 分手按钮 */
+#jealousyPanel.lovehate-mode #jealousyChoose2.btn-secondary {
+    background-color: #777 !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+#jealousyPanel.lovehate-mode #jealousyChoose2.btn-secondary:hover {
+    background-color: #666 !important;
+    border-color: #444 !important;
+}
+
+/* 第三个按钮 - 沉默按钮 */
+#jealousyPanel.lovehate-mode #jealousyChoose3.btn-gray {
+    background-color: #b0afaf !important;
+    color: #fff !important;
+    border-color: #817e7e !important;
+    border-radius: 6px !important;
+}
+
+#jealousyPanel.lovehate-mode #jealousyChoose3.btn-gray:hover {
+    background-color: #444 !important;
+    border-color: #222 !important;
+}

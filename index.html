@@ -7,6 +7,10 @@
     <title>恋与荣耀联盟 </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入 FontAwesome 6 的兼容版本 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 同时引入 v4-shims 保持兼容 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/v4-shims.min.css">
     <link href="styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
@@ -665,11 +669,21 @@
         <!-- 横向页签导航 - 新增 -->
         <div class="flex border-b border-gray-200 mb-4">
             <button class="home-tab active" onclick="showTab('favor')">
-                <i class="fa fa-heart text-pink-500 mr-2"></i>好感度列表
+                <i class="fa fa-heart text-pink-500 mr-2"></i>好感
             </button>
             <button class="home-tab" onclick="showTab('event')">
-                <i class="fa fa-history text-gray-500 mr-2"></i>历史事件记录
+                <i class="fa fa-history text-gray-500 mr-2"></i>事件
             </button>
+            <button class="home-tab" onclick="showTab('achievement')">
+                <i class="fa fa-trophy text-yellow-500 mr-2"></i>成就
+            </button>
+
+            <!-- 在成就系统按钮后面添加关系图按钮 -->
+            <button class="home-tab" onclick="showTab('relation')">
+                <i class="fa fa-sitemap text-purple-500 mr-2"></i>关系
+            </button>
+
+
         </div>
 
         <!-- 原有的两个卡片，加上ID用于控制显示 -->
@@ -702,6 +716,80 @@
                 </div>
             </div>
         </div>
+
+        <!-- 在 home-tab-content 部分添加成就卡片 -->
+        <div id="achievementCard" class="home-tab-content hidden">
+            <div class="card mb-6">
+                <h3 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
+                    <i class="fa fa-trophy text-yellow-500 mr-2"></i> 成就系统
+                </h3>
+
+                <!-- 成就统计概览 -->
+                <div class="mb-2 p-1 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg border-2 border-yellow-300 shadow-md"
+                    style="min-height: 60px; max-height: 60px;">
+                    <div class="flex justify-between items-center h-full">
+                        <div class="text-center flex-1 flex flex-col justify-center">
+                            <div class="text-base font-bold text-yellow-600" id="achievementProgress">0/20</div>
+                            <div class="text-xs text-gray-600 mt-0.5">成就进度</div>
+                        </div>
+                        <div class="text-center flex-1 flex flex-col justify-center">
+                            <div class="text-base font-bold text-green-600" id="totalPoints">0</div>
+                            <div class="text-xs text-gray-600 mt-0.5">成就点数</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 成就列表 -->
+                <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2" id="achievementsList">
+                    <!-- 动态生成成就项 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 在成就卡片后面添加关系图卡片 -->
+        <div id="relationCard" class="home-tab-content hidden">
+            <div class="card mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-lg font-bold text-gray-700 flex items-center">
+                        <i class="fa fa-project-diagram text-purple-500 mr-2"></i> 关系图谱
+                    </h3>
+                    <button onclick="refreshRelationGraph()"
+                        class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded">
+                        <i class="fa fa-sync-alt mr-1"></i>刷新
+                    </button>
+                </div>
+
+                <!-- 关系图可视化区域 -->
+                <div id="relationGraph"
+                    style="width: 100%; height: 450px; background: #f9fafb; border-radius: 8px; position: relative; overflow: hidden;">
+                    <canvas id="relationCanvas"></canvas>
+                </div>
+
+                <!-- 图例 -->
+                <div class="mt-4 flex flex-wrap gap-3 justify-center">
+                    <div class="flex items-center">
+                        <div class="w-6 h-0.5 bg-red-500 mr-2"></div>
+                        <span class="text-xs">恋人关系</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-6 h-0.5 bg-blue-500 mr-2"></div>
+                        <span class="text-xs">前任关系</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-6 h-0.5 bg-gray-800 mr-2"></div>
+                        <span class="text-xs">同队关系</span>
+                    </div>
+                </div>
+
+                <!-- 提示信息 -->
+                <div id="relationHint" class="text-center text-gray-500 text-sm mt-3 p-2 bg-gray-50 rounded">
+                    点击节点查看详情，拖动节点可以调整位置
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
 
     <!-- 微信风格对话框（居中显示）- 紧凑版 -->
@@ -749,6 +837,8 @@
     <script src="main.js"></script>
     <script src="business.js"></script>
     <script src="chat.js"></script>
+    <script src="achieve.js"></script>
+    <script src="show.js"></script>
     <script>
         // 简化的初始化代码
         function initPage() {
@@ -833,6 +923,15 @@
             npcData.chenguo.gameState.favor = 10;
             gameData.unlockedScenes = ['home', 'happy'];
             gameData.unlockedCharacters = ["yexiu", "chenguo"];
+
+            // 确保成就数据结构存在
+            if (!gameData.achievements) {
+                gameData.achievements = achievementsData;
+            }
+
+            // 初始化成就数据
+            initAchievements();
+
 
         }
     </script>

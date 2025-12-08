@@ -27,14 +27,14 @@ function initSceneInteraction(scene) {
     // 获取可出现的NPC列表（只有被介绍过的NPC才会出现）
     let availableNpcs = [];
     if (scene === "league") {
-        // 联盟总部场景逻辑
+        // 联盟总部场景逻辑 - 使用unlockedCharacters判断
         availableNpcs = Object.keys(npcData).filter(npcId => {
-            const isInitial = ['yexiu', 'chenguo'].includes(npcId);
-            const isIntroduced = Object.values(gameData.introHistory).some(intro => intro[npcId]);
-            return isInitial || isIntroduced;
+            // 检查是否在解锁名单中
+            const isUnlocked = gameData.unlockedCharacters && gameData.unlockedCharacters.includes(npcId);
+            return isUnlocked;
         });
     } else {
-        // 普通场景逻辑
+        // 普通场景逻辑 - 保持原有逻辑，因为普通场景还是使用介绍系统
         availableNpcs = currentTeam.members.filter(npcId => {
             const isInitial = ['yexiu', 'chenguo'].includes(npcId);
             const isIntroduced = Object.values(gameData.introHistory).some(intro => intro[npcId]);
@@ -277,6 +277,19 @@ function handleSelectedEvent(event) {
 // 添加事件记录（每天只记录一个事件，新事件覆盖旧事件，但特殊事件不会被覆盖）
 function addEventRecord(content, eventType = 'normal') {
     const existingEvent = gameData.events.find(event => event.day === gameData.day);
+
+    // 构建事件对象
+    const eventObj = {
+        day: gameData.day,
+        content: content,
+        type: eventType
+    };
+
+    // 如果有当前NPC，就加上
+    if (gameData.currentNpc) {
+        eventObj.npcId = gameData.currentNpc;
+    }
+    console.log('===== 事件记录当前npc =====' + eventObj.npcId);
     if (existingEvent) {
         // 如果同一天已经有事件记录
         // 特殊事件（介绍、解锁）不会被普通事件覆盖
@@ -286,19 +299,14 @@ function addEventRecord(content, eventType = 'normal') {
         }
         if (eventType === 'intro' || eventType === 'unlock') {
             // 特殊事件覆盖普通事件
-            existingEvent.content = content;
-            existingEvent.type = eventType;
+            Object.assign(existingEvent, eventObj);
         } else {
             // 普通事件覆盖普通事件
-            existingEvent.content = content;
+            Object.assign(existingEvent, eventObj);
         }
     } else {
         // 如果当天还没有事件记录，添加新记录
-        gameData.events.push({
-            day: gameData.day,
-            content: content,
-            type: eventType
-        });
+        gameData.events.push(eventObj);
     }
 }
 
@@ -315,123 +323,123 @@ function handleIntroEvent(data) {
 
     if (Math.random() < introProbability) {
 
-    let selectedIntro = availableIntroTargets[Math.floor(Math.random() * availableIntroTargets.length)];
-    if (!selectedIntro || !selectedIntro.target) {
-        console.error('介绍目标数据不完整:', selectedIntro);
-        return;
-    }
+        let selectedIntro = availableIntroTargets[Math.floor(Math.random() * availableIntroTargets.length)];
+        if (!selectedIntro || !selectedIntro.target) {
+            console.error('介绍目标数据不完整:', selectedIntro);
+            return;
+        }
 
-    const targetMemberId = selectedIntro.target;
-    const targetMember = npcData[targetMemberId];
-    const targetTeam = selectedIntro.team;
+        const targetMemberId = selectedIntro.target;
+        const targetMember = npcData[targetMemberId];
+        const targetTeam = selectedIntro.team;
 
-    if (!targetMember || !teamConfig[targetTeam]) {
-        console.error('目标成员或战队数据不存在:', { targetMemberId, targetTeam });
-        return;
-    }
+        if (!targetMember || !teamConfig[targetTeam]) {
+            console.error('目标成员或战队数据不存在:', { targetMemberId, targetTeam });
+            return;
+        }
 
-    const isSameTeam = targetTeam === npc.team;
-    console.log(`${npc.name} 介绍 ${targetMember.name} (${teamConfig[targetTeam].name}战队)`);
+        const isSameTeam = targetTeam === npc.team;
+        console.log(`${npc.name} 介绍 ${targetMember.name} (${teamConfig[targetTeam].name}战队)`);
 
-    // 生成1-100之间的随机初始好感度
-    const initialFavor = Math.floor(Math.random() * 60) + 1;
+        // 生成1-100之间的随机初始好感度
+        const initialFavor = Math.floor(Math.random() * 60) + 1;
 
-    // 根据好感度确定描述文本
-    let favorDescription = "";
+        // 根据好感度确定描述文本
+        let favorDescription = "";
 
-    if (initialFavor <= 10) {
-        favorDescription = "对方似乎很冷淡，不太愿意交流的样子";
-    } else if (initialFavor <= 20) {
-        favorDescription = "对方态度一般，保持着基本的礼貌";
-    } else if (initialFavor <= 30) {
-        favorDescription = "对方好像对你有些兴趣，愿意与你交流";
-    } else if (initialFavor <= 50) {
-        favorDescription = "对方似乎对你印象不错，态度比较热情";
+        if (initialFavor <= 10) {
+            favorDescription = "对方似乎很冷淡，不太愿意交流的样子";
+        } else if (initialFavor <= 20) {
+            favorDescription = "对方态度一般，保持着基本的礼貌";
+        } else if (initialFavor <= 30) {
+            favorDescription = "对方好像对你有些兴趣，愿意与你交流";
+        } else if (initialFavor <= 50) {
+            favorDescription = "对方似乎对你印象不错，态度比较热情";
+        } else {
+            favorDescription = "对方好像对你很有好感，一见钟情";
+        }
+
+        console.log(`初始好感度: ${initialFavor}, 描述: ${favorDescription}`);
+
+        let introText = "";
+        if (isSameTeam) {
+            // 队内介绍
+            const teamIntroTexts = [
+                `${npc.name}打完副本后走到你身边：「给你介绍下，这是我们战队的${targetMember.name}，以后一起组队啊！」${targetMember.name}朝你挥手：「${initialFavor > 70 ? "很高兴认识你！" : initialFavor > 40 ? "你好" : "嗯..."}」`,
+                `${npc.name}拉着${targetMember.name}走到你面前：「这是我常跟你提起的朋友，你们认识一下吧！」${targetMember.name}对你说：「${initialFavor > 80 ? "终于见到你了，我听说过你很多事！" : initialFavor > 50 ? "你好，很高兴认识你" : "你好"}」`
+            ];
+            introText = teamIntroTexts[Math.floor(Math.random() * teamIntroTexts.length)];
+        } else {
+            // 跨队介绍
+            const crossIntroTexts = [
+                `${npc.name}神秘地对你眨眨眼：「想认识其他战队的选手吗？给你介绍${teamConfig[targetTeam].name}战队的${targetMember.name}，他可是很厉害的选手呢！」${targetMember.name}说：「${initialFavor > 90 ? "我一直想认识你呢！" : initialFavor > 60 ? "久仰大名" : "你好"}」`,
+                `${npc.name}翻着手机通讯录：「对了，${teamConfig[targetTeam].name}的${targetMember.name}最近也在找你呢，要不要认识一下？」${targetMember.name}说：「${initialFavor > 85 ? "终于见面了！" : initialFavor > 55 ? "是的，我听说过你" : "嗯"}」`,
+                `训练结束后，${npc.name}拉住你：「下周我们要和${teamConfig[targetTeam].name}打训练赛，先带你认识一下他们的${targetMember.name}吧！」${targetMember.name}说：「${initialFavor > 95 ? "训练赛请多指教，我很期待！" : initialFavor > 65 ? "请多指教" : "请多指教"}」`,
+                `${npc.name}兴奋地对你说：「我刚联系了${teamConfig[targetTeam].name}的${targetMember.name}，他也很想认识你呢！」${targetMember.name}说：「${initialFavor > 90 ? "太好了，我一直想和你交流！" : initialFavor > 60 ? "是啊，终于见到了" : "你好"}」`
+            ];
+            introText = crossIntroTexts[Math.floor(Math.random() * crossIntroTexts.length)];
+        }
+
+        // 直接添加描述到介绍文本中
+        introText += `<br><br><span class="favor-change" style="color: #4d94ff;">(${favorDescription})</span>`;
+
+        // 重置所有场景面板
+        resetScenePanels();
+
+        // 设置介绍文本并显示面板
+        const introPanel = document.getElementById('introPanel');
+        if (introPanel) {
+            introPanel.classList.add('hidden');
+            document.getElementById('introText').innerHTML = introText;
+
+            setTimeout(() => {
+                introPanel.classList.remove('hidden');
+                console.log('介绍面板已显示');
+            }, 10);
+        } else {
+            console.error('未找到介绍面板元素');
+        }
+
+        // 设置介绍后的初始好感度
+        if (npcData[targetMemberId].gameState.favor === 0) {
+            npcData[targetMemberId].gameState.favor = initialFavor;
+        }
+
+        // 记录介绍历史
+        if (!gameData.introHistory[randomNpcId]) {
+            gameData.introHistory[randomNpcId] = {};
+        }
+        gameData.introHistory[randomNpcId][targetMemberId] = true;
+
+        // 将被介绍的角色添加到已解锁角色列表中
+        if (!gameData.unlockedCharacters.includes(targetMemberId)) {
+            gameData.unlockedCharacters.push(targetMemberId);
+            console.log(`角色 ${targetMember.name} 已解锁！`);
+        }
+
+        // 构建事件记录内容
+        let eventContent = `${npc.name}介绍你认识了${targetMember.name}`;
+        if (!isSameTeam) {
+            eventContent += `，开启了与${teamConfig[targetTeam].name}战队的交流`;
+        }
+        eventContent += `～ ${favorDescription}`;
+
+        // 记录介绍事件
+        addEventRecord(eventContent, 'intro');
+
+        // 如果是跨队介绍，解锁新场景
+        if (!isSameTeam) {
+            checkSceneUnlock(targetTeam);
+        }
     } else {
-        favorDescription = "对方好像对你很有好感，一见钟情";
-    }
-
-    console.log(`初始好感度: ${initialFavor}, 描述: ${favorDescription}`);
-
-    let introText = "";
-    if (isSameTeam) {
-        // 队内介绍
-        const teamIntroTexts = [
-            `${npc.name}打完副本后走到你身边：「给你介绍下，这是我们战队的${targetMember.name}，以后一起组队啊！」${targetMember.name}朝你挥手：「${initialFavor > 70 ? "很高兴认识你！" : initialFavor > 40 ? "你好" : "嗯..."}」`,
-            `${npc.name}拉着${targetMember.name}走到你面前：「这是我常跟你提起的朋友，你们认识一下吧！」${targetMember.name}对你说：「${initialFavor > 80 ? "终于见到你了，我听说过你很多事！" : initialFavor > 50 ? "你好，很高兴认识你" : "你好"}」`
-        ];
-        introText = teamIntroTexts[Math.floor(Math.random() * teamIntroTexts.length)];
-    } else {
-        // 跨队介绍
-        const crossIntroTexts = [
-            `${npc.name}神秘地对你眨眨眼：「想认识其他战队的选手吗？给你介绍${teamConfig[targetTeam].name}战队的${targetMember.name}，他可是很厉害的选手呢！」${targetMember.name}说：「${initialFavor > 90 ? "我一直想认识你呢！" : initialFavor > 60 ? "久仰大名" : "你好"}」`,
-            `${npc.name}翻着手机通讯录：「对了，${teamConfig[targetTeam].name}的${targetMember.name}最近也在找你呢，要不要认识一下？」${targetMember.name}说：「${initialFavor > 85 ? "终于见面了！" : initialFavor > 55 ? "是的，我听说过你" : "嗯"}」`,
-            `训练结束后，${npc.name}拉住你：「下周我们要和${teamConfig[targetTeam].name}打训练赛，先带你认识一下他们的${targetMember.name}吧！」${targetMember.name}说：「${initialFavor > 95 ? "训练赛请多指教，我很期待！" : initialFavor > 65 ? "请多指教" : "请多指教"}」`,
-            `${npc.name}兴奋地对你说：「我刚联系了${teamConfig[targetTeam].name}的${targetMember.name}，他也很想认识你呢！」${targetMember.name}说：「${initialFavor > 90 ? "太好了，我一直想和你交流！" : initialFavor > 60 ? "是啊，终于见到了" : "你好"}」`
-        ];
-        introText = crossIntroTexts[Math.floor(Math.random() * crossIntroTexts.length)];
-    }
-
-    // 直接添加描述到介绍文本中
-    introText += `<br><br><span class="favor-change" style="color: #4d94ff;">(${favorDescription})</span>`;
-
-    // 重置所有场景面板
-    resetScenePanels();
-
-    // 设置介绍文本并显示面板
-    const introPanel = document.getElementById('introPanel');
-    if (introPanel) {
-        introPanel.classList.add('hidden');
-        document.getElementById('introText').innerHTML = introText;
-
-        setTimeout(() => {
-            introPanel.classList.remove('hidden');
-            console.log('介绍面板已显示');
-        }, 10);
-    } else {
-        console.error('未找到介绍面板元素');
-    }
-
-    // 设置介绍后的初始好感度
-    if (npcData[targetMemberId].gameState.favor === 0) {
-        npcData[targetMemberId].gameState.favor = initialFavor;
-    }
-
-    // 记录介绍历史
-    if (!gameData.introHistory[randomNpcId]) {
-        gameData.introHistory[randomNpcId] = {};
-    }
-    gameData.introHistory[randomNpcId][targetMemberId] = true;
-
-    // 将被介绍的角色添加到已解锁角色列表中
-    if (!gameData.unlockedCharacters.includes(targetMemberId)) {
-        gameData.unlockedCharacters.push(targetMemberId);
-        console.log(`角色 ${targetMember.name} 已解锁！`);
-    }
-
-    // 构建事件记录内容
-    let eventContent = `${npc.name}介绍你认识了${targetMember.name}`;
-    if (!isSameTeam) {
-        eventContent += `，开启了与${teamConfig[targetTeam].name}战队的交流`;
-    }
-    eventContent += `～ ${favorDescription}`;
-
-    // 记录介绍事件
-    addEventRecord(eventContent, 'intro');
-
-    // 如果是跨队介绍，解锁新场景
-    if (!isSameTeam) {
-        checkSceneUnlock(targetTeam);
-    }
-}else{
-      // 介绍没触发，进入一般事件
+        // 介绍没触发，进入一般事件
         //alert("介绍未触发，进入一般事件");
         console.log(`${npc.name} 介绍事件未触发，回退到普通互动`);
         // 重置面板
         resetScenePanels();
         // 显示普通互动
         handleNormalEvent({ npc, randomNpcId, favor, isLove: npcData[randomNpcId].gameState.love });
-}
+    }
 
 }
 
@@ -670,7 +678,7 @@ function handleConfessEvent(data) {
 
     // 确保面板标题和按钮正确
     const confessTitle = document.querySelector('#confessPanel h3');
-    if (confessTitle) confessTitle.textContent = "告白";   
+    if (confessTitle) confessTitle.textContent = "告白";
 
     const acceptBtn = document.getElementById('acceptConfess');
     const rejectBtn = document.getElementById('rejectConfess');
@@ -713,109 +721,182 @@ function handleJealousyEvent(data) {
     const { npc, randomNpcId } = data;
 
     if (Math.random() < 0.4) {
-    // 获取所有恋人列表（排除当前NPC）
-    const allLovers = [];
-    for (const id in npcData) {
-        if (id !== randomNpcId && npcData[id].gameState && npcData[id].gameState.love === true) {
-            allLovers.push(id);
+
+        // ========== 新增：低好感度爱人单人出现分支 ==========
+        const isLove = npcData[randomNpcId].gameState.love;
+        const favor = npcData[randomNpcId].gameState.favor;
+
+        // 如果是爱人且好感度小于10，触发单人爱恨分支
+        if (isLove && favor < 10) {
+            // 生成爱恨交加的台词
+            const loveHateTexts = [
+                `看到你和别人暧昧，${npc.name}红着眼睛看着你：「我恨你...但是我也爱你。我不知道该怎么办...」`,
+                `受不了你和他人暧昧，${npc.name}声音哽咽：「为什么你要这样对我？可是...可是我还是忍不住爱你。」`,
+                `看着你和其他人亲密，${npc.name}握紧拳头又松开：「我好恨这样的自己，明明应该恨你，却还是放不下...」`,
+                `目睹你和别人在一起，${npc.name}苦笑着摇头：「也许我该恨你，可我心里想的却只有你...」`,
+                `见到你与他人暧昧，${npc.name}眼神复杂：「每次想恨你的时候，那些美好的回忆就涌上来...我好矛盾。」`
+            ];
+
+            const randomLoveHateText = loveHateTexts[Math.floor(Math.random() * loveHateTexts.length)];
+
+            // 创建单人爱恨事件
+            const loveHateEvent = {
+                npc1: randomNpcId,
+                otherLovers: [], // 空数组表示单人
+                scenarioType: "loveHate",
+                scene: gameData.currentScene,
+                text: randomLoveHateText,
+                isLoveHateEvent: true, // 标记为爱恨事件
+                choice1: {
+                    text: `挽留${npc.name}`,
+                    change: Math.floor(Math.random() * 21) + 10 // +10到+30
+                },
+                choice2: {
+                    text: `分手`,
+                    change: -30,
+                    breakUp: true
+                },
+                choice3: {
+                    text: `沉默`,
+                    change: -10
+                }
+            };
+
+            // 在 handleJealousyEvent 函数的爱恨事件部分，添加这行代码：
+            const jealousyPanel = document.getElementById('jealousyPanel');
+            jealousyPanel.classList.add('lovehate-mode'); // 添加爱恨交织样式
+
+            // 显示面板
+            document.getElementById('jealousyText').textContent = loveHateEvent.text;
+            document.getElementById('jealousyChoose1').textContent = loveHateEvent.choice1.text;
+            document.getElementById('jealousyChoose2').textContent = loveHateEvent.choice2.text;
+            document.getElementById('jealousyChoose3').textContent = loveHateEvent.choice3.text;
+
+            document.getElementById('jealousyPanel').dataset.event = JSON.stringify(loveHateEvent);
+            document.getElementById('jealousyPanel').classList.remove('hidden');
+
+            // 修改面板标题
+            const panelTitle = document.querySelector('#jealousyPanel h3');
+            if (panelTitle) {
+                panelTitle.textContent = "爱恨交织";
+            }
+
+            return; // 直接返回，不执行后面的嫉妒事件逻辑
         }
-    }
 
-    if (allLovers.length > 0) {
-        // ========== 随机选择出现的恋人人数和具体人员 ==========
-        let selectedLovers = [];
-        let scenarioType = "";
+        //不是单人爱恨交织………………………… 获取所有恋人列表（排除当前NPC）
+        const allLovers = [];
+        for (const id in npcData) {
+            if (id !== randomNpcId && npcData[id].gameState && npcData[id].gameState.love === true) {
+                allLovers.push(id);
+            }
+        }
 
-        // 根据总恋人数量决定最大显示人数
-        let maxLoversToShow;
-        if (allLovers.length >= 5) {
-            maxLoversToShow = 5; // 最多显示5人
-        } else if (allLovers.length >= 3) {
-            maxLoversToShow = 3;
+        if (allLovers.length > 0) {
+            // ========== 随机选择出现的恋人人数和具体人员 ==========
+            let selectedLovers = [];
+            let scenarioType = "";
+
+            // 根据总恋人数量决定最大显示人数
+            let maxLoversToShow;
+            if (allLovers.length >= 5) {
+                maxLoversToShow = 5; // 最多显示5人
+            } else if (allLovers.length >= 3) {
+                maxLoversToShow = 3;
+            } else {
+                maxLoversToShow = allLovers.length;
+            }
+
+            // 随机决定出现几个其他恋人
+            const numberOfLovers = Math.floor(Math.random() * maxLoversToShow) + 1; // 1-最大数
+
+            // 随机选择指定数量的恋人
+            const shuffled = [...allLovers].sort(() => 0.5 - Math.random());
+            selectedLovers = shuffled.slice(0, numberOfLovers);
+
+            // 设置场景类型
+            scenarioType = getScenarioType(numberOfLovers);
+            const selectedLoverNames = selectedLovers.map(id => npcData[id].name);
+
+            // ========== 根据不同场景生成对白 ==========
+            let jealousyText = generateJealousyText(npc, selectedLovers, scenarioType);
+
+            console.log(`嫉妒场景: ${scenarioType}, 出现的恋人: ${selectedLoverNames.join('、')}`);
+
+            // ========== 好感度变动设置 ==========
+            const getRandomChange = () => Math.floor(Math.random() * 21) - 10 || 1;
+
+            // ========== 好感度变动设置 ==========
+            // 随机上升的好感度值（1-20）
+            const getRandomPositiveChange = () => Math.floor(Math.random() * 20) + 1;
+
+            // 多恋人场景下分手惩罚（每多一个恋人额外-15）
+            const getBreakupChange = () => {
+                const base = -30;
+                const extra = -15 * (selectedLovers.length - 1); // 每多一个恋人额外-15
+                const random = -Math.floor(Math.random() * 21); // 额外随机-0到-20
+                return base + extra + random; // 总计: -40 ~ -(40+额外+20)
+            };
+
+            // ========== 创建动态嫉妒事件 ==========
+            const dynamicJealousyEvent = {
+                npc1: randomNpcId,
+                otherLovers: selectedLovers,
+                scenarioType: scenarioType,
+                scene: gameData.currentScene,
+                text: jealousyText,
+                choice1: {
+                    text: `选择${npc.name}`,
+                    change: getRandomPositiveChange()
+                },
+                choice2: {
+                    text: `跟${npc.name}分手`,
+                    change: getBreakupChange(),
+                    breakUp: true
+                },
+                choice3: {
+                    text: `沉默不语`,
+                    change: getRandomChange()
+                },
+                // 对其他恋人的影响
+                effects: selectedLovers.map(loverId => {
+                    // 简单的三次独立随机调用
+                    const getUniqueRandom = () => Math.floor(Math.random() * 10000); // 确保每次调用都独立
+
+                    return {
+                        npc: loverId,
+                        choice1Effect: Math.floor(Math.random() * 31) - 25, // 独立随机
+                        choice2Effect: Math.floor(Math.random() * 31) - 25, // 独立随机
+                        choice3Effect: Math.floor(Math.random() * 31) - 25  // 独立随机
+                    };
+                })
+            };
+
+            console.log('嫉妒事件触发成功', dynamicJealousyEvent);
+
+            // ========== 更新UI ==========
+            const jealousyPanel = document.getElementById('jealousyPanel');
+            if (jealousyPanel) {
+                jealousyPanel.classList.remove('lovehate-mode', 'wg-mode'); // 同时移除可能存在的其他样式
+            }
+            // 修改面板标题
+            const panelTitle = document.querySelector('#jealousyPanel h3');
+            if (panelTitle) {
+                panelTitle.textContent = "修罗场";
+            }
+
+            document.getElementById('jealousyText').textContent = dynamicJealousyEvent.text;
+            document.getElementById('jealousyChoose1').textContent = dynamicJealousyEvent.choice1.text;
+            document.getElementById('jealousyChoose2').textContent = dynamicJealousyEvent.choice2.text;
+            document.getElementById('jealousyChoose3').textContent = dynamicJealousyEvent.choice3.text;
+
+            document.getElementById('jealousyPanel').dataset.event = JSON.stringify(dynamicJealousyEvent);
+            document.getElementById('jealousyPanel').classList.remove('hidden');
+
         } else {
-            maxLoversToShow = allLovers.length;
+            console.log('没有其他恋人，回退到普通互动');
+            handleNormalEvent(data);
         }
-
-        // 随机决定出现几个其他恋人
-        const numberOfLovers = Math.floor(Math.random() * maxLoversToShow) + 1; // 1-最大数
-
-        // 随机选择指定数量的恋人
-        const shuffled = [...allLovers].sort(() => 0.5 - Math.random());
-        selectedLovers = shuffled.slice(0, numberOfLovers);
-
-        // 设置场景类型
-        scenarioType = getScenarioType(numberOfLovers);
-        const selectedLoverNames = selectedLovers.map(id => npcData[id].name);
-
-        // ========== 根据不同场景生成对白 ==========
-        let jealousyText = generateJealousyText(npc, selectedLovers, scenarioType);
-
-        console.log(`嫉妒场景: ${scenarioType}, 出现的恋人: ${selectedLoverNames.join('、')}`);
-
-        // ========== 好感度变动设置 ==========
-        const getRandomChange = () => Math.floor(Math.random() * 21) - 10 || 1;
-
-        // ========== 好感度变动设置 ==========
-        // 随机上升的好感度值（1-20）
-        const getRandomPositiveChange = () => Math.floor(Math.random() * 20) + 1;
-
-        // 多恋人场景下分手惩罚（每多一个恋人额外-15）
-        const getBreakupChange = () => {
-            const base = -40;
-            const extra = -15 * (selectedLovers.length - 1); // 每多一个恋人额外-15
-            const random = -Math.floor(Math.random() * 21); // 额外随机-0到-20
-            return base + extra + random; // 总计: -40 ~ -(40+额外+20)
-        };
-
-        // ========== 创建动态嫉妒事件 ==========
-        const dynamicJealousyEvent = {
-            npc1: randomNpcId,
-            otherLovers: selectedLovers,
-            scenarioType: scenarioType,
-            scene: gameData.currentScene,
-            text: jealousyText,
-            choice1: {
-                text: `选择${npc.name}`,
-                change: getRandomPositiveChange()
-            },
-            choice2: {
-                text: `跟${npc.name}分手`,
-                change: getBreakupChange(),
-                breakUp: true
-            },
-            choice3: {
-                text: `沉默不语`,
-                change: getRandomChange()
-            },
-            // 对其他恋人的影响
-            effects: selectedLovers.map(loverId => {
-                // 简单的三次独立随机调用
-                const getUniqueRandom = () => Math.floor(Math.random() * 10000); // 确保每次调用都独立
-
-                return {
-                    npc: loverId,
-                    choice1Effect: Math.floor(Math.random() * 31) - 25, // 独立随机
-                    choice2Effect: Math.floor(Math.random() * 31) - 25, // 独立随机
-                    choice3Effect: Math.floor(Math.random() * 31) - 25  // 独立随机
-                };
-            })
-        };
-
-        console.log('嫉妒事件触发成功', dynamicJealousyEvent);
-
-        // ========== 更新UI ==========
-        document.getElementById('jealousyText').textContent = dynamicJealousyEvent.text;
-        document.getElementById('jealousyChoose1').textContent = dynamicJealousyEvent.choice1.text;
-        document.getElementById('jealousyChoose2').textContent = dynamicJealousyEvent.choice2.text;
-        document.getElementById('jealousyChoose3').textContent = dynamicJealousyEvent.choice3.text;
-
-        document.getElementById('jealousyPanel').dataset.event = JSON.stringify(dynamicJealousyEvent);
-        document.getElementById('jealousyPanel').classList.remove('hidden');
-
-    } else {
-        console.log('没有其他恋人，回退到普通互动');
-        handleNormalEvent(data);
-    }
     } else {
         console.log('嫉妒转一般事件');
         handleNormalEvent(data);
@@ -865,16 +946,16 @@ function generateJealousyText(mainNpc, selectedLovers, scenarioType) {
             `走廊转角处，${mainNpc.name}和你正在说话，一抬头发现${loverNames.join('、')}正从不同方向走来。`
         ],
         quintuple: [
-            `整个训练室陷入了诡异的安静——${mainNpc.name}、${loverNames.join('、')}，所有人都在这里，空气中弥漫着浓浓的火药味...`,
-            `你被五个恋人包围了！${mainNpc.name}拉着你的左手，而${loverNames.join('、')}则用各种复杂的眼神盯着你。`,
-            `"解释一下吧。" ${mainNpc.name}冷冷地说。你抬头一看，房间里站满了人：${loverNames.join('、')}，这简直是审判现场！`,
-            `这是你能想象到的最糟糕的情况：${mainNpc.name}和另外五个恋人${loverNames.join('、')}都在场，而你站在中间。`
+            `史诗级修罗场！整个训练室陷入了诡异的安静——${mainNpc.name}、${loverNames.join('、')}，所有人都在这里，空气中弥漫着浓浓的火药味...`,
+            `你被五个恋人包围了！${mainNpc.name}拉着你的左手，而${loverNames.join('、')}则用各种复杂的眼神盯着你。简直是史诗级修罗场！ `,
+            `"解释一下吧。" ${mainNpc.name}冷冷地说。你抬头一看，房间里站满了人：${loverNames.join('、')}，这简直是史诗级修罗场 ！`,
+            `这是你能想象到的最糟糕的史诗级修罗场 ：${mainNpc.name}和另外五个恋人${loverNames.join('、')}都在场，而你站在中间。`
         ],
         massive: [
             `你被${loverCount + 1}个恋人包围了！整个场面堪称史诗级修罗场，连空气都快要凝固了...`,
-            `${mainNpc.name}和${loverCount}个恋人同时出现！你感觉像是站在了火山口上，随时可能爆发。`,
-            `这可能是荣耀圈有史以来最大的八卦现场：你和${mainNpc.name}被${loverCount}个恋人堵在了${gameData.currentScene === 'league' ? '联盟总部' : (npcData[selectedLovers[0]].team ? teamConfig[npcData[selectedLovers[0]].team].name : '训练室')}。`,
-            `眼前的景象让你头皮发麻：${mainNpc.name}，还有${loverNames.join('、')}，总共${loverCount + 1}个人，全都看着你。`
+            `史诗级修罗场！${mainNpc.name}和${loverCount}个恋人同时出现！你感觉像是站在了火山口上，随时可能爆发。`,
+            `这可能是荣耀圈有史以来最大的史诗级修罗场：你和${mainNpc.name}被${loverCount}个恋人堵在了${gameData.currentScene === 'league' ? '联盟总部' : (npcData[selectedLovers[0]].team ? teamConfig[npcData[selectedLovers[0]].team].name : '训练室')}。`,
+            `眼前的史诗级修罗场让你头皮发麻：${mainNpc.name}，还有${loverNames.join('、')}，总共${loverCount + 1}个人，全都看着你。`
         ]
     };
 
@@ -901,6 +982,14 @@ function generateJealousyText(mainNpc, selectedLovers, scenarioType) {
 function handleJealousyChoice(choiceIndex) {
     const panel = document.getElementById('jealousyPanel');
     const eventData = JSON.parse(panel.dataset.event);
+
+    // ========== 新增：检查是否是爱恨事件 ==========
+    const isLoveHateEvent = eventData.isLoveHateEvent || false;
+    // 如果是爱恨事件，直接调用爱恨事件处理函数并返回
+    if (isLoveHateEvent) {
+        handleLoveHateChoice(choiceIndex, eventData);
+        return;
+    }
 
     // 获取选择的选项
     let selectedChoice;
@@ -1321,6 +1410,126 @@ function generateJealousyResultText(choiceIndex, eventData) {
     return scenarioResults[Math.floor(Math.random() * scenarioResults.length)];
 }
 
+
+//单人爱恨交织选项处理
+function handleLoveHateChoice(choiceIndex, eventData) {
+    const currentNpcId = eventData.npc1;
+    const currentNpc = npcData[currentNpcId];
+
+    // 获取选择的选项
+    let selectedChoice;
+    switch (choiceIndex) {
+        case 1: selectedChoice = eventData.choice1; break;
+        case 2: selectedChoice = eventData.choice2; break;
+        case 3: selectedChoice = eventData.choice3; break;
+    }
+
+    // 应用好感度变化
+    const currentChange = selectedChoice.change;
+    if (npcData[currentNpcId]) {
+        npcData[currentNpcId].gameState.favor += currentChange;
+        if (npcData[currentNpcId].gameState.favor < 0) {
+            npcData[currentNpcId].gameState.favor = 0;
+        }
+    }
+
+    // 生成结果文本
+    const resultText = generateLoveHateResultText(choiceIndex, eventData);
+
+    // 构建好感度变动显示
+    const changeSymbol = currentChange > 0 ? '+' : '';
+    const changeText = `${currentNpc.name}好感度${changeSymbol}${currentChange}`;
+
+    // 处理分手逻辑（如果选择了分手）
+    if (selectedChoice.breakUp) {
+        const isRejected = Math.random() < 0.5; // 爱恨事件分手有50%被拒绝
+
+        if (isRejected) {
+            // 分手被拒绝
+            const rejectTexts = [
+                `${currentNpc.name}泪流满面：「不！虽然我恨你，但我更爱你！不要离开我！」`,
+                `${currentNpc.name}紧紧抱住你：「说恨你只是气话，我真正想说的是我爱你啊！」`,
+                `${currentNpc.name}摇着头：「我做不到...即使恨你，也无法放开你。」`
+            ];
+            const randomRejectText = rejectTexts[Math.floor(Math.random() * rejectTexts.length)];
+
+            const finalResult = `
+                ${randomRejectText}<br><br>
+                <span style="color: #ef4444; font-weight: bold;">
+                    ${changeText}
+                </span>
+            `;
+
+            document.getElementById('resultText').innerHTML = finalResult;
+            addEventRecord(`爱恨交织：${eventData.text}你提出分手，但${currentNpc.name}拒绝了你。<span class="favor-change">(${changeText})</span>`);
+        } else {
+            // 成功分手
+            currentNpc.gameState.love = false;
+            currentNpc.gameState.ex = true;
+
+            if (!gameData.breakupHistory) gameData.breakupHistory = [];
+            gameData.breakupHistory.push({
+                npcId: currentNpcId,
+                npcName: currentNpc.name,
+                day: gameData.day,
+                reason: 'lovehate_breakup',
+                severity: 1
+            });
+
+            const finalResult = `
+                ${resultText}<br><br>
+                <span style="color: #ef4444; font-weight: bold;">
+                    你和${currentNpc.name}分手了 (${changeText})
+                </span>
+            `;
+
+            document.getElementById('resultText').innerHTML = finalResult;
+            addEventRecord(`爱恨交织: ${eventData.text}你选择了分手。<span class="favor-change">(${changeText})</span>`);
+        }
+    } else {
+        // 非分手选项
+        const finalResult = `
+            ${resultText}<br><br>
+            <span style="color: #ef4444; font-weight: bold;">
+                ${changeText}
+            </span>
+        `;
+
+        document.getElementById('resultText').innerHTML = finalResult;
+
+        // 记录事件
+        let recordText = "";
+        if (choiceIndex === 1) {
+            recordText = `爱恨交织： ${eventData.text}你选择了挽留${currentNpc.name}。<span class="favor-change">(${changeText})</span>`;
+        } else if (choiceIndex === 3) {
+            recordText = `爱恨交织： ${eventData.text}你选择了沉默。<span class="favor-change">(${changeText})</span>`;
+        }
+        addEventRecord(recordText);
+    }
+
+    // 显示结果面板
+    const resultTitle = document.querySelector('#resultPanel h3');
+    if (resultTitle) {
+        if (selectedChoice.breakUp) {
+            resultTitle.textContent = "分手结果";
+        } else if (choiceIndex === 1) {
+            resultTitle.textContent = "挽留结果";
+        } else if (choiceIndex === 3) {
+            resultTitle.textContent = "沉默结果";
+        }
+    }
+
+    document.getElementById('jealousyPanel').classList.add('hidden');
+    document.getElementById('resultPanel').classList.remove('hidden');
+
+    // 更新游戏状态
+    updateStatus();
+    updateHomePage();
+    autoSaveGame();
+}
+
+
+
 // 处理邀约事件（扩展版-日常活动）
 function handleInvitationEvent(data) {
 
@@ -1669,23 +1878,19 @@ function handleNormalEvent(data, noRecord = false) {
     let isEx = npcData[randomNpcId].gameState.ex || false;
 
     // ========== 1. 先处理前任概率 ==========
-    // 如果isEx为true，只有30%概率真正触发前任逻辑，70%概率当作普通NPC
     if (isEx) {
         if (Math.random() < 0.3) {
-            // 30%概率：保持isEx为true，触发前任逻辑
             isEx = true;
         } else {
-            // 70%概率：当作普通NPC，不触发前任逻辑
             isEx = false;
         }
         console.log('前任，但是isex:' + isEx);
     }
 
-
     // ========== 1. 确定对话类型 ==========
     let dialogType = "low";
     if (isEx) {
-        dialogType = "ex";  // 前任专用
+        dialogType = "ex";
     } else if (isLove) {
         dialogType = "love";
     } else if (favor >= 80) {
@@ -1694,17 +1899,27 @@ function handleNormalEvent(data, noRecord = false) {
         dialogType = "mid";
     }
 
+    // ========== 特殊样式处理 ==========
+    const interactionPanel = document.getElementById('interactionPanel');
+
+    // 重置所有特殊样式（确保每次都能还原）
+    interactionPanel.classList.remove('ex-mode', 'league-mode');
+
+    // 根据情况添加相应样式
     if (isEx) {
         interactionPanel.classList.add('ex-mode');
+        console.log(`为前任 ${npc.name} 添加灰色样式`);
+    } else if (npc.team === 'league') {
+        // 如果是联盟成员，添加淡金色样式
+        interactionPanel.classList.add('league-mode');
+        console.log(`为联盟成员 ${npc.name} 添加淡金色样式`);
     } else {
-        interactionPanel.classList.remove('ex-mode');
+        console.log(`普通对话 ${npc.name}，使用默认样式`);
     }
 
-    //alert(dialogType + "favor=" + favor);
     // ========== 2. 获取对话内容 ==========
     let dialogs;
     if (isEx) {
-        // 前任对话：优先定制，否则通用
         const exDialogs = [
             `${npc.name}看到你，表情复杂：「...」`,
             `${npc.name}转过头：「训练很忙，我先走了...」`,
@@ -1717,19 +1932,16 @@ function handleNormalEvent(data, noRecord = false) {
         dialogs = npc.dialogs && npc.dialogs[dialogType];
     }
 
-    // 如果还是没有对话，使用默认
     if (!dialogs || dialogs.length === 0) {
         dialogs = [npc.name + "看着你，欲言又止..."];
     }
 
-    // 随机选择一个问题
     const questionIndex = Math.floor(Math.random() * dialogs.length);
     const randomDialog = dialogs[questionIndex];
 
     // ========== 3. 获取选项 ==========
     let choices;
     if (isEx) {
-        // 前任专用选项
         choices = [
             {
                 text: "请求复合",
@@ -1757,13 +1969,10 @@ function handleNormalEvent(data, noRecord = false) {
             }
         ];
     } else if (npc.choicesByIndex && npc.choicesByIndex[dialogType] && questionIndex !== null) {
-        // 新格式：按索引获取对应问题的选择项
         choices = npc.choicesByIndex[dialogType][questionIndex];
     } else if (npc.choices && npc.choices[dialogType]) {
-        // 旧格式：同一类型所有问题共用同一套选择项
         choices = npc.choices[dialogType];
     } else {
-        // 默认选项
         choices = [
             { text: "同意", favorChange: 5 },
             { text: "拒绝", favorChange: 0 },
@@ -1772,14 +1981,10 @@ function handleNormalEvent(data, noRecord = false) {
     }
 
     // ========== 4. 更新UI显示 ==========
-    // 对话内容
     document.getElementById('npcDialog').textContent = randomDialog;
-
-    // 状态标签
     document.getElementById('npcExBadge').classList.toggle('hidden', !isEx);
     document.getElementById('npcLoveBadge').classList.toggle('hidden', !isLove);
 
-    // 战队标签
     const teamTag = document.getElementById('npcTeamTag');
     if (npc.team) {
         teamTag.textContent = teamConfig[npc.team].name;
@@ -1789,12 +1994,10 @@ function handleNormalEvent(data, noRecord = false) {
         teamTag.classList.add('hidden');
     }
 
-    // 选项按钮文本
     document.getElementById('choice1').textContent = choices[0].text;
     document.getElementById('choice2').textContent = choices[1].text;
     document.getElementById('choiceIgnore').textContent = choices[2]?.text || "不理他";
 
-    // ========== 5. 绑定事件（保持原有方式） ==========
     document.getElementById('choice1').onclick = () =>
         handleChoice(randomNpcId, 0, dialogType, questionIndex, noRecord);
 
@@ -1805,33 +2008,8 @@ function handleNormalEvent(data, noRecord = false) {
         handleIgnore(randomNpcId, dialogType, questionIndex, noRecord);
 
     // ========== 6. 显示面板 ==========
-    document.getElementById('interactionPanel').classList.remove('hidden');
+    interactionPanel.classList.remove('hidden');
 }
-
-// 显示普通互动（当日已有事件时调用）
-function showNormalInteraction(scene) {
-    // 直接显示错误提示，不进行任何判断
-    resetScenePanels();
-    // 显示提示文字
-    document.getElementById('noInteractionText').textContent = "今天似乎有些奇怪，什么事情也没有发生。";
-    document.getElementById('noInteractionPanel').classList.remove('hidden');
-    // 记录事件
-    addEventRecord("今天似乎有些奇怪，什么事情也没有发生。");
-    // 重新绑定"继续探索"按钮的点击事件
-    const skipNoInteractionBtn = document.getElementById('skipNoInteraction');
-    if (skipNoInteractionBtn) {
-        // 先移除旧的事件监听器
-        skipNoInteractionBtn.replaceWith(skipNoInteractionBtn.cloneNode(true));
-        // 重新获取按钮并绑定新事件
-        const newSkipBtn = document.getElementById('skipNoInteraction');
-        newSkipBtn.addEventListener('click', function () {
-            document.getElementById('backToMap').click();
-            autoSaveGame();
-        });
-    }
-    return;
-}
-
 
 // 处理选项点击事件
 function handleChoice(npcId, choiceIndex, dialogType, questionIndex = null, noRecord = false) {
@@ -2479,3 +2657,44 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('未找到invitationChoose3按钮');
     }
 });
+
+
+// 新增：生成爱恨事件结果文本
+function generateLoveHateResultText(choiceIndex, eventData) {
+    const mainNpcId = eventData.npc1;
+    const mainNpc = npcData[mainNpcId];
+    
+    const resultScenarios = {
+        1: { // 挽留
+            texts: [
+                `你紧紧抱住${mainNpc.name}：「对不起，我不会再让你伤心了。」${mainNpc.name}在你怀里低声啜泣。`,
+                `你握住${mainNpc.name}的手：「给我一个机会，让我证明我对你的感情是真的。」`,
+                `「请相信我，」你真诚地看着${mainNpc.name}，「我会用行动来弥补。」`,
+                `你对${mainNpc.name}说：「我知道我错了，但我真的爱你，给我一次机会好吗？」`
+            ]
+        },
+        2: { // 分手
+            texts: [
+                `你艰难地开口：「也许...分开对我们都好。」${mainNpc.name}的眼泪夺眶而出。`,
+                `「这样痛苦的感情，不如结束吧。」你的话让${mainNpc.name}心如刀割。`,
+                `你看着${mainNpc.name}说：「既然这么痛苦，我们分手吧。」`,
+                `「对不起，」你轻声说，「也许我们真的不适合在一起。」`
+            ]
+        },
+        3: { // 沉默
+            texts: [
+                `你不知道该说什么，只是沉默地看着${mainNpc.name}。${mainNpc.name}的眼中充满失望。`,
+                `你的沉默像一把刀，${mainNpc.name}苦笑着摇头：「连一句话都不愿说吗...」`,
+                `面对${mainNpc.name}的爱恨告白，你选择了沉默，气氛变得更加沉重。`,
+                `你一言不发，${mainNpc.name}眼中的期待渐渐熄灭。`
+            ]
+        }
+    };
+    
+    const scenarios = resultScenarios[choiceIndex];
+    if (!scenarios || !scenarios.texts) {
+        return "发生了意想不到的事情...";
+    }
+    
+    return scenarios.texts[Math.floor(Math.random() * scenarios.texts.length)];
+}
