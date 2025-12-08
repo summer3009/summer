@@ -96,7 +96,7 @@ league: {
     name: "联盟",
     color: "bg-yellow-500",
     scene: "league",
-    members: ["linjie", "fangshiqian", "wuxuefeng", "guomingyu", "luliang", "wuchen", "dengfusheng","liyibo"]
+    members: ["linjie", "fangshiqian", "wuxuefeng", "guomingyu", "lvliang", "wuchen", "dengfusheng","liyibo"]
 }
 };
 
@@ -129,6 +129,9 @@ const npcData = {
             { target: "liuhao", team: "huxiao", favorRequire: 31 },
             { target: "tiansen", team: "huangfeng", favorRequire: 31 },
             { target: "louguanning", team: "yizhan", favorRequire: 31 },
+         { target: "wuchen", team: "league", favorRequire: 31 },
+          { target: "guomingyu", team: "league", favorRequire: 31 },
+             { target: "wuxuefeng", team: "league", favorRequire: 31 },
             { target: "qiufei", team: "jiashi", favorRequire: 31 }
 
         ],
@@ -1092,7 +1095,10 @@ const npcData = {
             { target: "yuanbaiqing", team: "weicao", favorRequire: 31 },
             { target: "liangfang", team: "weicao", favorRequire: 31 },
             { target: "liufei", team: "weicao", favorRequire: 31 },
-            { target: "zhouyebai", team: "weicao", favorRequire: 31 }
+         { target: "dengfusheng", team: "league", favorRequire: 31 },
+               { target: "linjie", team: "league", favorRequire: 31 },
+          { target: "fangshiqian", team: "league", favorRequire: 31 },
+           { target: "zhouyebai", team: "weicao", favorRequire: 31 }
         ],
         dialogs: {
             low: ["魔道学者的操作，需要指导吗？", "你的节奏感不错，适合微草的风格", "微草的训练强度，还适应吗？"],
@@ -3750,6 +3756,8 @@ const npcData = {
             { target: "huangshaotian", team: "lanyu", favorRequire: 31 },
             { target: "chuyunxiu", team: "yuyan", favorRequire: 31 },
             { target: "sumucheng", team: "happy", favorRequire: 31 },
+           { target: "wuxuefeng", team: "league", favorRequire: 31 },
+           { target: "lvliang", team: "league", favorRequire: 31 },
             { target: "xiaoshiqin", team: "leiting", favorRequire: 31 },
             { target: "lixuan", team: "xukong", favorRequire: 31 }
         ],
@@ -4391,7 +4399,7 @@ const npcData = {
         textColor: "text-white",
         introTargets: [
             { target: "tiansen", team: "huangfeng", favorRequire: 25 },
-            { target: "luliang", team: "league", favorRequire: 20 },
+            { target: "lvliang", team: "league", favorRequire: 20 },
             { target: "yexiu", team: "happy", favorRequire: 20 }
         ],
         dialogs: {
@@ -4431,7 +4439,7 @@ const npcData = {
     },
 
     // 吕良 - 扫地焚香继承者（琥珀色系）
-    luliang: {
+    lvliang: {
         name: "吕良",
         team: "league",
         gender: "male",

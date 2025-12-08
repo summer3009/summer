@@ -133,28 +133,50 @@ function initSceneInteraction(scene) {
     }
 
     // ========== 5. 社交介绍事件（第五优先级） ==========
-    if (npc.introTargets && npc.introTargets.length > 0 && favor >= 31) {
-        const availableIntroTargets = npc.introTargets.filter(intro => {
-            const targetId = intro.target;
-            const favorRequire = intro.favorRequire || 31;
-            const isTargetInitial = ['yexiu', 'chenguo'].includes(targetId);
-            const isTargetIntroduced = Object.values(gameData.introHistory).some(intro => intro[targetId]);
-            const isTargetUnlocked = isTargetInitial || isTargetIntroduced;
+    // ========== 5. 社交介绍事件（第五优先级） ==========
+if (npc.introTargets && npc.introTargets.length > 0 && favor >= 31) {
+    const availableIntroTargets = npc.introTargets.filter(intro => {
+        const targetId = intro.target;
+        const favorRequire = intro.favorRequire || 31;
+        const isTargetInitial = ['yexiu', 'chenguo'].includes(targetId);
+        const isTargetIntroduced = Object.values(gameData.introHistory).some(intro => intro[targetId]);
+        const isTargetUnlocked = isTargetInitial || isTargetIntroduced;
+        
+        // 检查目标是否在联盟队伍
+        const targetTeam = intro.team;
+        const isLeagueMember = teamConfig[targetTeam] && teamConfig[targetTeam].scene === "league";
+        
+        // 新增：检查联盟场景是否已解锁
+        const leagueSceneUnlocked = gameData.unlockedScenes && gameData.unlockedScenes.includes("league");
 
-            return !isTargetUnlocked &&
-                favor >= favorRequire &&
-                !gameData.introHistory[randomNpcId]?.[targetId];
-        });
-
-        if (availableIntroTargets.length > 0) {
-            possibleEvents.push({
-                type: 'intro',
-                priority: 90,
-                data: { npc, randomNpcId, favor, availableIntroTargets }
-            });
-            console.log(`满足介绍朋友事件条件，添加动态介绍事件` + randomNpcId);
+        // 逻辑：
+        // 1. 目标不能已被解锁
+        // 2. 满足好感度要求
+        // 3. 当前NPC没介绍过这个目标
+        // 4. 如果是联盟成员：必须联盟场景已解锁才能介绍
+        // 5. 如果不是联盟成员：直接可以介绍
+        const basicConditions = !isTargetUnlocked &&
+                              favor >= favorRequire &&
+                              !gameData.introHistory[randomNpcId]?.[targetId];
+        
+        if (isLeagueMember) {
+            // 联盟成员：需要场景解锁才能介绍
+            return basicConditions && leagueSceneUnlocked;
+        } else {
+            // 非联盟成员：可以直接介绍
+            return basicConditions;
         }
+    });
+
+    if (availableIntroTargets.length > 0) {
+        possibleEvents.push({
+            type: 'intro',
+            priority: 90,
+            data: { npc, randomNpcId, favor, availableIntroTargets }
+        });
+        console.log(`满足介绍朋友事件条件，添加动态介绍事件` + randomNpcId);
     }
+}
 
     // ========== 6. 忙碌事件（第六优先级） ========== 
     possibleEvents.push({
@@ -338,6 +360,11 @@ function handleIntroEvent(data) {
             return;
         }
 
+// 在这里添加 isLeagueMember 判断 ↓
+const isLeagueMember = teamConfig[targetTeam].scene === "league";
+
+
+
         const isSameTeam = targetTeam === npc.team;
         console.log(`${npc.name} 介绍 ${targetMember.name} (${teamConfig[targetTeam].name}战队)`);
 
@@ -369,7 +396,34 @@ function handleIntroEvent(data) {
                 `${npc.name}拉着${targetMember.name}走到你面前：「这是我常跟你提起的朋友，你们认识一下吧！」${targetMember.name}对你说：「${initialFavor > 80 ? "终于见到你了，我听说过你很多事！" : initialFavor > 50 ? "你好，很高兴认识你" : "你好"}」`
             ];
             introText = teamIntroTexts[Math.floor(Math.random() * teamIntroTexts.length)];
-        } else {
+        } else if (isLeagueMember) {
+    // 联盟成员介绍 - 温情风格，不同场景
+    const leagueIntroTexts = [
+        // 场景：恰好遇到
+        `${npc.name}指着前方：「真巧，${targetMember.name}也在，好久没见了，一起去打个招呼？」`,
+        `${npc.name}看到远处的身影：「那是${targetMember.name}，正好遇到，带你去认识一下。」`,
+        
+        // 场景：想念老友
+        `${npc.name}怀念地说：「说起来，好久没见${targetMember.name}了，不知道他现在怎么样，带你去见见？」`,
+        `${npc.name}感慨道：「突然想起${targetMember.name}，好久没聚了，要不要一起去看看他？」`,
+        
+        // 场景：主动介绍
+        `${npc.name}微笑道：「一直想介绍你认识${targetMember.name}，正好今天有机会。」`,
+        `${npc.name}提议：「今天是个好日子，带你去认识一下我的老战友${targetMember.name}。」`,
+        
+        // 场景：共同记忆
+        `${npc.name}回忆道：「看到那边了吗？是${targetMember.name}，我们以前常一起训练的，去见见？」`,
+        `${npc.name}指着训练室：「记得我以前跟你提过的${targetMember.name}吗？他今天在，一起去聊聊？」`,
+        
+        // 场景：惊喜发现
+        `${npc.name}眼睛一亮：「诶，是${targetMember.name}！正好，介绍你们认识一下。」`,
+        `${npc.name}发现目标：「看，${targetMember.name}来了，正好给你们介绍一下。」`
+    ];
+    introText = leagueIntroTexts[Math.floor(Math.random() * leagueIntroTexts.length)];
+
+
+
+}else {
             // 跨队介绍
             const crossIntroTexts = [
                 `${npc.name}神秘地对你眨眨眼：「想认识其他战队的选手吗？给你介绍${teamConfig[targetTeam].name}战队的${targetMember.name}，他可是很厉害的选手呢！」${targetMember.name}说：「${initialFavor > 90 ? "我一直想认识你呢！" : initialFavor > 60 ? "久仰大名" : "你好"}」`,

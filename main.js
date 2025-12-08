@@ -793,7 +793,7 @@ function checkLeagueUnlock() {
         for (const npcId of leagueMembers) {
             // 添加到解锁角色列表
             if (!gameData.unlockedCharacters.includes(npcId)) {
-                gameData.unlockedCharacters.push(npcId);
+                //gameData.unlockedCharacters.push(npcId);
                 console.log(`[联盟解锁] 添加 ${npcData[npcId].name} 到解锁名单`);
             }
             
@@ -848,8 +848,8 @@ function checkLeagueUnlock() {
             
             if (!isUnlocked) {
                 // 添加到解锁角色列表
-                gameData.unlockedCharacters.push(npcId);
-                addedCount++;
+               // gameData.unlockedCharacters.push(npcId);
+               // addedCount++;
                 console.log(`[补丁] 添加 ${npcData[npcId].name} 到解锁名单`);
                 
                 // 初始化gameState
