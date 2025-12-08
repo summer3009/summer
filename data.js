@@ -93,7 +93,7 @@ const teamConfig = {
 
 // 在teamConfig的league成员中添加
 league: {
-    name: "荣耀联盟",
+    name: "联盟",
     color: "bg-yellow-500",
     scene: "league",
     members: ["linjie", "fangshiqian", "wuxuefeng", "guomingyu", "luliang", "wuchen", "dengfusheng","liyibo"]
