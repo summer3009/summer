@@ -985,6 +985,7 @@ function updateHomePage() {
             }
 
 
+favorItem.dataset.npcId = id;  // 新增这一行
 
             // 在 updateHomePage() 函数中找到显示人名的部分
             favorItem.innerHTML = `
@@ -1027,6 +1028,17 @@ function updateHomePage() {
 `;
  // 为整个项目添加点击效果
       favorItem.className = "favor-item cursor-pointer hover:bg-gray-50 transition-colors p-3 rounded-lg";
+
+// 在 favorItem.className = "favor-item cursor-pointer hover:bg-gray-50 transition-colors p-3 rounded-lg"; 之后添加：
+
+// 为已解锁角色添加点击提示
+if (!isLocked) {
+    favorItem.title = `点击查看${npc.name}的事件记录`;
+    // 也可以添加视觉提示，比如添加一个icon
+    // favorItem.style.position = 'relative';
+    // favorItem.style.paddingRight = '20px'; // 为icon留出空间
+}
+
 
         teamContent.appendChild(favorItem);
         });

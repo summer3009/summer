@@ -357,8 +357,6 @@
         </div>
     </div>
 
-
-
     <!-- 保存游戏界面 -->
     <div id="savePage"
         class="container mx-auto px-3 py-5 max-w-md hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
@@ -514,9 +512,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <!-- 场景交互页 -->
     <div id="scenePage" class="container mx-auto px-3 py-5 max-w-md hidden">
@@ -762,7 +757,7 @@
         <!-- 直接使用max-height和overflow，像事件卡片一样 -->
         <div class="max-h-[550px] overflow-y-auto">
             <div id="relationGraph"
-                style="width: 100%; height: 450px; background: #f9fafb; border-radius: 8px; position: relative;">
+                style="width: 100%; height: 400px; background: #f9fafb; border-radius: 8px; position: relative;">
                 <canvas id="relationCanvas"></canvas>
             </div>
 
@@ -828,13 +823,14 @@
                 </div>
             </div>
         </div>
-
+ </div>
 
         <script src="main.js"></script>
         <script src="business.js"></script>
         <script src="chat.js"></script>
         <script src="achieve.js"></script>
         <script src="show.js"></script>
+ <script src="npc.js"></script>
         <script>
             // 简化的初始化代码
             function initPage() {

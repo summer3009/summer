@@ -542,7 +542,7 @@ function handleConfessEvent(data) {
 
             resetScenePanels();
             document.getElementById('resultPanel').classList.remove('hidden');
-            addEventRecord(`${npc.name}想要复合，但看到你已有恋人，最终放弃了。`);
+            addEventRecord(`${npc.name}想要复合，但看到你已有恋人，最终放弃了。`,'fhconfess');
 
             // 好感度小幅度下降
             const suppressFavorChange = -Math.floor(Math.random() * 5); // -0到-4
@@ -694,7 +694,7 @@ function handleConfessEvent(data) {
         } else {
             recordText += `${loveCount}位恋人，最终还是放弃了。`;
         }
-        addEventRecord(recordText);
+        addEventRecord(recordText,'confess');
 
         // 好感度变化（因为抑制了告白，可能有些失落）
         const suppressFavorChange = -Math.floor(Math.random() * 3); // -0到-2的随机数
@@ -1204,7 +1204,7 @@ function handleJealousyChoice(choiceIndex) {
             // 生成事件记录
             // 在拒绝分手的情况中：
             const recordText = `${eventData.text}你向${currentNpc.name}提出分手，但${currentNpc.name}拒绝了你。<span class="favor-change">(${changeTexts.join('，')})</span>`;
-            addEventRecord(recordText);
+            addEventRecord(recordText,'Jealousy');
 
             // 显示结果面板，隐藏修罗场面板
             document.getElementById('jealousyPanel').classList.add('hidden');
@@ -1271,7 +1271,7 @@ function handleJealousyChoice(choiceIndex) {
             // 生成事件记录
             // 在成功分手的情况中：
             const recordText = `${eventData.text}你向${currentNpc.name}提出分手。<span class="favor-change">(${changeTexts.join('，')})</span>`;
-            addEventRecord(recordText);
+            addEventRecord(recordText,'Jealousy');
 
             // 显示结果面板，隐藏修罗场面板
             document.getElementById('jealousyPanel').classList.add('hidden');
@@ -1314,7 +1314,7 @@ function handleJealousyChoice(choiceIndex) {
         } else if (choiceIndex === 3) {
             recordText = `${eventData.text}你选择了沉默。<span class="favor-change">(${changeTexts.join('，')})</span>`;
         }
-        addEventRecord(recordText);
+        addEventRecord(recordText,'Jealousy');
 
         // 显示结果面板，隐藏修罗场面板
         document.getElementById('jealousyPanel').classList.add('hidden');
@@ -1515,7 +1515,7 @@ function handleLoveHateChoice(choiceIndex, eventData) {
             `;
 
             document.getElementById('resultText').innerHTML = finalResult;
-            addEventRecord(`爱恨交织：${eventData.text}你提出分手，但${currentNpc.name}拒绝了你。<span class="favor-change">(${changeText})</span>`);
+            addEventRecord(`爱恨交织：${eventData.text}你提出分手，但${currentNpc.name}拒绝了你。<span class="favor-change">(${changeText})</span>`,'LoveHate');
         } else {
             // 成功分手
             currentNpc.gameState.love = false;
@@ -1538,7 +1538,7 @@ function handleLoveHateChoice(choiceIndex, eventData) {
             `;
 
             document.getElementById('resultText').innerHTML = finalResult;
-            addEventRecord(`爱恨交织: ${eventData.text}你选择了分手。<span class="favor-change">(${changeText})</span>`);
+            addEventRecord(`爱恨交织: ${eventData.text}你选择了分手。<span class="favor-change">(${changeText})</span>`,'LoveHate');
         }
     } else {
         // 非分手选项
@@ -1558,7 +1558,7 @@ function handleLoveHateChoice(choiceIndex, eventData) {
         } else if (choiceIndex === 3) {
             recordText = `爱恨交织： ${eventData.text}你选择了沉默。<span class="favor-change">(${changeText})</span>`;
         }
-        addEventRecord(recordText);
+        addEventRecord(recordText,"LoveHate");
     }
 
     // 显示结果面板
@@ -1896,18 +1896,32 @@ function handleInvitationChoice(event) {
 
 
 // 处理忙碌事件
+// 处理忙碌事件（已添加事件记录）
 function handleBusyEvent(data) {
     const { npc, randomNpcId } = data;
     // 获取当前好感度
     const favor = npcData[randomNpcId].gameState.favor;
-
-    const noInteractionTexts = [
+    
+    // 准备多条忙碌文本
+    const busyTexts = [
         `${npc.name}正忙着打副本，没注意到你，你安静地在一旁坐了会儿就离开了。`,
-        `${npc.name}在和队友讨论战术，看起来很投入，你不想打扰${npc.gender === 'female' ? '她' : '他'}，默默离开了。`
+        `${npc.name}在和队友讨论战术，看起来很投入，你不想打扰${npc.gender === 'female' ? '她' : '他'}，默默离开了。`,
+        `${npc.name}戴着耳机专注训练，你等了会儿便默默离开了。`,
+        `${npc.name}正在研究比赛录像，专注得连你来了都没注意到。`,
+        `你看到${npc.name}和队友激烈讨论着战术，决定不打扰${npc.gender === 'female' ? '她' : '他'}。`
     ];
-    const randomNoInteractionText = noInteractionTexts[Math.floor(Math.random() * noInteractionTexts.length)];
-    document.getElementById('noInteractionText').textContent = randomNoInteractionText;
+    
+    // 随机选择一条忙碌文本
+    const randomBusyText = busyTexts[Math.floor(Math.random() * busyTexts.length)];
+    
+    // 更新UI显示
+    document.getElementById('noInteractionText').textContent = randomBusyText;
     document.getElementById('noInteractionPanel').classList.remove('hidden');
+    
+    // ========== 添加事件记录 ==========
+    // 记录忙碌事件
+    addEventRecord(`${npc.name}正在忙碌，没有进行互动。`, 'busy');
+    
     // 重新绑定"继续探索"按钮的点击事件
     const skipNoInteractionBtn = document.getElementById('skipNoInteraction');
     if (skipNoInteractionBtn) {
@@ -1920,7 +1934,6 @@ function handleBusyEvent(data) {
             autoSaveGame();
         });
     }
-
 }
 
 // 处理普通互动
@@ -2367,7 +2380,7 @@ function handleIgnore(npcId, dialogType, questionIndex = null, noRecord = false)
             } else {
                 recordText = `不理${npc.name}，${npc.name}好感度${changeSymbol}${favorChange}。`;
             }
-            addEventRecord(recordText);
+            addEventRecord(recordText,'ignore');
         }
     } else {
         // ========== 原有逻辑（兼容） ==========
@@ -2406,9 +2419,9 @@ function handleIgnore(npcId, dialogType, questionIndex = null, noRecord = false)
             if (questionIndex !== null && npc.dialogs && npc.dialogs[dialogType]) {
                 const dialogs = npc.dialogs[dialogType];
                 const question = dialogs[questionIndex] || "（未知问题）";
-                addEventRecord(`面对${npc.name}的问题"${question}"，你选择了不理睬，${npc.name}感到失落，好感度${favorChange >= 0 ? '+' : ''}${favorChange}。`);
+                addEventRecord(`面对${npc.name}的问题"${question}"，你选择了不理睬，${npc.name}感到失落，好感度${favorChange >= 0 ? '+' : ''}${favorChange}。`,'ignore');
             } else {
-                addEventRecord(`你选择不理${npc.name}，${npc.name}感到失落，好感度${favorChange >= 0 ? '+' : ''}${favorChange}。`);
+                addEventRecord(`你选择不理${npc.name}，${npc.name}感到失落，好感度${favorChange >= 0 ? '+' : ''}${favorChange}。`,'ignore');
             }
         }
     }
@@ -2536,7 +2549,7 @@ function handleExReconcile(npcId) {
         `;
 
         document.getElementById('resultText').innerHTML = resultContent;
-        addEventRecord(`向前任${npc.name}提出复合，${npc.name}同意了，你们重新成为恋人！`);
+        addEventRecord(`向前任${npc.name}提出复合，${npc.name}同意了，你们重新成为恋人！`,'ExReconcile');
 
         // 显示结果面板
         const resultTitle = document.querySelector('#resultPanel h3');
@@ -2567,7 +2580,7 @@ function handleExReconcile(npcId) {
 `;
 
         document.getElementById('resultText').innerHTML = resultContent;
-        addEventRecord(`向前任${npc.name}提出复合，但被拒绝了，${npc.name}好感度${favorChange}。`);
+        addEventRecord(`向前任${npc.name}提出复合，但被拒绝了，${npc.name}好感度${favorChange}。`,'ExReconcile');
 
         // 显示结果面板
         const resultTitle = document.querySelector('#resultPanel h3');
@@ -2612,7 +2625,7 @@ function handleExChoice(npcId, choiceIndex, favorChange, noRecord = false) {
     document.getElementById('resultText').innerHTML = resultContent;
 
     if (!noRecord) {
-        addEventRecord(`祝福前任${npc.name}幸福，${npc.name}好感度${changeSymbol}${favorChange}。`);
+        addEventRecord(`祝福前任${npc.name}幸福，${npc.name}好感度${changeSymbol}${favorChange}。`,'ExBliss');
     }
 
     // 显示结果面板
@@ -2655,7 +2668,7 @@ function handleExIgnore(npcId) {
 `;
 
     document.getElementById('resultText').innerHTML = resultContent;
-    addEventRecord(`不理睬前任${npc.name}，${npc.name}很受伤，好感度${favorChange}。`);
+    addEventRecord(`不理睬前任${npc.name}，${npc.name}很受伤，好感度${favorChange}。`,'ignore');
 
     // 定制化的不理次数警告（前任更敏感）
     const ignoreCount = npcState.ignoreCount || 0;
